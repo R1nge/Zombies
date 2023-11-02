@@ -8,6 +8,7 @@ namespace Units
     public abstract class Unit : MonoBehaviour
     {
         [SerializeField] protected UnitConfig unitConfig;
+        [SerializeField] protected Animator animator;
         protected NavMeshAgent NavMeshAgent;
         protected UnitMovement UnitMovement;
 
