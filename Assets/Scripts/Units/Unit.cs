@@ -23,9 +23,6 @@ namespace Units
             _unitStateMachine.SetState(UnitStateMachine.UnitStates.Walking);
         }
 
-        private void Update()
-        {
-            _unitStateMachine.Update();
-        }
+        private void Update() => _unitStateMachine.Update();
     }
 }

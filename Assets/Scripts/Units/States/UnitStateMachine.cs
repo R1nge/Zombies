@@ -11,7 +11,10 @@ namespace Units.States
         {
             _unitStates = new Dictionary<UnitStates, IUnitState>
             {
-                { UnitStates.Walking, new UnitMoveState(unitMovement) }
+                { UnitStates.Idle, new UnitIdleState() },
+                { UnitStates.Walking, new UnitMoveState(unitMovement) },
+                { UnitStates.Infecting, new UnitInfectState() },
+                { UnitStates.Dead, new UnitDeadState() }
             };
         }
 
