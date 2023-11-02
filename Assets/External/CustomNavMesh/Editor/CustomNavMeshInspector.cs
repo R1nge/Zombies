@@ -1,53 +1,56 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(CustomNavMesh))]
-public class CustomNavMeshInspector : Editor
+namespace External.CustomNavMesh.Editor
 {
-    SerializedProperty hiddenTranslation;
-    SerializedProperty renderHidden;
-
-    private void OnEnable()
+    [CustomEditor(typeof(Scripts.CustomNavMesh))]
+    public class CustomNavMeshInspector : UnityEditor.Editor
     {
-        hiddenTranslation = serializedObject.FindProperty("hiddenTranslation");
-        renderHidden = serializedObject.FindProperty("renderHidden");
-    }
+        SerializedProperty hiddenTranslation;
+        SerializedProperty renderHidden;
 
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
+        private void OnEnable()
+        {
+            hiddenTranslation = serializedObject.FindProperty("hiddenTranslation");
+            renderHidden = serializedObject.FindProperty("renderHidden");
+        }
 
-        serializedObject.Update();
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
 
-        EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(hiddenTranslation, new GUIContent( "Hidden Translation", 
+            serializedObject.Update();
+
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(hiddenTranslation, new GUIContent( "Hidden Translation", 
                 "The distance between the shown surface and the hidden surface where most of " +
                 "the CustomNavMesh's calculations are done. Make sure it is big enough so " +
                 "both the custom surface and the hidden one don't overlap.")
             );
 
-        if (EditorGUI.EndChangeCheck())
-        {
-            Undo.RecordObject(target, "Changed Hidden Translation");
-            CustomNavMesh.HiddenTranslation = hiddenTranslation.vector3Value;
-        }
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(target, "Changed Hidden Translation");
+                Scripts.CustomNavMesh.HiddenTranslation = hiddenTranslation.vector3Value;
+            }
 
-        EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(renderHidden, new GUIContent("Render Hidden",
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(renderHidden, new GUIContent("Render Hidden",
                 "Whether the hidden nav mesh components are visible or not. Disable it if you " +
                 "don't want them to be visible and you're not going to bake the NavMesh.")
             );
 
-        if (EditorGUI.EndChangeCheck())
-        {
-            Undo.RecordObject(target, "Changed Render Hidden");
-            CustomNavMesh.RenderHidden = renderHidden.boolValue;
-        }
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(target, "Changed Render Hidden");
+                Scripts.CustomNavMesh.RenderHidden = renderHidden.boolValue;
+            }
 
-        if(!renderHidden.boolValue)
-        {
-            EditorGUILayout.HelpBox("Make sure the Render Hidden is set to true " +
-                "if you're going to bake the NavMesh.", MessageType.Warning);
+            if(!renderHidden.boolValue)
+            {
+                EditorGUILayout.HelpBox("Make sure the Render Hidden is set to true " +
+                                        "if you're going to bake the NavMesh.", MessageType.Warning);
+            }
         }
     }
 }

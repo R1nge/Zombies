@@ -1,166 +1,169 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-/// <summary>
-/// A surface for HiddenNavMeshAgents to move on.
-/// </summary>
-[DisallowMultipleComponent, AddComponentMenu("")] // remove from Add Component list
-public class HiddenNavMeshSurface : CustomMonoBehaviour
+namespace External.CustomNavMesh.Scripts
 {
-    bool subscribed; // used to avoid subscribing twice
-
-    CustomNavMeshSurface customSurface;
-    CustomNavMeshSurface CustomSurface
+    /// <summary>
+    /// A surface for HiddenNavMeshAgents to move on.
+    /// </summary>
+    [DisallowMultipleComponent, AddComponentMenu("")] // remove from Add Component list
+    public class HiddenNavMeshSurface : CustomMonoBehaviour
     {
-        get
+        bool subscribed; // used to avoid subscribing twice
+
+        CustomNavMeshSurface customSurface;
+        CustomNavMeshSurface CustomSurface
         {
-            if (customSurface == null && transform != null && transform.parent != null)
+            get
             {
-                customSurface = transform.parent.GetComponent<CustomNavMeshSurface>();
+                if (customSurface == null && transform != null && transform.parent != null)
+                {
+                    customSurface = transform.parent.GetComponent<CustomNavMeshSurface>();
+                }
+                return customSurface;
             }
-            return customSurface;
+            set
+            {
+                customSurface = value;
+            }
         }
-        set
-        {
-            customSurface = value;
-        }
-    }
 
-    protected override void OnCustomEnable()
-    {
-        // destroy self if it doesn't have a parent with a CustomNavMeshSurface component
-        if (transform.parent != null)
+        protected override void OnCustomEnable()
         {
-            if (CustomSurface == null)
+            // destroy self if it doesn't have a parent with a CustomNavMeshSurface component
+            if (transform.parent != null)
+            {
+                if (CustomSurface == null)
+                {
+                    DestroyImmediate(this);
+                    return;
+                }
+                else if(!CustomSurface.enabled)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+            else
             {
                 DestroyImmediate(this);
                 return;
             }
-            else if(!CustomSurface.enabled)
+
+            var meshFilter = GetComponent<MeshFilter>();
+            if (meshFilter == null)
             {
-                gameObject.SetActive(false);
+                meshFilter = gameObject.AddComponent<MeshFilter>();
+            }
+
+            var meshRenderer = GetComponent<MeshRenderer>();
+            if (meshRenderer == null)
+            {
+                meshRenderer = gameObject.AddComponent<MeshRenderer>();
+                meshRenderer.sharedMaterial = CustomNavMesh.HiddenSurfaceMaterial;
+            }
+
+            UpdateMesh();
+            UpdateVisibility();
+            UpdatePosition();
+
+            TrySubscribe();
+        }
+
+        protected override void OnCustomDisable()
+        {
+            TryUnsubscribe();
+        }
+
+        // hide Start method because this has to be triggered both inside and outside 
+        // of Play mode and the inherited OnCustomStart is only called in Play mode
+        new void Start()
+        {
+            TrySubscribe();
+        }
+
+        // hide Update method because this has to be triggered both inside and outside 
+        // of Play mode and the inherited OnCustomUpdate is only called in Play mode
+        new void Update()
+        {
+            // since this is a child of the gameObject with the custom surface, 
+            // it automatically follows its position and rotation; however, if 
+            // the scale of any of the parents change, the position has to be
+            // updated; this also prevents parent from being changed
+            if (transform.hasChanged)
+            {
+                if (CustomSurface != null)
+                {
+                    transform.parent = CustomSurface.transform; // prevent from being changed
+                    transform.position = CustomSurface.transform.position + CustomNavMesh.HiddenTranslation;
+                }
+
+                transform.hasChanged = false;
             }
         }
-        else
-        {
-            DestroyImmediate(this);
-            return;
-        }
 
-        var meshFilter = GetComponent<MeshFilter>();
-        if (meshFilter == null)
-        {
-            meshFilter = gameObject.AddComponent<MeshFilter>();
-        }
-
-        var meshRenderer = GetComponent<MeshRenderer>();
-        if (meshRenderer == null)
-        {
-            meshRenderer = gameObject.AddComponent<MeshRenderer>();
-            meshRenderer.sharedMaterial = CustomNavMesh.HiddenSurfaceMaterial;
-        }
-
-        UpdateMesh();
-        UpdateVisibility();
-        UpdatePosition();
-
-        TrySubscribe();
-    }
-
-    protected override void OnCustomDisable()
-    {
-        TryUnsubscribe();
-    }
-
-    // hide Start method because this has to be triggered both inside and outside 
-    // of Play mode and the inherited OnCustomStart is only called in Play mode
-    new void Start()
-    {
-        TrySubscribe();
-    }
-
-    // hide Update method because this has to be triggered both inside and outside 
-    // of Play mode and the inherited OnCustomUpdate is only called in Play mode
-    new void Update()
-    {
-        // since this is a child of the gameObject with the custom surface, 
-        // it automatically follows its position and rotation; however, if 
-        // the scale of any of the parents change, the position has to be
-        // updated; this also prevents parent from being changed
-        if (transform.hasChanged)
+        void UpdateMesh()
         {
             if (CustomSurface != null)
             {
-                transform.parent = CustomSurface.transform; // prevent from being changed
-                transform.position = CustomSurface.transform.position + CustomNavMesh.HiddenTranslation;
+                var meshFilter = GetComponent<MeshFilter>();
+                if (meshFilter != null)
+                {
+#if UNITY_EDITOR
+                    Undo.RecordObject(meshFilter, "");
+#endif
+                    meshFilter.sharedMesh = CustomSurface.Mesh;
+                }
             }
-
-            transform.hasChanged = false;
         }
-    }
 
-    void UpdateMesh()
-    {
-        if (CustomSurface != null)
+        void UpdateVisibility()
         {
-            var meshFilter = GetComponent<MeshFilter>();
-            if (meshFilter != null)
+            var meshRenderer = GetComponent<MeshRenderer>();
+            if (meshRenderer != null)
             {
 #if UNITY_EDITOR
-                Undo.RecordObject(meshFilter, "");
+                Undo.RecordObject(meshRenderer, "");
 #endif
-                meshFilter.sharedMesh = CustomSurface.Mesh;
+                meshRenderer.enabled = CustomNavMesh.RenderHidden;
             }
         }
-    }
 
-    void UpdateVisibility()
-    {
-        var meshRenderer = GetComponent<MeshRenderer>();
-        if (meshRenderer != null)
+        void UpdatePosition()
         {
+            if (CustomSurface != null)
+            {
 #if UNITY_EDITOR
-            Undo.RecordObject(meshRenderer, "");
+                Undo.RecordObject(transform, "");
 #endif
-            meshRenderer.enabled = CustomNavMesh.RenderHidden;
+                transform.position = CustomSurface.transform.position + CustomNavMesh.HiddenTranslation;
+                transform.hasChanged = false;
+            }
         }
-    }
 
-    void UpdatePosition()
-    {
-        if (CustomSurface != null)
+        void TrySubscribe()
         {
-#if UNITY_EDITOR
-            Undo.RecordObject(transform, "");
-#endif
-            transform.position = CustomSurface.transform.position + CustomNavMesh.HiddenTranslation;
-            transform.hasChanged = false;
+            if (!subscribed)
+            {
+                if(CustomSurface != null) CustomSurface.onMeshUpdate += UpdateMesh;
+
+                CustomNavMesh.onRenderHiddenUpdate += UpdateVisibility;
+                CustomNavMesh.onHiddenTranslationUpdate += UpdatePosition;
+
+                subscribed = true;
+            }
         }
-    }
 
-    void TrySubscribe()
-    {
-        if (!subscribed)
+        void TryUnsubscribe()
         {
-            if(CustomSurface != null) CustomSurface.onMeshUpdate += UpdateMesh;
+            if (subscribed)
+            {
+                if (CustomSurface != null) CustomSurface.onMeshUpdate -= UpdateMesh;
 
-            CustomNavMesh.onRenderHiddenUpdate += UpdateVisibility;
-            CustomNavMesh.onHiddenTranslationUpdate += UpdatePosition;
+                CustomNavMesh.onRenderHiddenUpdate -= UpdateVisibility;
+                CustomNavMesh.onHiddenTranslationUpdate -= UpdatePosition;
 
-            subscribed = true;
-        }
-    }
-
-    void TryUnsubscribe()
-    {
-        if (subscribed)
-        {
-            if (CustomSurface != null) CustomSurface.onMeshUpdate -= UpdateMesh;
-
-            CustomNavMesh.onRenderHiddenUpdate -= UpdateVisibility;
-            CustomNavMesh.onHiddenTranslationUpdate -= UpdatePosition;
-
-            subscribed = false;
+                subscribed = false;
+            }
         }
     }
 }

@@ -1,28 +1,29 @@
-﻿using Data;
-using Units.States;
+﻿using System;
+using Data;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Units
 {
-    public class Unit : MonoBehaviour
+    public abstract class Unit : MonoBehaviour
     {
-        [SerializeField] private UnitConfig unitConfig;
-        private NavMeshAgent _navMeshAgent;
-        private UnitStateMachine _unitStateMachine;
-        private UnitMovement _unitMovement;
+        [SerializeField] protected UnitConfig unitConfig;
+        protected NavMeshAgent NavMeshAgent;
+        protected UnitMovement UnitMovement;
 
-        private void Awake()
+        protected virtual void Awake()
         {
-            _navMeshAgent = GetComponent<NavMeshAgent>();
-            _navMeshAgent.speed = unitConfig.Speed;
+            NavMeshAgent = GetComponent<NavMeshAgent>();
+            NavMeshAgent.speed = unitConfig.Speed;
 
-            _unitMovement = new UnitMovement(_navMeshAgent);
-
-            _unitStateMachine = new UnitStateMachine(_unitMovement);
-            _unitStateMachine.SetState(UnitStateMachine.UnitStates.Walking);
+            UnitMovement = new UnitMovement(NavMeshAgent);
         }
 
-        private void Update() => _unitStateMachine.Update();
+        protected abstract void Update();
+
+        protected virtual void OnCollisionEnter(Collision collision)
+        {
+            print($"{gameObject.name} has collided with {collision.gameObject.name}");
+        }
     }
 }

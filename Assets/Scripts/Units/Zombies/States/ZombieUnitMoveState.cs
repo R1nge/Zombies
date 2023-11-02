@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using Units.States;
+using UnityEngine;
 
-namespace Units.States
+namespace Units.Zombies.States
 {
-    public class UnitMoveState : IUnitState
+    public class ZombieUnitMoveState : IUnitState
     {
         private readonly UnitMovement _unitMovement;
 
-        public UnitMoveState(UnitMovement unitMovement) => _unitMovement = unitMovement;
+        public ZombieUnitMoveState(UnitMovement unitMovement) => _unitMovement = unitMovement;
 
         public void Enter() { }
 

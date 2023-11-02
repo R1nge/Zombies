@@ -2,241 +2,244 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-/// <summary>
-/// An obstacle for HiddenNavMeshAgents to avoid.
-/// </summary>
-[DisallowMultipleComponent, AddComponentMenu("")] // remove from Add Component list
-public class HiddenNavMeshObstacle : CustomMonoBehaviour
+namespace External.CustomNavMesh.Scripts
 {
-    bool subscribed; // used to avoid subscribing twice
-
-    CustomNavMeshObstacle customObstacle;
-    CustomNavMeshObstacle CustomObstacle
+    /// <summary>
+    /// An obstacle for HiddenNavMeshAgents to avoid.
+    /// </summary>
+    [DisallowMultipleComponent, AddComponentMenu("")] // remove from Add Component list
+    public class HiddenNavMeshObstacle : CustomMonoBehaviour
     {
-        get
+        bool subscribed; // used to avoid subscribing twice
+
+        CustomNavMeshObstacle customObstacle;
+        CustomNavMeshObstacle CustomObstacle
         {
-            if (customObstacle == null && transform != null && transform.parent != null)
+            get
             {
-                customObstacle = transform.parent.GetComponent<CustomNavMeshObstacle>();
+                if (customObstacle == null && transform != null && transform.parent != null)
+                {
+                    customObstacle = transform.parent.GetComponent<CustomNavMeshObstacle>();
+                }
+                return customObstacle;
             }
-            return customObstacle;
-        }
-        set
-        {
-            customObstacle = value;
-        }
-    }
-
-    NavMeshObstacle obstacle;
-    NavMeshObstacle Obstacle
-    {
-        get
-        {
-            if (obstacle == null)
+            set
             {
-                obstacle = GetComponent<NavMeshObstacle>();
+                customObstacle = value;
+            }
+        }
+
+        NavMeshObstacle obstacle;
+        NavMeshObstacle Obstacle
+        {
+            get
+            {
                 if (obstacle == null)
                 {
-                    obstacle = gameObject.AddComponent<NavMeshObstacle>();
+                    obstacle = GetComponent<NavMeshObstacle>();
+                    if (obstacle == null)
+                    {
+                        obstacle = gameObject.AddComponent<NavMeshObstacle>();
+                    }
+                    else
+                    {
+                        // update existing nav mesh obstacle
+                        CustomNavMeshObstacle.TransferObstacleValues(CustomObstacle, obstacle);
+                    }
                 }
-                else
+                return obstacle;
+            }
+        }
+
+        protected override void OnCustomEnable()
+        {
+            // destroy self if it doesn't have a parent with a CustomNavMeshObstacle component
+            if (transform.parent != null)
+            {
+                if (CustomObstacle == null)
                 {
-                    // update existing nav mesh obstacle
-                    CustomNavMeshObstacle.TransferObstacleValues(CustomObstacle, obstacle);
+                    DestroyImmediate(this);
+                    return;
+                }
+                else if (!CustomObstacle.enabled)
+                {
+                    gameObject.SetActive(false);
                 }
             }
-            return obstacle;
-        }
-    }
-
-    protected override void OnCustomEnable()
-    {
-        // destroy self if it doesn't have a parent with a CustomNavMeshObstacle component
-        if (transform.parent != null)
-        {
-            if (CustomObstacle == null)
+            else
             {
                 DestroyImmediate(this);
                 return;
             }
-            else if (!CustomObstacle.enabled)
+
+            var meshFilter = GetComponent<MeshFilter>();
+            if (meshFilter == null)
             {
-                gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            DestroyImmediate(this);
-            return;
-        }
-
-        var meshFilter = GetComponent<MeshFilter>();
-        if (meshFilter == null)
-        {
-            meshFilter = gameObject.AddComponent<MeshFilter>();
-        }
-
-        var meshRenderer = GetComponent<MeshRenderer>();
-        if (meshRenderer == null)
-        {
-            meshRenderer = gameObject.AddComponent<MeshRenderer>();
-            meshRenderer.sharedMaterial = CustomNavMesh.HiddenObstacleMaterial;
-        }
-
-        UpdateObstacle();
-        UpdateMesh();
-        UpdateVisibility();
-        UpdatePosition();
-
-        TrySubscribe();
-    }
-
-    protected override void OnCustomDisable()
-    {
-        TryUnsubscribe();
-    }
-
-    // hide Start method because this has to be triggered both inside and outside 
-    // of Play mode and the inherited OnCustomStart is only called in Play mode
-    new void Start()
-    {
-        TrySubscribe();
-    }
-
-    // hide Update method because this has to be triggered both inside and outside 
-    // of Play mode and the inherited OnCustomUpdate is only called in Play mode
-    new void Update()
-    {
-        // since this is a child of the gameObject with the custom surface, 
-        // it automatically follows its position and rotation; however, if 
-        // the scale of any of the parents change, the position has to be
-        // updated; this also prevents parent from being changed
-        if (transform.hasChanged)
-        {
-            if (CustomObstacle != null)
-            {
-                transform.parent = CustomObstacle.transform; // prevent from being changed
-                transform.position = CustomObstacle.transform.position + CustomNavMesh.HiddenTranslation;
+                meshFilter = gameObject.AddComponent<MeshFilter>();
             }
 
-            transform.hasChanged = false;
-        }
-    }
-
-    Vector3 CalculateCenterTranslation()
-    {
-        var ctr = CustomObstacle.Center;
-        var scl = CustomObstacle.transform.localScale;
-        return new Vector3(ctr.x * scl.x, ctr.y * scl.y, ctr.z * scl.z);
-    }
-
-    void UpdateObstacle()
-    {
-        if (CustomObstacle != null && Obstacle != null)
-        {
-#if UNITY_EDITOR
-            Undo.RecordObject(Obstacle, "");
-#endif
-            CustomNavMeshObstacle.TransferObstacleValues(CustomObstacle, Obstacle);
-        }
-    }
-
-    void UpdateMesh()
-    {
-        var meshFilter = GetComponent<MeshFilter>();
-        if (meshFilter != null)
-        {
-#if UNITY_EDITOR
-            Undo.RecordObject(meshFilter, "");
-#endif
-            Mesh mesh = null;
-            switch (Obstacle.shape)
+            var meshRenderer = GetComponent<MeshRenderer>();
+            if (meshRenderer == null)
             {
-                case NavMeshObstacleShape.Box:
-                    mesh = PrimitiveType.Cube.CreateScaledMesh(Obstacle.size);
-                    break;
-                case NavMeshObstacleShape.Capsule:
-                    float radius = Obstacle.radius;
-                    float height = Obstacle.height;
-                    Vector3 scale = new Vector3(radius * 2f, height, radius * 2f);
-                    mesh = PrimitiveType.Capsule.CreateScaledMesh(scale);
-                    break;
+                meshRenderer = gameObject.AddComponent<MeshRenderer>();
+                meshRenderer.sharedMaterial = CustomNavMesh.HiddenObstacleMaterial;
             }
 
-            if (mesh != null)
+            UpdateObstacle();
+            UpdateMesh();
+            UpdateVisibility();
+            UpdatePosition();
+
+            TrySubscribe();
+        }
+
+        protected override void OnCustomDisable()
+        {
+            TryUnsubscribe();
+        }
+
+        // hide Start method because this has to be triggered both inside and outside 
+        // of Play mode and the inherited OnCustomStart is only called in Play mode
+        new void Start()
+        {
+            TrySubscribe();
+        }
+
+        // hide Update method because this has to be triggered both inside and outside 
+        // of Play mode and the inherited OnCustomUpdate is only called in Play mode
+        new void Update()
+        {
+            // since this is a child of the gameObject with the custom surface, 
+            // it automatically follows its position and rotation; however, if 
+            // the scale of any of the parents change, the position has to be
+            // updated; this also prevents parent from being changed
+            if (transform.hasChanged)
             {
-                if (Obstacle.center != Vector3.zero)
+                if (CustomObstacle != null)
                 {
-                    var vertices = mesh.vertices;
-                    for (int i = 0; i < vertices.Length; i++)
-                        vertices[i] += Obstacle.center;
-
-                    mesh.vertices = vertices;
-                    mesh.RecalculateBounds();
+                    transform.parent = CustomObstacle.transform; // prevent from being changed
+                    transform.position = CustomObstacle.transform.position + CustomNavMesh.HiddenTranslation;
                 }
 
-                meshFilter.sharedMesh = mesh;
+                transform.hasChanged = false;
             }
         }
-    }
 
-    void UpdateVisibility()
-    {
-        var meshRenderer = GetComponent<MeshRenderer>();
-        if (meshRenderer != null)
+        Vector3 CalculateCenterTranslation()
         {
-#if UNITY_EDITOR
-            Undo.RecordObject(meshRenderer, "");
-#endif
-            meshRenderer.enabled = CustomNavMesh.RenderHidden;
+            var ctr = CustomObstacle.Center;
+            var scl = CustomObstacle.transform.localScale;
+            return new Vector3(ctr.x * scl.x, ctr.y * scl.y, ctr.z * scl.z);
         }
-    }
 
-    void UpdatePosition()
-    {
-        if (CustomObstacle != null)
+        void UpdateObstacle()
         {
+            if (CustomObstacle != null && Obstacle != null)
+            {
 #if UNITY_EDITOR
-            Undo.RecordObject(transform, "");
+                Undo.RecordObject(Obstacle, "");
 #endif
-            transform.position = CustomObstacle.transform.position + CustomNavMesh.HiddenTranslation;
-            transform.hasChanged = false;
+                CustomNavMeshObstacle.TransferObstacleValues(CustomObstacle, Obstacle);
+            }
         }
-    }
 
-    void TrySubscribe()
-    {
-        if (!subscribed)
+        void UpdateMesh()
+        {
+            var meshFilter = GetComponent<MeshFilter>();
+            if (meshFilter != null)
+            {
+#if UNITY_EDITOR
+                Undo.RecordObject(meshFilter, "");
+#endif
+                Mesh mesh = null;
+                switch (Obstacle.shape)
+                {
+                    case NavMeshObstacleShape.Box:
+                        mesh = PrimitiveType.Cube.CreateScaledMesh(Obstacle.size);
+                        break;
+                    case NavMeshObstacleShape.Capsule:
+                        float radius = Obstacle.radius;
+                        float height = Obstacle.height;
+                        Vector3 scale = new Vector3(radius * 2f, height, radius * 2f);
+                        mesh = PrimitiveType.Capsule.CreateScaledMesh(scale);
+                        break;
+                }
+
+                if (mesh != null)
+                {
+                    if (Obstacle.center != Vector3.zero)
+                    {
+                        var vertices = mesh.vertices;
+                        for (int i = 0; i < vertices.Length; i++)
+                            vertices[i] += Obstacle.center;
+
+                        mesh.vertices = vertices;
+                        mesh.RecalculateBounds();
+                    }
+
+                    meshFilter.sharedMesh = mesh;
+                }
+            }
+        }
+
+        void UpdateVisibility()
+        {
+            var meshRenderer = GetComponent<MeshRenderer>();
+            if (meshRenderer != null)
+            {
+#if UNITY_EDITOR
+                Undo.RecordObject(meshRenderer, "");
+#endif
+                meshRenderer.enabled = CustomNavMesh.RenderHidden;
+            }
+        }
+
+        void UpdatePosition()
         {
             if (CustomObstacle != null)
             {
-                CustomObstacle.onChange += UpdateObstacle;
-                CustomObstacle.onSizeChange += UpdateMesh;
-                CustomObstacle.onCenterChange += UpdatePosition;
+#if UNITY_EDITOR
+                Undo.RecordObject(transform, "");
+#endif
+                transform.position = CustomObstacle.transform.position + CustomNavMesh.HiddenTranslation;
+                transform.hasChanged = false;
             }
-
-            CustomNavMesh.onRenderHiddenUpdate += UpdateVisibility;
-            CustomNavMesh.onHiddenTranslationUpdate += UpdatePosition;
-
-            subscribed = true;
         }
-    }
 
-    void TryUnsubscribe()
-    {
-        if (subscribed)
+        void TrySubscribe()
         {
-            if (CustomObstacle != null)
+            if (!subscribed)
             {
-                CustomObstacle.onChange -= UpdateObstacle;
-                CustomObstacle.onSizeChange -= UpdateMesh;
-                CustomObstacle.onCenterChange -= UpdatePosition;
+                if (CustomObstacle != null)
+                {
+                    CustomObstacle.onChange += UpdateObstacle;
+                    CustomObstacle.onSizeChange += UpdateMesh;
+                    CustomObstacle.onCenterChange += UpdatePosition;
+                }
+
+                CustomNavMesh.onRenderHiddenUpdate += UpdateVisibility;
+                CustomNavMesh.onHiddenTranslationUpdate += UpdatePosition;
+
+                subscribed = true;
             }
+        }
 
-            CustomNavMesh.onRenderHiddenUpdate -= UpdateVisibility;
-            CustomNavMesh.onHiddenTranslationUpdate -= UpdatePosition;
+        void TryUnsubscribe()
+        {
+            if (subscribed)
+            {
+                if (CustomObstacle != null)
+                {
+                    CustomObstacle.onChange -= UpdateObstacle;
+                    CustomObstacle.onSizeChange -= UpdateMesh;
+                    CustomObstacle.onCenterChange -= UpdatePosition;
+                }
 
-            subscribed = false;
+                CustomNavMesh.onRenderHiddenUpdate -= UpdateVisibility;
+                CustomNavMesh.onHiddenTranslationUpdate -= UpdatePosition;
+
+                subscribed = false;
+            }
         }
     }
 }

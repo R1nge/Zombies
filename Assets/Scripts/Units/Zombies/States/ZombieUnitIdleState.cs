@@ -1,6 +1,8 @@
-﻿namespace Units.States
+﻿using Units.States;
+
+namespace Units.Zombies.States
 {
-    public class UnitInfectState : IUnitState
+    public class ZombieUnitIdleState : IUnitState
     {
         public void Enter() { }
 

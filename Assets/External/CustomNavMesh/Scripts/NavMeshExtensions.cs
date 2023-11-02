@@ -1,17 +1,20 @@
 ﻿using UnityEngine.AI;
 
-/// <summary>
-/// Static class with utility methods for the NavMesh.
-/// </summary>
-public static class NavMeshExtensions
+namespace External.CustomNavMesh.Scripts
 {
     /// <summary>
-    /// Gets the agent type radius from the NavMesh settings.
+    /// Static class with utility methods for the NavMesh.
     /// </summary>
-    /// <param name="agentTypeID">The agent type</param>
-    /// <returns>The radius</returns>
-    public static float GetAgentTypeRadius(int agentTypeID)
+    public static class NavMeshExtensions
     {
-        return NavMesh.GetSettingsByID(agentTypeID).agentRadius;
+        /// <summary>
+        /// Gets the agent type radius from the NavMesh settings.
+        /// </summary>
+        /// <param name="agentTypeID">The agent type</param>
+        /// <returns>The radius</returns>
+        public static float GetAgentTypeRadius(int agentTypeID)
+        {
+            return NavMesh.GetSettingsByID(agentTypeID).agentRadius;
+        }
     }
 }
