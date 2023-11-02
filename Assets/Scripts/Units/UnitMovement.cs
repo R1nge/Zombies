@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace Players
+namespace Units
 {
     public class UnitMovement
     {
