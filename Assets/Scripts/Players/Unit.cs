@@ -6,14 +6,14 @@ namespace Players
 {
     public class Unit : MonoBehaviour
     {
-        [SerializeField] private PlayerConfig playerConfig;
+        [SerializeField] private UnitConfig unitConfig;
         private NavMeshAgent _navMeshAgent;
         private UnitMovement _unitMovement;
 
         private void Awake()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
-            _navMeshAgent.speed = playerConfig.Speed;
+            _navMeshAgent.speed = unitConfig.Speed;
             _unitMovement = new UnitMovement(_navMeshAgent);
         }
 
