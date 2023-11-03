@@ -6,13 +6,11 @@ namespace Units.Zombies
     public class ZombieUnit : Unit
     {
         private ZombieUnitStateMachine _zombieUnitStateMachine;
-        private ZombieAnimator _zombieAnimator;
 
         protected override void Awake()
         {
             base.Awake();
-            _zombieAnimator = new ZombieAnimator(animator);
-            _zombieUnitStateMachine = new ZombieUnitStateMachine(UnitMovement);
+            _zombieUnitStateMachine = new ZombieUnitStateMachine(CoroutineRunner,  UnitMovement, UnitAnimator);
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Walking);
         }
 
@@ -21,9 +19,21 @@ namespace Units.Zombies
             base.OnCollisionEnter(collision);
             if (collision.transform.TryGetComponent(out HumanUnit humanUnit))
             {
-                _zombieAnimator.PlayBiteAnimation();
+                if (humanUnit.CurrentState == HumanUnitStateMachine.HumanUnitStates.Dead)
+                {
+                    Debug.LogWarning("Human unit is already dead");
+                    return;
+                }
+
+                Infect();
             }
         }
+
+        public override void StandUp() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.StandUp);
+
+        public override void Infect() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Infecting);
+
+        public override void Die() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Dead);
 
         protected override void Update() => _zombieUnitStateMachine.Update();
     }

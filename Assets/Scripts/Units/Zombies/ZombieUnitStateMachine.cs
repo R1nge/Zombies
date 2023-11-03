@@ -9,13 +9,14 @@ namespace Units.Zombies
         private readonly Dictionary<ZombieUnitStates, IUnitState> _unitStates;
         private IUnitState _currentState;
 
-        public ZombieUnitStateMachine(UnitMovement unitMovement)
+        public ZombieUnitStateMachine(CoroutineRunner coroutineRunner, UnitMovement unitMovement, UnitAnimator unitAnimator)
         {
             _unitStates = new Dictionary<ZombieUnitStates, IUnitState>
             {
                 { ZombieUnitStates.Idle, new ZombieUnitIdleState() },
+                { ZombieUnitStates.StandUp, new ZombieUnitStandUpState(coroutineRunner, unitAnimator, this) }, 
                 { ZombieUnitStates.Walking, new ZombieUnitMoveState(unitMovement) },
-                { ZombieUnitStates.Infecting, new ZombieUnitInfectState() },
+                { ZombieUnitStates.Infecting, new ZombieUnitInfectState(coroutineRunner, unitAnimator, this) },
                 { ZombieUnitStates.Dead, new ZombieUnitDeadState() }
             };
         }
@@ -32,6 +33,7 @@ namespace Units.Zombies
         public enum ZombieUnitStates
         {
             Idle,
+            StandUp,
             Walking,
             Infecting,
             Dead

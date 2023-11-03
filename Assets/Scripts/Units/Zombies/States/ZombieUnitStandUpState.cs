@@ -4,34 +4,29 @@ using UnityEngine;
 
 namespace Units.Zombies.States
 {
-    public class ZombieUnitInfectState : IUnitState
+    public class ZombieUnitStandUpState : IUnitState
     {
         private readonly CoroutineRunner _coroutineRunner;
         private readonly UnitAnimator _unitAnimator;
         private readonly ZombieUnitStateMachine _zombieUnitStateMachine;
 
-        public ZombieUnitInfectState(CoroutineRunner coroutineRunner, UnitAnimator unitAnimator, ZombieUnitStateMachine zombieUnitStateMachine)
+        public ZombieUnitStandUpState(CoroutineRunner coroutineRunner, UnitAnimator unitAnimator, ZombieUnitStateMachine zombieUnitStateMachine)
         {
             _coroutineRunner = coroutineRunner;
             _unitAnimator = unitAnimator;
             _zombieUnitStateMachine = zombieUnitStateMachine;
         }
-        
-        public void Enter()
-        {
-            Debug.Log("ENTER INFECT");
-            _unitAnimator.PlayAttackAnimation();
-            _coroutineRunner.StartCoroutine(Wait());
-        }
 
-        private IEnumerator Wait()
+        public void Enter() { _coroutineRunner.StartCoroutine(StandUp()); }
+
+        private IEnumerator StandUp()
         {
-            yield return new WaitForSeconds(4f);
+            _unitAnimator.PlayStandUpAnimation();
+            yield return new WaitForSeconds(7f);
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Walking);
         }
 
         public void Update() { }
-
         public void Exit() { }
     }
 }

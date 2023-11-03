@@ -9,6 +9,12 @@ namespace Units
         
         public UnitMovement(NavMeshAgent navMeshAgent) => _navMeshAgent = navMeshAgent;
 
-        public void MoveTo(Vector3 position) => _navMeshAgent.SetDestination(position);
+        public void MoveTo(Vector3 position)
+        {
+            _navMeshAgent.isStopped = false;
+            _navMeshAgent.SetDestination(position);
+        }
+
+        public void Stop() => _navMeshAgent.isStopped = true;
     }
 }

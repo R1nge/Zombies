@@ -11,6 +11,8 @@ namespace Units
         [SerializeField] protected Animator animator;
         protected NavMeshAgent NavMeshAgent;
         protected UnitMovement UnitMovement;
+        protected UnitAnimator UnitAnimator;
+        protected CoroutineRunner CoroutineRunner;
 
         protected virtual void Awake()
         {
@@ -18,6 +20,9 @@ namespace Units
             NavMeshAgent.speed = unitConfig.Speed;
 
             UnitMovement = new UnitMovement(NavMeshAgent);
+            UnitAnimator = new UnitAnimator(animator);
+
+            CoroutineRunner = FindObjectOfType<CoroutineRunner>();
         }
 
         protected abstract void Update();
@@ -26,5 +31,11 @@ namespace Units
         {
             print($"{gameObject.name} has collided with {collision.gameObject.name}");
         }
+
+        public abstract void StandUp();
+
+        public abstract void Infect();
+
+        public abstract void Die();
     }
 }
