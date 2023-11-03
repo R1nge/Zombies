@@ -19,7 +19,6 @@ namespace Units.Zombies.States
         
         public void Enter()
         {
-            Debug.Log("ENTER INFECT");
             _unitAnimator.PlayAttackAnimation();
             _coroutineRunner.StartCoroutine(Wait());
         }

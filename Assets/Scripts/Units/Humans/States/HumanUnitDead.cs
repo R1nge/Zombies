@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Units.States;
-using Units.Zombies;
 using UnityEngine;
 
 namespace Units.Humans.States

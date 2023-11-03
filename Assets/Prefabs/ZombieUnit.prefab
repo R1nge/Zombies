@@ -161,8 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 654a9274920d4e1286138251ed55769e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitConfig: {fileID: 11400000, guid: 4ec4c730cfcc3f84e80753ed8a470fa9, type: 2}
+  skinnedMeshRenderer: {fileID: 6443957567768498381}
   animator: {fileID: 6715395203457768536}
+  zombieConfig: {fileID: 11400000, guid: 6876de46fd14c88498964a2a79f79607, type: 2}
 --- !u!1 &6377106455240983821
 GameObject:
   m_ObjectHideFlags: 0

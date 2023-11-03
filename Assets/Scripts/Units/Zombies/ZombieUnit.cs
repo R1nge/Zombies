@@ -1,12 +1,19 @@
-﻿using Units.Humans;
+﻿using Data;
+using Units.Humans;
 using UnityEngine;
 
 namespace Units.Zombies
 {
     public class ZombieUnit : Unit
     {
-        [SerializeField] private Mesh mesh;
+        [SerializeField] private ZombieConfig zombieConfig;
         private ZombieUnitStateMachine _zombieUnitStateMachine;
+
+        private void OnEnable()
+        {
+            skinnedMeshRenderer.sharedMesh = zombieConfig.ZombieMesh;
+            NavMeshAgent.speed = zombieConfig.Speed;
+        }
 
         protected override void Awake()
         {
@@ -29,11 +36,8 @@ namespace Units.Zombies
                 Attack();
             }
         }
-
-        public void ChangeMesh()
-        {
-            GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh = mesh;
-        }
+        
+        public void ChangeMesh() => skinnedMeshRenderer.sharedMesh = zombieConfig.ZombieMesh;
 
         public override void StandUp() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.StandUp);
 

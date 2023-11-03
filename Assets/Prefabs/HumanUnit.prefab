@@ -2371,9 +2371,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 154a9cee9e4c495c8f374980c730c6b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitConfig: {fileID: 11400000, guid: 4ec4c730cfcc3f84e80753ed8a470fa9, type: 2}
+  skinnedMeshRenderer: {fileID: 1264940160960279457}
   animator: {fileID: 1241026049011978005}
-  zombieUnit: {fileID: 4491188241798252361}
+  humanConfig: {fileID: 11400000, guid: 49a2a7b0b3fad5140a68c48b857b0a88, type: 2}
 --- !u!114 &4491188241798252361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2386,6 +2386,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 654a9274920d4e1286138251ed55769e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitConfig: {fileID: 11400000, guid: 4ec4c730cfcc3f84e80753ed8a470fa9, type: 2}
+  skinnedMeshRenderer: {fileID: 1264940160960279457}
   animator: {fileID: 1241026049011978005}
-  mesh: {fileID: 4300088, guid: b20a3c10714a6ac439af479e3273de65, type: 3}
+  zombieConfig: {fileID: 11400000, guid: 6876de46fd14c88498964a2a79f79607, type: 2}

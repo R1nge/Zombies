@@ -1,4 +1,5 @@
 ﻿using System;
+using Data;
 using Units.Zombies;
 using UnityEngine;
 
@@ -6,15 +7,24 @@ namespace Units.Humans
 {
     public class HumanUnit : Unit
     {
-        [SerializeField] private ZombieUnit zombieUnit;
+        [SerializeField] private HumanConfig humanConfig;
+        private ZombieUnit _zombieUnit;
         private HumanUnitStateMachine _humanUnitStateMachine;
 
         public HumanUnitStateMachine.HumanUnitStates CurrentState => _humanUnitStateMachine.CurrentStateType;
 
+        private void OnEnable()
+        {
+            skinnedMeshRenderer.sharedMesh = humanConfig.HumanMesh;
+            NavMeshAgent.speed = humanConfig.Speed;
+        }
+
         protected override void Awake()
         {
             base.Awake();
-            _humanUnitStateMachine = new HumanUnitStateMachine(CoroutineRunner, UnitAnimator, this, zombieUnit);
+
+            _zombieUnit = GetComponent<ZombieUnit>();
+            _humanUnitStateMachine = new HumanUnitStateMachine(CoroutineRunner, UnitAnimator, this, _zombieUnit);
         }
 
         protected override void Update() => _humanUnitStateMachine.Update();
@@ -23,7 +33,8 @@ namespace Units.Humans
         {
             base.OnCollisionEnter(collision);
 
-            if (_humanUnitStateMachine.CurrentStateType is HumanUnitStateMachine.HumanUnitStates.Dead or HumanUnitStateMachine.HumanUnitStates.TurningIntoZombie)
+            if (_humanUnitStateMachine.CurrentStateType is HumanUnitStateMachine.HumanUnitStates.Dead
+                or HumanUnitStateMachine.HumanUnitStates.TurningIntoZombie)
             {
                 Debug.LogWarning("Human unit is already dead");
                 return;

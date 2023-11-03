@@ -1,13 +1,11 @@
-﻿using System;
-using Data;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 namespace Units
 {
     public abstract class Unit : MonoBehaviour
     {
-        [SerializeField] protected UnitConfig unitConfig;
+        [SerializeField] protected SkinnedMeshRenderer skinnedMeshRenderer;
         [SerializeField] protected Animator animator;
         protected NavMeshAgent NavMeshAgent;
         protected UnitMovement UnitMovement;
@@ -17,7 +15,6 @@ namespace Units
         protected virtual void Awake()
         {
             NavMeshAgent = GetComponent<NavMeshAgent>();
-            NavMeshAgent.speed = unitConfig.Speed;
 
             UnitMovement = new UnitMovement(NavMeshAgent);
             UnitAnimator = new UnitAnimator(animator);
