@@ -2223,6 +2223,7 @@ GameObject:
   - component: {fileID: 8972146527415447379}
   - component: {fileID: 6474361215668074180}
   - component: {fileID: 8083870309199983830}
+  - component: {fileID: 4491188241798252361}
   m_Layer: 0
   m_Name: HumanUnit
   m_TagString: Untagged
@@ -2372,5 +2373,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitConfig: {fileID: 11400000, guid: 4ec4c730cfcc3f84e80753ed8a470fa9, type: 2}
   animator: {fileID: 1241026049011978005}
-  zombieUnit: {fileID: 0}
-  mesh: {fileID: 0}
+  zombieUnit: {fileID: 4491188241798252361}
+--- !u!114 &4491188241798252361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4024320041811000676}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 654a9274920d4e1286138251ed55769e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitConfig: {fileID: 11400000, guid: 4ec4c730cfcc3f84e80753ed8a470fa9, type: 2}
+  animator: {fileID: 1241026049011978005}
+  mesh: {fileID: 4300088, guid: b20a3c10714a6ac439af479e3273de65, type: 3}

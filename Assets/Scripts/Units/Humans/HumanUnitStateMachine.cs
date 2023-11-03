@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Units.Humans.States;
 using Units.States;
+using Units.Zombies;
 using UnityEngine;
 
 namespace Units.Humans
@@ -13,11 +14,12 @@ namespace Units.Humans
 
         public HumanUnitStates CurrentStateType => _currentStateType;
 
-        public HumanUnitStateMachine(UnitMovement unitMovement)
+        public HumanUnitStateMachine(CoroutineRunner coroutineRunner, UnitAnimator unitAnimator, HumanUnit humanUnit, ZombieUnit zombieUnit)
         {
             _unitStates = new Dictionary<HumanUnitStates, IUnitState>
             {
-                { HumanUnitStates.Dead, new HumanUnitDead() }
+                { HumanUnitStates.Dead, new HumanUnitDead(coroutineRunner, unitAnimator, humanUnit, this) },
+                { HumanUnitStates.TurningIntoZombie, new HumanUnitTurningIntoZombie(coroutineRunner, zombieUnit)}
             };
         }
 
@@ -44,7 +46,8 @@ namespace Units.Humans
             Patrol,
             Chase,
             Attack,
-            Dead
+            Dead,
+            TurningIntoZombie
         }
     }
 }

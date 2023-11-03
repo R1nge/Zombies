@@ -34,7 +34,7 @@ namespace Units
 
         public abstract void StandUp();
 
-        public abstract void Infect();
+        public abstract void Attack();
 
         public abstract void Die();
     }

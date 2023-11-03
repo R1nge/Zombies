@@ -5,6 +5,7 @@ namespace Units.Zombies
 {
     public class ZombieUnit : Unit
     {
+        [SerializeField] private Mesh mesh;
         private ZombieUnitStateMachine _zombieUnitStateMachine;
 
         protected override void Awake()
@@ -19,19 +20,24 @@ namespace Units.Zombies
             base.OnCollisionEnter(collision);
             if (collision.transform.TryGetComponent(out HumanUnit humanUnit))
             {
-                if (humanUnit.CurrentState == HumanUnitStateMachine.HumanUnitStates.Dead)
+                if (humanUnit.CurrentState is HumanUnitStateMachine.HumanUnitStates.Dead or HumanUnitStateMachine.HumanUnitStates.TurningIntoZombie)
                 {
                     Debug.LogWarning("Human unit is already dead");
                     return;
                 }
 
-                Infect();
+                Attack();
             }
+        }
+
+        public void ChangeMesh()
+        {
+            GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh = mesh;
         }
 
         public override void StandUp() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.StandUp);
 
-        public override void Infect() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Infecting);
+        public override void Attack() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Infecting);
 
         public override void Die() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Dead);
 
