@@ -26,7 +26,7 @@ namespace Units.Zombies.States
 
         private IEnumerator Wait()
         {
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(3f);
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Walking);
         }
 

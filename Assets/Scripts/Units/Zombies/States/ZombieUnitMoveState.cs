@@ -22,8 +22,6 @@ namespace Units.Zombies.States
                     _unitMovement.MoveTo(hit.point);
                 }
             }
-            
-            Debug.Log("MOVE UPDATE");
         }
 
         public void Exit()
