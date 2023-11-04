@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Units.States;
 using Units.Zombies.States;
+using UnityEngine;
 
 namespace Units.Zombies
 {
@@ -8,6 +9,9 @@ namespace Units.Zombies
     {
         private readonly Dictionary<ZombieUnitStates, IUnitState> _unitStates;
         private IUnitState _currentState;
+        private ZombieUnitStates _currentStateType;
+
+        public ZombieUnitStates CurrentStateType => _currentStateType;
 
         public ZombieUnitStateMachine(CoroutineRunner coroutineRunner, UnitMovement unitMovement, UnitAnimator unitAnimator)
         {
@@ -23,6 +27,14 @@ namespace Units.Zombies
 
         public void SetState(ZombieUnitStates newState)
         {
+            if (_unitStates[newState] == _currentState)
+            {
+                Debug.LogWarning($"Already in {_currentState}");
+                return;
+            }
+            
+            _currentStateType = newState;
+            
             _currentState?.Exit();
             _currentState = _unitStates[newState];
             _currentState.Enter();

@@ -50,8 +50,27 @@ namespace Units.Zombies
 
         public void OnDeselected() => selectedMark.SetActive(false);
 
-        public void MoveTo(Vector3 position) => UnitMovement.MoveTo(position);
-        
+        public void MoveTo(Vector3 position)
+        {
+            if (_zombieUnitStateMachine.CurrentStateType == ZombieUnitStateMachine.ZombieUnitStates.Infecting)
+            {
+                return;
+                
+            }
+
+            if (_zombieUnitStateMachine.CurrentStateType == ZombieUnitStateMachine.ZombieUnitStates.Dead)
+            {
+                return;
+            }
+
+            if (_zombieUnitStateMachine.CurrentStateType == ZombieUnitStateMachine.ZombieUnitStates.StandUp)
+            {
+                return;
+            }
+            
+            UnitMovement.MoveTo(position);
+        }
+
         public void ChangeMesh() => skinnedMeshRenderer.sharedMesh = zombieConfig.ZombieMesh;
 
         public override void StandUp() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.StandUp);
