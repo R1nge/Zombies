@@ -34,5 +34,15 @@ namespace Units
         public abstract void Attack();
 
         public abstract void Die();
+
+        public void OnSelected()
+        {
+            print("SELECTED");
+        }
+
+        public void OnDeselected()
+        {
+            print("DESELECTED");
+        }
     }
 }

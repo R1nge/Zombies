@@ -8,18 +8,22 @@ namespace Units.Zombies
     {
         [SerializeField] private ZombieConfig zombieConfig;
         private ZombieUnitStateMachine _zombieUnitStateMachine;
-
-        private void OnEnable()
-        {
-            skinnedMeshRenderer.sharedMesh = zombieConfig.ZombieMesh;
-            NavMeshAgent.speed = zombieConfig.Speed;
-        }
+        //TODO: make zenject singleton
+        private UnitRTSController _unitRtsController;
 
         protected override void Awake()
         {
             base.Awake();
             _zombieUnitStateMachine = new ZombieUnitStateMachine(CoroutineRunner,  UnitMovement, UnitAnimator);
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Walking);
+            _unitRtsController = FindObjectOfType<UnitRTSController>();
+        }
+
+        private void OnEnable()
+        {
+            _unitRtsController.Add(this);
+            skinnedMeshRenderer.sharedMesh = zombieConfig.ZombieMesh;
+            NavMeshAgent.speed = zombieConfig.Speed;
         }
 
         protected override void OnCollisionEnter(Collision collision)
