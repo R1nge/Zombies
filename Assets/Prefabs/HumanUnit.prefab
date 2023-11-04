@@ -2224,7 +2224,7 @@ GameObject:
   - component: {fileID: 6474361215668074180}
   - component: {fileID: 8083870309199983830}
   - component: {fileID: 4491188241798252361}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HumanUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}

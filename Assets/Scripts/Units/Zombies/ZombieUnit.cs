@@ -36,6 +36,8 @@ namespace Units.Zombies
                 Attack();
             }
         }
+
+        public void MoveTo(Vector3 position) => UnitMovement.MoveTo(position);
         
         public void ChangeMesh() => skinnedMeshRenderer.sharedMesh = zombieConfig.ZombieMesh;
 

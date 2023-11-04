@@ -46,9 +46,8 @@ namespace Units.Humans
             }
         }
 
-        public override void StandUp() { throw new NotImplementedException(); }
-
-        public override void Attack() { throw new NotImplementedException(); }
-        public override void Die() { _humanUnitStateMachine.SetState(HumanUnitStateMachine.HumanUnitStates.Dead); }
+        public override void StandUp() { }
+        public override void Attack() { }
+        public override void Die() => _humanUnitStateMachine.SetState(HumanUnitStateMachine.HumanUnitStates.Dead);
     }
 }
