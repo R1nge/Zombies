@@ -19,7 +19,7 @@ namespace Units.Zombies
             {
                 { ZombieUnitStates.Idle, new ZombieUnitIdleState() },
                 { ZombieUnitStates.StandUp, new ZombieUnitStandUpState(coroutineRunner, unitAnimator, this) }, 
-                { ZombieUnitStates.Walking, new ZombieUnitMoveState(unitMovement) },
+                { ZombieUnitStates.Walking, new ZombieUnitMoveState(unitMovement, unitAnimator) },
                 { ZombieUnitStates.Infecting, new ZombieUnitInfectState(coroutineRunner, unitAnimator, this) },
                 { ZombieUnitStates.Dead, new ZombieUnitDeadState() }
             };

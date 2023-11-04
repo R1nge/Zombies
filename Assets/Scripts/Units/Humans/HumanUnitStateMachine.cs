@@ -19,7 +19,7 @@ namespace Units.Humans
             _unitStates = new Dictionary<HumanUnitStates, IUnitState>
             {
                 { HumanUnitStates.Dead, new HumanUnitDead(coroutineRunner, unitAnimator, humanUnit, this) },
-                { HumanUnitStates.TurningIntoZombie, new HumanUnitTurningIntoZombie(coroutineRunner, zombieUnit)}
+                { HumanUnitStates.TurningIntoZombie, new HumanUnitTurningIntoZombie(coroutineRunner, zombieUnit, unitAnimator)}
             };
         }
 

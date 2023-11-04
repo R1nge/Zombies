@@ -8,25 +8,18 @@ namespace Units
         private static readonly int Bite = Animator.StringToHash("Attack");
         private static readonly int Death = Animator.StringToHash("IsDead");
         private static readonly int StandUp = Animator.StringToHash("StandUp");
-        
-        public UnitAnimator(Animator animator)
-        {
-            _animator = animator;
-        }
+        private static readonly int Speed = Animator.StringToHash("Speed");
 
-        public void PlayAttackAnimation()
-        {
-            _animator.SetTrigger(Bite);
-        }
+        public UnitAnimator(Animator animator) => _animator = animator;
 
-        public void PlayDeathAnimation()
-        {
-            _animator.SetTrigger(Death);
-        }
+        public void PlayAttackAnimation() => _animator.SetTrigger(Bite);
 
-        public void PlayStandUpAnimation()
-        {
-            _animator.SetTrigger(StandUp);
-        }
+        public void PlayDeathAnimation() => _animator.SetTrigger(Death);
+
+        public void PlayStandUpAnimation() => _animator.SetTrigger(StandUp);
+
+        public void PlayRunAnimation(float speed) => _animator.SetFloat(Speed, speed);
+
+        public void ApplyRootMotion(bool apply) => _animator.applyRootMotion = apply;
     }
 }

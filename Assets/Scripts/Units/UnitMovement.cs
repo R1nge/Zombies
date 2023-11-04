@@ -9,6 +9,8 @@ namespace Units
         
         public UnitMovement(NavMeshAgent navMeshAgent) => _navMeshAgent = navMeshAgent;
 
+        public float CurrentSpeed => _navMeshAgent.velocity.magnitude;
+
         public void SetDestination(Vector3 position) => _navMeshAgent.SetDestination(position);
 
         public void MoveToDestination() => _navMeshAgent.isStopped = false;
