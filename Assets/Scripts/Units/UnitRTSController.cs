@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using Units.Zombies;
-using UnityEngine;
 
 namespace Units
 {
-    public class UnitRTSController : MonoBehaviour
+    public class UnitRTSController
     {
         private readonly HashSet<ZombieUnit> _selectedUnits = new();
         private readonly List<ZombieUnit> _availableUnits = new();

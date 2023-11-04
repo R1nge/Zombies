@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using Zenject;
 
 namespace Units
 {
@@ -12,14 +13,15 @@ namespace Units
         protected UnitAnimator UnitAnimator;
         protected CoroutineRunner CoroutineRunner;
 
+        [Inject]
+        private void Inject(CoroutineRunner coroutineRunner) => CoroutineRunner = coroutineRunner;
+
         protected virtual void Awake()
         {
             NavMeshAgent = GetComponent<NavMeshAgent>();
 
             UnitMovement = new UnitMovement(NavMeshAgent);
             UnitAnimator = new UnitAnimator(animator);
-
-            CoroutineRunner = FindObjectOfType<CoroutineRunner>();
         }
 
         protected abstract void Update();
@@ -34,15 +36,5 @@ namespace Units
         public abstract void Attack();
 
         public abstract void Die();
-
-        public void OnSelected()
-        {
-            print("SELECTED");
-        }
-
-        public void OnDeselected()
-        {
-            print("DESELECTED");
-        }
     }
 }

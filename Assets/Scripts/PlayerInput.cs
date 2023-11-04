@@ -1,6 +1,7 @@
 ﻿using Units;
 using Units.Zombies;
 using UnityEngine;
+using Zenject;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class PlayerInput : MonoBehaviour
     private Vector2 _startMousePosition;
     private UnitRTSController _unitRtsController;
 
-    private void Awake() => _unitRtsController = FindObjectOfType<UnitRTSController>();
+    [Inject]
+    private void Inject(UnitRTSController unitRtsController) => _unitRtsController = unitRtsController;
 
     private void Update()
     {

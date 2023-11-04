@@ -1,22 +1,25 @@
 ﻿using Data;
 using Units.Humans;
 using UnityEngine;
+using Zenject;
 
 namespace Units.Zombies
 {
     public class ZombieUnit : Unit
     {
+        [SerializeField] private GameObject selectedMark;
         [SerializeField] private ZombieConfig zombieConfig;
         private ZombieUnitStateMachine _zombieUnitStateMachine;
-        //TODO: make zenject singleton
         private UnitRTSController _unitRtsController;
+
+        [Inject]
+        private void Inject(UnitRTSController unitRtsController) => _unitRtsController = unitRtsController;
 
         protected override void Awake()
         {
             base.Awake();
             _zombieUnitStateMachine = new ZombieUnitStateMachine(CoroutineRunner,  UnitMovement, UnitAnimator);
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Walking);
-            _unitRtsController = FindObjectOfType<UnitRTSController>();
         }
 
         private void OnEnable()
@@ -38,8 +41,14 @@ namespace Units.Zombies
                 }
 
                 Attack();
+                
+                humanUnit.Die();
             }
         }
+        
+        public void OnSelected() => selectedMark.SetActive(true);
+
+        public void OnDeselected() => selectedMark.SetActive(false);
 
         public void MoveTo(Vector3 position) => UnitMovement.MoveTo(position);
         

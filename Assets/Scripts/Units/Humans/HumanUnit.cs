@@ -29,23 +29,6 @@ namespace Units.Humans
 
         protected override void Update() => _humanUnitStateMachine.Update();
 
-        protected override void OnCollisionEnter(Collision collision)
-        {
-            base.OnCollisionEnter(collision);
-
-            if (_humanUnitStateMachine.CurrentStateType is HumanUnitStateMachine.HumanUnitStates.Dead
-                or HumanUnitStateMachine.HumanUnitStates.TurningIntoZombie)
-            {
-                Debug.LogWarning("Human unit is already dead");
-                return;
-            }
-
-            if (collision.transform.TryGetComponent(out ZombieUnit zombie))
-            {
-                Die();
-            }
-        }
-
         public override void StandUp() { }
         public override void Attack() { }
         public override void Die() => _humanUnitStateMachine.SetState(HumanUnitStateMachine.HumanUnitStates.Dead);
