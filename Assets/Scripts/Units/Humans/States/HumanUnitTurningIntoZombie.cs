@@ -28,6 +28,7 @@ namespace Units.Humans.States
 
         //TODO: use animator instead???
         //TODO: or create a config with animations and timings
+        //TODO: USE TIMELINE
         private IEnumerator Wait()
         {
             yield return new WaitForSeconds(8f);
