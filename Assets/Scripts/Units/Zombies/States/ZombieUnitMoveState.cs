@@ -1,5 +1,4 @@
 ﻿using Units.States;
-using UnityEngine;
 
 namespace Units.Zombies.States
 {
@@ -9,24 +8,10 @@ namespace Units.Zombies.States
 
         public ZombieUnitMoveState(UnitMovement unitMovement) => _unitMovement = unitMovement;
 
-        public void Enter() { }
+        public void Enter() => _unitMovement.MoveToDestination();
 
-        public void Update()
-        {
-        //     if (Input.GetMouseButtonDown(0))
-        //     {
-        //         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //
-        //         if (Physics.Raycast(ray, out RaycastHit hit))
-        //         {
-        //             _unitMovement.MoveTo(hit.point);
-        //         }
-        //     }
-        }
+        public void Update() { }
 
-        public void Exit()
-        {
-            _unitMovement.Stop();
-        }
+        public void Exit() => _unitMovement.Stop();
     }
 }

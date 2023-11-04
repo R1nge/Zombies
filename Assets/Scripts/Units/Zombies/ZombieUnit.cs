@@ -49,13 +49,14 @@ namespace Units.Zombies
         public void OnSelected() => selectedMark.SetActive(true);
 
         public void OnDeselected() => selectedMark.SetActive(false);
-
+        
         public void MoveTo(Vector3 position)
         {
+            UnitMovement.SetDestination(position);
+            
             if (_zombieUnitStateMachine.CurrentStateType == ZombieUnitStateMachine.ZombieUnitStates.Infecting)
             {
                 return;
-                
             }
 
             if (_zombieUnitStateMachine.CurrentStateType == ZombieUnitStateMachine.ZombieUnitStates.Dead)
@@ -68,7 +69,7 @@ namespace Units.Zombies
                 return;
             }
             
-            UnitMovement.MoveTo(position);
+            _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Walking);
         }
 
         public void ChangeMesh() => skinnedMeshRenderer.sharedMesh = zombieConfig.ZombieMesh;
