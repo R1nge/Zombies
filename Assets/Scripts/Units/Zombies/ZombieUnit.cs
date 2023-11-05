@@ -18,7 +18,7 @@ namespace Units.Zombies
         protected override void Awake()
         {
             base.Awake();
-            _zombieUnitStateMachine = new ZombieUnitStateMachine(CoroutineRunner,  UnitMovement, UnitAnimator);
+            _zombieUnitStateMachine = new ZombieUnitStateMachine(CoroutineRunner, UnitMovement, UnitAnimator);
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Idle);
         }
 
@@ -40,9 +40,18 @@ namespace Units.Zombies
                     return;
                 }
 
-                Attack();
-                
-                humanUnit.Die();
+                if(IsBehind(humanUnit.transform))
+                {
+                    //TODO: look at the player
+                    //TODO: move player in front of the player
+                    SetTargetForward(-DirectionFromPlayerTo(humanUnit.transform));
+                    Attack();
+                    humanUnit.Die();
+                }
+                else
+                {
+                    Debug.LogError("CAN'T ATTACK");
+                }
             }
         }
 
@@ -53,7 +62,7 @@ namespace Units.Zombies
         public void MoveTo(Vector3 position)
         {
             UnitMovement.SetDestination(position);
-            
+
             if (_zombieUnitStateMachine.CurrentStateType == ZombieUnitStateMachine.ZombieUnitStates.Infecting)
             {
                 return;
@@ -68,12 +77,10 @@ namespace Units.Zombies
             {
                 return;
             }
-            
+
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Walking);
         }
 
-        public void ChangeMesh() => skinnedMeshRenderer.sharedMesh = zombieConfig.ZombieMesh;
-        
         public override void Idle() { throw new System.NotImplementedException(); }
 
         public override void StandUp() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.StandUp);
@@ -82,6 +89,10 @@ namespace Units.Zombies
 
         public override void Die() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Dead);
 
-        protected override void Update() => _zombieUnitStateMachine.Update();
+        protected override void Update()
+        {
+            base.Update();
+            _zombieUnitStateMachine.Update();
+        }
     }
 }

@@ -19,20 +19,23 @@ namespace Units.Humans
             _humanUnitStateMachine = new HumanUnitStateMachine(CoroutineRunner, UnitAnimator, this, humanConfig, UnitFactory);
         }
 
-        protected override void Update() => _humanUnitStateMachine.Update();
+        protected override void Update()
+        {
+            base.Update();
+            _humanUnitStateMachine.Update();
+        }
 
         public override void Idle() { }
 
         public void Chase(ZombieUnit zombieUnit)
         {
-            if (CurrentState is HumanUnitStateMachine.HumanUnitStates.Idle or HumanUnitStateMachine.HumanUnitStates.Patrol)
+            if (CurrentState is HumanUnitStateMachine.HumanUnitStates.Idle
+                or HumanUnitStateMachine.HumanUnitStates.Patrol)
             {
                 //_humanUnitStateMachine.SetState(HumanUnitStateMachine.HumanUnitStates.Chase);
-                print("CHASING ZOMBIE");
-                UnitMovement.SetDestination(zombieUnit.transform.position);
-                UnitMovement.MoveToDestination();
             }
-        } 
+        }
+
         public override void StandUp() { }
         public override void Attack() { }
         public override void Die() => _humanUnitStateMachine.SetState(HumanUnitStateMachine.HumanUnitStates.Dead);

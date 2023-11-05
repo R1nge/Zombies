@@ -1,4 +1,5 @@
-﻿using Factories;
+﻿using System;
+using Factories;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
@@ -14,6 +15,7 @@ namespace Units
         protected UnitAnimator UnitAnimator;
         protected CoroutineRunner CoroutineRunner;
         protected UnitFactory UnitFactory;
+        private Vector3 _targetForward;
 
         [Inject]
         private void Inject(CoroutineRunner coroutineRunner, UnitFactory unitFactory)
@@ -30,7 +32,7 @@ namespace Units
             UnitAnimator = new UnitAnimator(animator);
         }
 
-        protected abstract void Update();
+        protected virtual void Update() { HandleSmoothForwardRotation(); }
 
         protected virtual void OnCollisionEnter(Collision collision)
         {
@@ -44,5 +46,31 @@ namespace Units
         public abstract void Attack();
 
         public abstract void Die();
+
+        protected Vector3 DirectionFromPlayerTo(Transform target) => (transform.position - target.position).normalized;
+
+        protected float Dot(Transform target) => Vector3.Dot(target.forward, DirectionFromPlayerTo(target));
+
+        protected bool IsBehind(Transform target)
+        {
+            float dotOffset = .1f;
+            return Dot(target) < -1 + dotOffset;
+        }
+
+        private void HandleSmoothForwardRotation()
+        {
+            if (_targetForward != Vector3.zero)
+            {
+                float rotationSpeed = 10f;
+                transform.forward = Vector3.Lerp(transform.forward, _targetForward, Time.deltaTime * rotationSpeed);
+                
+                if (transform.forward == _targetForward)
+                {
+                    _targetForward = Vector3.zero;
+                }
+            }
+        }
+
+        protected void SetTargetForward(Vector3 targetForward) => _targetForward = targetForward;
     }
 }
