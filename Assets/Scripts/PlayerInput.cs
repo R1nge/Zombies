@@ -9,7 +9,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private RectTransform selectionBox;
     [SerializeField] private LayerMask unitLayer;
     [SerializeField] private LayerMask ground;
-    [SerializeField] private float delayBeforeDragSelection = .1f;
+    [SerializeField] private float delayBeforeDragSelection = 1f;
     private float _mousePressedTime;
     private Vector2 _startMousePosition;
     private UnitRTSController _unitRtsController;
@@ -33,19 +33,18 @@ public class PlayerInput : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            if (_mousePressedTime + delayBeforeDragSelection < Time.time)
+            _mousePressedTime += Time.deltaTime;
+            
+            if (_mousePressedTime > delayBeforeDragSelection)
             {
                 ResizeSelectionBox();
             }
-
-            _mousePressedTime = 0;
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             selectionBox.sizeDelta = Vector2.zero;
             selectionBox.gameObject.SetActive(false);
-
 
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, unitLayer))
@@ -74,6 +73,8 @@ public class PlayerInput : MonoBehaviour
                     _unitRtsController.DeSelectAll();
                 }
             }
+            
+            _mousePressedTime = 0;
         }
     }
 
@@ -89,8 +90,7 @@ public class PlayerInput : MonoBehaviour
 
         for (int i = 0; i < _unitRtsController.AvailableUnits.Count; i++)
         {
-            Vector3 unitPosition =
-                camera.WorldToScreenPoint(_unitRtsController.AvailableUnits[i].transform.position);
+            Vector3 unitPosition = camera.WorldToScreenPoint(_unitRtsController.AvailableUnits[i].transform.position);
 
             if (UnitInsideSelectBox(unitPosition, bounds))
             {
@@ -115,15 +115,12 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(1))
         {
-            if (_unitRtsController.SelectedUnits.Count > 0)
+            var ray = camera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask: ground))
             {
-                var ray = camera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask: ground))
+                foreach (var zombieUnit in _unitRtsController.SelectedUnits)
                 {
-                    foreach (var zombieUnit in _unitRtsController.SelectedUnits)
-                    {
-                        zombieUnit.MoveTo(hit.point);
-                    }
+                    zombieUnit.MoveTo(hit.point);
                 }
             }
         }

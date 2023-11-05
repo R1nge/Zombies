@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5562457535868138844}
   - component: {fileID: 8947759296006642888}
   - component: {fileID: 8576723530243778545}
+  - component: {fileID: 1443579930690007487}
   m_Layer: 6
   m_Name: ZombieUnit
   m_TagString: Untagged
@@ -166,6 +167,36 @@ MonoBehaviour:
   animator: {fileID: 6715395203457768536}
   selectedMark: {fileID: 2779032806528981464}
   zombieConfig: {fileID: 11400000, guid: 6876de46fd14c88498964a2a79f79607, type: 2}
+--- !u!114 &1443579930690007487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5341306715711212497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 89425bc586da2e846b13fa25edbb371b, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8576723530243778545}
+          m_TargetAssemblyTypeName: Units.Zombies.ZombieUnit, Assembly-CSharp
+          m_MethodName: Attack
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &6377106455240983821
 GameObject:
   m_ObjectHideFlags: 0

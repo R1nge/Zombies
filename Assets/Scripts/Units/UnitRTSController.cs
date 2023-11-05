@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Units.Zombies;
+using UnityEngine;
 
 namespace Units
 {
@@ -15,8 +16,11 @@ namespace Units
 
         public void Select(ZombieUnit zombieUnit)
         {
-            _selectedUnits.Add(zombieUnit);
-            zombieUnit.OnSelected();
+            if (!IsSelected(zombieUnit))
+            {
+                _selectedUnits.Add(zombieUnit);
+                zombieUnit.OnSelected();
+            }
         }
 
         public void DeSelect(ZombieUnit zombieUnit)
