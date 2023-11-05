@@ -45,11 +45,11 @@ namespace Units.Zombies
                 humanUnit.Die();
             }
         }
-        
+
         public void OnSelected() => selectedMark.SetActive(true);
 
         public void OnDeselected() => selectedMark.SetActive(false);
-        
+
         public void MoveTo(Vector3 position)
         {
             UnitMovement.SetDestination(position);
@@ -73,6 +73,8 @@ namespace Units.Zombies
         }
 
         public void ChangeMesh() => skinnedMeshRenderer.sharedMesh = zombieConfig.ZombieMesh;
+        
+        public override void Idle() { throw new System.NotImplementedException(); }
 
         public override void StandUp() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.StandUp);
 

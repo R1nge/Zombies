@@ -18,8 +18,9 @@ namespace Units.Humans
         {
             _unitStates = new Dictionary<HumanUnitStates, IUnitState>
             {
+                { HumanUnitStates.Idle, new HumanUnitIdle() },
                 { HumanUnitStates.Dead, new HumanUnitDead(coroutineRunner, unitAnimator, humanUnit, this) },
-                { HumanUnitStates.TurningIntoZombie, new HumanUnitTurningIntoZombie(coroutineRunner, zombieUnit, unitAnimator)}
+                { HumanUnitStates.TurningIntoZombie, new HumanUnitTurningIntoZombie(coroutineRunner, zombieUnit, unitAnimator) }
             };
         }
 
@@ -32,7 +33,7 @@ namespace Units.Humans
             }
 
             _currentStateType = newState;
-            
+
             _currentState?.Exit();
             _currentState = _unitStates[newState];
             _currentState.Enter();

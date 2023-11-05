@@ -22,6 +22,7 @@ namespace Units.Humans.States
         {
             _unitAnimator.ApplyRootMotion(true);
             _coroutineRunner.StartCoroutine(Wait());
+            //TODO: destroy human unit and spawn zombie instead
             _zombieUnit.ChangeMesh();
             _zombieUnit.StandUp();
         }

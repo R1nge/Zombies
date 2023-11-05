@@ -2224,6 +2224,8 @@ GameObject:
   - component: {fileID: 6474361215668074180}
   - component: {fileID: 8083870309199983830}
   - component: {fileID: 4491188241798252361}
+  - component: {fileID: 3473586314790667065}
+  - component: {fileID: 4095708915460453976}
   m_Layer: 6
   m_Name: HumanUnit
   m_TagString: Untagged
@@ -2391,6 +2393,56 @@ MonoBehaviour:
   animator: {fileID: 1241026049011978005}
   selectedMark: {fileID: 6127198448922218887}
   zombieConfig: {fileID: 11400000, guid: 6876de46fd14c88498964a2a79f79607, type: 2}
+--- !u!114 &3473586314790667065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4024320041811000676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 89425bc586da2e846b13fa25edbb371b, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8083870309199983830}
+          m_TargetAssemblyTypeName: Units.Humans.HumanUnit, Assembly-CSharp
+          m_MethodName: Die
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &4095708915460453976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4024320041811000676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c902e432e4f4dbfb0c8b6c75ebade00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 3.92
+  angle: 68.6
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1001 &5585640096642744507
 PrefabInstance:
   m_ObjectHideFlags: 0

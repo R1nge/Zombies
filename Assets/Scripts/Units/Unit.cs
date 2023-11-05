@@ -31,6 +31,8 @@ namespace Units
             print($"{gameObject.name} has collided with {collision.gameObject.name}");
         }
 
+        public abstract void Idle();
+
         public abstract void StandUp();
 
         public abstract void Attack();
