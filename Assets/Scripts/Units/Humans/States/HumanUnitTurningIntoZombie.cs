@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Data;
+using Factories;
 using Units.States;
 using Units.Zombies;
 using UnityEngine;
@@ -7,34 +8,22 @@ namespace Units.Humans.States
 {
     public class HumanUnitTurningIntoZombie : IUnitState
     {
-        private readonly CoroutineRunner _coroutineRunner;
-        private readonly ZombieUnit _zombieUnit;
-        private readonly UnitAnimator _unitAnimator;
+        private readonly Transform _transform;
+        private readonly HumanConfig _humanConfig;
+        private readonly UnitFactory _unitFactory;
 
-        public HumanUnitTurningIntoZombie(CoroutineRunner coroutineRunner, ZombieUnit zombieUnit, UnitAnimator unitAnimator)
+        public HumanUnitTurningIntoZombie(Transform transform, HumanConfig humanConfig, UnitFactory unitFactory)
         {
-            _coroutineRunner = coroutineRunner;
-            _zombieUnit = zombieUnit;
-            _unitAnimator = unitAnimator;
+            _transform = transform;
+            _humanConfig = humanConfig;
+            _unitFactory = unitFactory;
         }
 
         public void Enter()
         {
-            _unitAnimator.ApplyRootMotion(true);
-            _coroutineRunner.StartCoroutine(Wait());
-            //TODO: destroy human unit and spawn zombie instead
-            _zombieUnit.ChangeMesh();
-            _zombieUnit.StandUp();
-        }
-
-        //TODO: use animator instead???
-        //TODO: or create a config with animations and timings
-        //TODO: USE TIMELINE
-        private IEnumerator Wait()
-        {
-            yield return new WaitForSeconds(8f);
-            _zombieUnit.enabled = true;
-            _unitAnimator.ApplyRootMotion(false);
+            ZombieUnit zombie = _unitFactory.CreateUnit(_humanConfig.Zombie, _transform.position, _transform.rotation, null);
+            zombie.StandUp();
+            Object.Destroy(_transform.gameObject);
         }
 
         public void Update() { }

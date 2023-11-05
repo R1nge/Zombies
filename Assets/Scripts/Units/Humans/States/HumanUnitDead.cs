@@ -8,21 +8,18 @@ namespace Units.Humans.States
     {
         private readonly CoroutineRunner _coroutineRunner;
         private readonly UnitAnimator _unitAnimator;
-        private readonly HumanUnit _humanUnit;
         private readonly HumanUnitStateMachine _humanUnitStateMachine;
 
-        public HumanUnitDead(CoroutineRunner coroutineRunner, UnitAnimator unitAnimator, HumanUnit humanUnit, HumanUnitStateMachine humanUnitStateMachine)
+        public HumanUnitDead(CoroutineRunner coroutineRunner, UnitAnimator unitAnimator, HumanUnitStateMachine humanUnitStateMachine)
         {
             _coroutineRunner = coroutineRunner;
             _unitAnimator = unitAnimator;
-            _humanUnit = humanUnit;
             _humanUnitStateMachine = humanUnitStateMachine;
         }
 
         public void Enter()
         {
             _unitAnimator.PlayDeathAnimation();
-            _humanUnit.enabled = false;
             _coroutineRunner.StartCoroutine(Wait());
         }
 

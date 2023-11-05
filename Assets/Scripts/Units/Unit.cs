@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Factories;
+using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
 
@@ -12,9 +13,14 @@ namespace Units
         protected UnitMovement UnitMovement;
         protected UnitAnimator UnitAnimator;
         protected CoroutineRunner CoroutineRunner;
+        protected UnitFactory UnitFactory;
 
         [Inject]
-        private void Inject(CoroutineRunner coroutineRunner) => CoroutineRunner = coroutineRunner;
+        private void Inject(CoroutineRunner coroutineRunner, UnitFactory unitFactory)
+        {
+            CoroutineRunner = coroutineRunner;
+            UnitFactory = unitFactory;
+        }
 
         protected virtual void Awake()
         {

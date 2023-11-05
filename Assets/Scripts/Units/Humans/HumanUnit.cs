@@ -8,23 +8,15 @@ namespace Units.Humans
     public class HumanUnit : Unit
     {
         [SerializeField] private HumanConfig humanConfig;
-        private ZombieUnit _zombieUnit;
         private HumanUnitStateMachine _humanUnitStateMachine;
 
         public HumanUnitStateMachine.HumanUnitStates CurrentState => _humanUnitStateMachine.CurrentStateType;
 
-        private void OnEnable()
-        {
-            skinnedMeshRenderer.sharedMesh = humanConfig.HumanMesh;
-            NavMeshAgent.speed = humanConfig.Speed;
-        }
-
         protected override void Awake()
         {
             base.Awake();
-
-            _zombieUnit = GetComponent<ZombieUnit>();
-            _humanUnitStateMachine = new HumanUnitStateMachine(CoroutineRunner, UnitAnimator, this, _zombieUnit);
+            NavMeshAgent.speed = humanConfig.Speed;
+            _humanUnitStateMachine = new HumanUnitStateMachine(CoroutineRunner, UnitAnimator, this, humanConfig, UnitFactory);
         }
 
         protected override void Update() => _humanUnitStateMachine.Update();
@@ -37,7 +29,7 @@ namespace Units.Humans
             {
                 //_humanUnitStateMachine.SetState(HumanUnitStateMachine.HumanUnitStates.Chase);
                 print("CHASING ZOMBIE");
-                UnitMovement.SetDestination(_zombieUnit.transform.position);
+                UnitMovement.SetDestination(zombieUnit.transform.position);
                 UnitMovement.MoveToDestination();
             }
         } 

@@ -1,4 +1,5 @@
-﻿using Units;
+﻿using Factories;
+using Units;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +14,8 @@ namespace Installers
             Container.BindInstance(coroutineRunner);
             
             Container.Bind<UnitRTSController>().AsSingle();
+
+            Container.Bind<UnitFactory>().AsSingle();
         }
     }
 }

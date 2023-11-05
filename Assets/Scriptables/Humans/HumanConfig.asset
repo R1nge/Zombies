@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: HumanConfig
   m_EditorClassIdentifier: 
   speed: 3
-  humanMesh: {fileID: 4300004, guid: ffdfcb810f2918b4f8fe9f917f07bc78, type: 3}
+  zombie: {fileID: 8576723530243778545, guid: b72b85fd4e22c3c499dc3f67f52cb993, type: 3}

@@ -2223,7 +2223,6 @@ GameObject:
   - component: {fileID: 8972146527415447379}
   - component: {fileID: 6474361215668074180}
   - component: {fileID: 8083870309199983830}
-  - component: {fileID: 4491188241798252361}
   - component: {fileID: 3473586314790667065}
   - component: {fileID: 4095708915460453976}
   m_Layer: 6
@@ -2377,22 +2376,6 @@ MonoBehaviour:
   skinnedMeshRenderer: {fileID: 1264940160960279457}
   animator: {fileID: 1241026049011978005}
   humanConfig: {fileID: 11400000, guid: 49a2a7b0b3fad5140a68c48b857b0a88, type: 2}
---- !u!114 &4491188241798252361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4024320041811000676}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 654a9274920d4e1286138251ed55769e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skinnedMeshRenderer: {fileID: 1264940160960279457}
-  animator: {fileID: 1241026049011978005}
-  selectedMark: {fileID: 6127198448922218887}
-  zombieConfig: {fileID: 11400000, guid: 6876de46fd14c88498964a2a79f79607, type: 2}
 --- !u!114 &3473586314790667065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2500,11 +2483,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 019941fbe94089040848e4e6f83d2555, type: 3}
---- !u!1 &6127198448922218887 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1768789390441877820, guid: 019941fbe94089040848e4e6f83d2555, type: 3}
-  m_PrefabInstance: {fileID: 5585640096642744507}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8519888953147303873 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4303356355937265530, guid: 019941fbe94089040848e4e6f83d2555, type: 3}

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Data;
+using Factories;
 using Units.Humans.States;
 using Units.States;
 using Units.Zombies;
@@ -14,13 +16,13 @@ namespace Units.Humans
 
         public HumanUnitStates CurrentStateType => _currentStateType;
 
-        public HumanUnitStateMachine(CoroutineRunner coroutineRunner, UnitAnimator unitAnimator, HumanUnit humanUnit, ZombieUnit zombieUnit)
+        public HumanUnitStateMachine(CoroutineRunner coroutineRunner, UnitAnimator unitAnimator, HumanUnit humanUnit, HumanConfig humanConfig, UnitFactory unitFactory)
         {
             _unitStates = new Dictionary<HumanUnitStates, IUnitState>
             {
                 { HumanUnitStates.Idle, new HumanUnitIdle() },
-                { HumanUnitStates.Dead, new HumanUnitDead(coroutineRunner, unitAnimator, humanUnit, this) },
-                { HumanUnitStates.TurningIntoZombie, new HumanUnitTurningIntoZombie(coroutineRunner, zombieUnit, unitAnimator) }
+                { HumanUnitStates.Dead, new HumanUnitDead(coroutineRunner, unitAnimator, this) },
+                { HumanUnitStates.TurningIntoZombie, new HumanUnitTurningIntoZombie(humanUnit.transform, humanConfig, unitFactory) }
             };
         }
 
