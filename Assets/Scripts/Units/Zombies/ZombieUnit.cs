@@ -1,6 +1,4 @@
 ﻿using System;
-using Units.Humans.Human;
-using Units.Humans.Military;
 using UnityEngine;
 using Zenject;
 
@@ -22,7 +20,7 @@ namespace Units.Zombies
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Idle);
         }
 
-        private void OnEnable()
+        private void Start()
         {
             _unitRtsController.Add(this);
             NavMeshAgent.speed = unitConfig.Speed;
@@ -31,37 +29,26 @@ namespace Units.Zombies
         protected override void OnCollisionEnter(Collision collision)
         {
             base.OnCollisionEnter(collision);
-            if (collision.transform.TryGetComponent(out MilitaryUnit militaryUnit))
-            {
-                if (!militaryUnit.CanBeAttacked())
-                {
-                    Debug.LogWarning("Military unit can't be attacked");
-                    return;
-                }
 
-                if(IsBehind(militaryUnit.transform))
-                {
-                    SetTargetForward(-DirectionFromPlayerTo(militaryUnit.transform));
-                    militaryUnit.SetTargetForward(-DirectionFromPlayerTo(militaryUnit.transform));
-                    Attack();
-                    militaryUnit.Die();
-                }
+            if (collision.transform.TryGetComponent(out ZombieUnit zombieUnit))
+            {
+                return;
             }
-            
-            if (collision.transform.TryGetComponent(out HumanUnit humanUnit))
+
+            if (collision.transform.TryGetComponent(out Unit unit))
             {
-                if (!humanUnit.CanBeAttacked())
+                if (!unit.CanBeAttacked())
                 {
-                    Debug.LogWarning("Human unit can't be attacked");
+                    Debug.LogWarning($"{unit.gameObject.name} can't be attacked");
                     return;
                 }
 
-                if(IsBehind(humanUnit.transform))
+                if (IsBehind(unit.transform))
                 {
-                    SetTargetForward(-DirectionFromPlayerTo(humanUnit.transform));
-                    humanUnit.SetTargetForward(-DirectionFromPlayerTo(humanUnit.transform));
+                    SetTargetForward(-DirectionFromPlayerTo(unit.transform));
+                    unit.SetTargetForward(-DirectionFromPlayerTo(unit.transform));
                     Attack();
-                    humanUnit.Die();
+                    unit.Die();
                 }
             }
         }
@@ -93,13 +80,17 @@ namespace Units.Zombies
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Walking);
         }
 
-        public override void Idle() { throw new NotImplementedException(); }
+        public override void Idle()
+        {
+            throw new NotImplementedException();
+        }
 
         public void StandUp() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.StandUp);
 
         public void Attack() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Infecting);
 
         public override void Die() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Dead);
+
         public override bool CanBeAttacked()
         {
             return _zombieUnitStateMachine.CurrentStateType is not (ZombieUnitStateMachine.ZombieUnitStates.Dead

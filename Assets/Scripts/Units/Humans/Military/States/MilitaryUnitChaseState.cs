@@ -4,19 +4,10 @@ namespace Units.Humans.Military.States
 {
     public class MilitaryUnitChaseState : IUnitState
     {
-        public void Enter()
-        {
-            throw new System.NotImplementedException();
-        }
+        public void Enter() { }
 
-        public void Update()
-        {
-            throw new System.NotImplementedException();
-        }
+        public void Update() { }
 
-        public void Exit()
-        {
-            throw new System.NotImplementedException();
-        }
+        public void Exit() { }
     }
 }
