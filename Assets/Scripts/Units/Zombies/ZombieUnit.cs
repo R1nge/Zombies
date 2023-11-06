@@ -20,11 +20,7 @@ namespace Units.Zombies
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Idle);
         }
 
-        private void Start()
-        {
-            _unitRtsController.Add(this);
-            NavMeshAgent.speed = unitConfig.Speed;
-        }
+        private void Start() => _unitRtsController.Add(this);
 
         protected override void OnCollisionEnter(Collision collision)
         {
@@ -102,5 +98,7 @@ namespace Units.Zombies
             _zombieUnitStateMachine.Update();
             Debug.Log($"Current state: {_zombieUnitStateMachine.CurrentStateType}");
         }
+
+        private void OnDestroy() => _unitRtsController.Remove(this);
     }
 }

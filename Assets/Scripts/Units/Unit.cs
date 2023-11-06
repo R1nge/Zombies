@@ -10,11 +10,11 @@ namespace Units
     {
         [SerializeField] protected UnitConfig unitConfig;
         [SerializeField] protected Animator animator;
-        protected NavMeshAgent NavMeshAgent;
         protected UnitMovement UnitMovement;
         protected UnitAnimator UnitAnimator;
         protected CoroutineRunner CoroutineRunner;
         protected UnitFactory UnitFactory;
+        private NavMeshAgent _navMeshAgent;
         private Vector3 _targetForward;
 
         [Inject]
@@ -26,9 +26,9 @@ namespace Units
 
         protected virtual void Awake()
         {
-            NavMeshAgent = GetComponent<NavMeshAgent>();
-
-            UnitMovement = new UnitMovement(NavMeshAgent);
+            _navMeshAgent = GetComponent<NavMeshAgent>();
+            _navMeshAgent.speed = unitConfig.Speed;
+            UnitMovement = new UnitMovement(_navMeshAgent);
             UnitAnimator = new UnitAnimator(animator);
         }
 

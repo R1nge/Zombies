@@ -11,7 +11,7 @@ namespace Units.Humans
         [SerializeField, Range(0, 360)] public float angle;
         [SerializeField] private LayerMask targetMask;
         [SerializeField] private LayerMask obstructionMask;
-        private readonly Collider[] _colliders = new Collider[1];
+        private readonly Collider[] _colliders = new Collider[2];
 
         public float Radius => radius;
 
@@ -31,22 +31,23 @@ namespace Units.Humans
         private void Sense()
         {
             int size = Physics.OverlapSphereNonAlloc(transform.position, radius, _colliders, targetMask);
-
+            print($"SIZE {size}");
             if (size != 0)
             {
                 if (_colliders[0].TryGetComponent(out ZombieUnit zombieUnit))
                 {
-                    if (!zombieUnit.enabled) return;
-
                     Transform target = _colliders[0].transform;
                     Vector3 directionToTarget = (target.position - transform.position).normalized;
 
                     if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
                     {
                         float distanceToTarget = Vector3.Distance(transform.position, target.position);
-
+                        print("Detected a zombie");
                         if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                        {
+                            print("Saw a zombie");
                             OnZombieSeen(zombieUnit);
+                        }
                     }
                 }
             }

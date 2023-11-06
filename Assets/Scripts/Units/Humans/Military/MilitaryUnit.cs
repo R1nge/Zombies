@@ -1,6 +1,4 @@
-﻿using Data;
-using Units.Zombies;
-using UnityEngine;
+﻿using Units.Zombies;
 
 namespace Units.Humans.Military
 {
@@ -13,14 +11,14 @@ namespace Units.Humans.Military
         protected override void Awake()
         {
             base.Awake();
-            NavMeshAgent.speed = unitConfig.Speed;
-            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, transform, UnitAnimator, unitConfig, UnitFactory);
+            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, transform, UnitMovement, UnitAnimator, unitConfig, UnitFactory);
         }
 
         protected override void Update()
         {
             base.Update();
             _militaryUnitStateMachine.Update();
+            print($"MILITARY: Current state {_militaryUnitStateMachine.CurrentStateType}");
         }
 
         public override void Idle()
@@ -31,20 +29,20 @@ namespace Units.Humans.Military
         {
             UnitMovement.SetDestination(zombieUnit.transform.position);
 
-            if (CurrentState == MilitaryUnitStateMachine.MilitaryUnitStates.Chase)
-            {
-                return;
-            }
-
-            if (CurrentState == MilitaryUnitStateMachine.MilitaryUnitStates.Dead)
-            {
-                return;
-            }
-
-            if (CurrentState == MilitaryUnitStateMachine.MilitaryUnitStates.TurningIntoZombie)
-            {
-                return;
-            }
+            // if (CurrentState == MilitaryUnitStateMachine.MilitaryUnitStates.Chase)
+            // {
+            //     return;
+            // }
+            //
+            // if (CurrentState == MilitaryUnitStateMachine.MilitaryUnitStates.Dead)
+            // {
+            //     return;
+            // }
+            //
+            // if (CurrentState == MilitaryUnitStateMachine.MilitaryUnitStates.TurningIntoZombie)
+            // {
+            //     return;
+            // }
 
             _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Chase);
         }

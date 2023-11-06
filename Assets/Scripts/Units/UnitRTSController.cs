@@ -22,6 +22,7 @@ namespace Units
 
         public void Remove(ZombieUnit zombieUnit)
         {
+            DeSelectAll();
             _availableUnits.Remove(zombieUnit); 
             OnZombiesAmountChanged?.Invoke(_availableUnits.Count);
         }

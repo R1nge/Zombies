@@ -1,22 +1,47 @@
 ﻿using Units.States;
+using Units.Zombies;
+using UnityEngine;
 
 namespace Units.Humans.Military.States
 {
     public class MilitaryUnitAttackState : IUnitState
     {
+        private readonly Transform _transform;
+        private readonly UnitMovement _unitMovement;
+        private readonly MilitaryUnitStateMachine _militaryUnitStateMachine;
+
+        public MilitaryUnitAttackState(Transform transform, UnitMovement unitMovement, MilitaryUnitStateMachine militaryUnitStateMachine)
+        {
+            _transform = transform;
+            _unitMovement = unitMovement;
+            _militaryUnitStateMachine = militaryUnitStateMachine;
+        }
+        
         public void Enter()
         {
-            throw new System.NotImplementedException();
         }
 
         public void Update()
         {
-            throw new System.NotImplementedException();
+            if (_unitMovement.DistanceToDestination() > 3f)
+            {
+                _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Chase);
+            }
+            else
+            {
+                var directionToTheTarget = _unitMovement.CurrentDestination - _transform.position;
+                
+                var ray = new Ray(_transform.position + new Vector3(0,.5f, 0), directionToTheTarget);
+
+                if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask: ~LayerMask.NameToLayer("ZombieUnit")))
+                {
+                    Object.Destroy(hit.transform.gameObject);
+                }
+            }
         }
 
         public void Exit()
         {
-            throw new System.NotImplementedException();
         }
     }
 }
