@@ -2718,10 +2718,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit
       objectReference: {fileID: 0}
-    - target: {fileID: 5341306715711212497, guid: b72b85fd4e22c3c499dc3f67f52cb993, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 5562457535868138844, guid: b72b85fd4e22c3c499dc3f67f52cb993, type: 3}
       propertyPath: hiddenAgentGameObject
       value: 
