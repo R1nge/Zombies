@@ -1,11 +1,14 @@
 ﻿using Game.Services;
 using Units.Zombies;
+using UnityEngine;
 using Zenject;
 
 namespace Units.Humans.Military
 {
     public class MilitaryUnit : Unit
     {
+        [SerializeField] private Transform[] patrolPoints;
+        [SerializeField] private float nextPatrolPointInterval;
         private MilitaryUnitStateMachine _militaryUnitStateMachine;
         private HumanCounter _humanCounter;
 
@@ -17,8 +20,11 @@ namespace Units.Humans.Military
         protected override void Awake()
         {
             base.Awake();
-            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, transform, UnitMovement, UnitAnimator, unitConfig, UnitFactory);
+            UnitPatrolling unitPatrolling = new UnitPatrolling(UnitMovement, patrolPoints, nextPatrolPointInterval);
+            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, this, transform, UnitMovement, unitPatrolling, UnitAnimator, unitConfig, UnitFactory);
             _humanCounter.Add();
+
+            Patrol();
         }
 
         protected override void Update()
@@ -31,6 +37,14 @@ namespace Units.Humans.Military
         public override void Idle()
         {
             _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Idle);
+        }
+
+        public void Patrol()
+        {
+            if (patrolPoints.Length != 0)
+            {
+                _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Patrol);
+            }
         }
 
         public void Chase(ZombieUnit zombieUnit)

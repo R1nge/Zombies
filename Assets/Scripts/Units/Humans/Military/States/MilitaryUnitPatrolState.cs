@@ -4,19 +4,24 @@ namespace Units.Humans.Military.States
 {
     public class MilitaryUnitPatrolState : IUnitState
     {
+        private readonly UnitPatrolling _unitPatrolling;
+        
+        public MilitaryUnitPatrolState(UnitPatrolling unitPatrolling)
+        {
+            _unitPatrolling = unitPatrolling;
+        }
+        
         public void Enter()
         {
-            throw new System.NotImplementedException();
         }
 
         public void Update()
         {
-            throw new System.NotImplementedException();
+            _unitPatrolling.Patrol();
         }
 
         public void Exit()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

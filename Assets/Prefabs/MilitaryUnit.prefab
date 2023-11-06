@@ -2334,6 +2334,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitConfig: {fileID: 11400000, guid: 338aa9ec22112aa4b83f1b87cd1bf2c8, type: 2}
   animator: {fileID: 1241026049011978005}
+  patrolPoints: []
+  nextPatrolPointInterval: 3
 --- !u!114 &6552432063609647652
 MonoBehaviour:
   m_ObjectHideFlags: 0

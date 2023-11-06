@@ -4,20 +4,21 @@ namespace Units.Humans.Military.States
 {
     public class MilitaryUnitIdleState : IUnitState
     {
-        private readonly UnitMovement _unitMovement;
-        
-        public MilitaryUnitIdleState(UnitMovement unitMovement)
+        private readonly MilitaryUnit _militaryUnit;
+
+        public MilitaryUnitIdleState(MilitaryUnit militaryUnit)
         {
-            _unitMovement = unitMovement;
+            _militaryUnit = militaryUnit;
         }
         
         public void Enter()
         {
-            _unitMovement.Stop();
+            _militaryUnit.Patrol();
         }
 
         public void Update()
         {
+            
         }
 
         public void Exit()
