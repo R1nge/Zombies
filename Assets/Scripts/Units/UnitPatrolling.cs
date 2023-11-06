@@ -19,14 +19,22 @@ namespace Units
         
         public void Patrol()
         {
-            if (_currentDelay <= 0)
+            if (_unitMovement.DistanceToDestination() <= 1)
             {
-                _currentDelay = _delay;
-                SelectNextPatrolPosition();
+                if (_currentDelay <= 0)
+                {
+                    _currentDelay = _delay;
+                    SelectNextPatrolPosition();
+                }
+                else
+                {
+                    _currentDelay -= Time.deltaTime;
+                }
             }
             else
             {
-                _currentDelay -= Time.deltaTime;
+                _unitMovement.SetDestination(_points[_currentPoint].position);
+                _unitMovement.MoveToDestination();
             }
         }
         
@@ -41,7 +49,6 @@ namespace Units
                 _currentPoint++;
             }
 
-            
             _unitMovement.SetDestination(_points[_currentPoint].position);
             _unitMovement.MoveToDestination();
         }

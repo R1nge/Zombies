@@ -23,7 +23,7 @@ namespace Units.Humans.Military.States
 
         public void Update()
         {
-            //TODO: make it differently
+            //TODO: make it differently (Store a reference to a zombie unit???)
             if (!_unitMovement.Target.TryGetComponent(out ZombieUnit zombieUnit) )
             {
                 _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Idle);

@@ -14,8 +14,8 @@ namespace Units.Humans.Military
         {
             _unitStates = new Dictionary<MilitaryUnitStates, IUnitState>
             {
-                { MilitaryUnitStates.Idle, new MilitaryUnitIdleState(militaryUnit) },
-                { MilitaryUnitStates.Patrol, new MilitaryUnitPatrolState(unitPatrolling) },
+                { MilitaryUnitStates.Idle, new MilitaryUnitIdleState(militaryUnit, unitMovement) },
+                { MilitaryUnitStates.Patrol, new MilitaryUnitPatrolState(unitMovement, unitPatrolling) },
                 { MilitaryUnitStates.Chase, new MilitaryUnitChaseState(unitMovement, this) },
                 { MilitaryUnitStates.Attack, new MilitaryUnitAttackState(transform, unitMovement, this) },
                 { MilitaryUnitStates.Dead, new MilitaryUnitDeadState(coroutineRunner, unitMovement, unitAnimator, this) },

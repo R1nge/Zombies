@@ -31,5 +31,7 @@ namespace Units
         }
 
         public void SetTarget(Transform target) => _target = target;
+
+        public void ResetTarget() => _target = null;
     }
 }
