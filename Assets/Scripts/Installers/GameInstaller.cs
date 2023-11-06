@@ -12,7 +12,8 @@ namespace Installers
         public override void InstallBindings()
         {
             Container.BindInstance(coroutineRunner);
-            
+
+            Container.Bind<HumanCounter>().AsSingle();
             Container.Bind<UnitRTSController>().AsSingle();
 
             Container.Bind<UnitFactory>().AsSingle();
