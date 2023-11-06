@@ -4,11 +4,28 @@ using Zenject;
 
 namespace Units.Zombies
 {
-    public class ZombieUnit : Unit
+    public class ZombieUnit : Unit, IDamageable
     {
         [SerializeField] private GameObject selectedMark;
         private ZombieUnitStateMachine _zombieUnitStateMachine;
         private UnitRTSController _unitRtsController;
+        private ZombieHealth _zombieHealth;
+
+        public ZombieHealth ZombieHealth
+        {
+            get
+            {
+                if (_zombieHealth == null)
+                {
+                    _zombieHealth = new ZombieHealth(this, unitConfig.MaxHealth);
+                    _zombieHealth.Init();
+                    return _zombieHealth;
+                }
+
+                _zombieHealth.Init();
+                return _zombieHealth;
+            }
+        }
 
         [Inject]
         private void Inject(UnitRTSController unitRtsController) => _unitRtsController = unitRtsController;
@@ -16,7 +33,7 @@ namespace Units.Zombies
         protected override void Awake()
         {
             base.Awake();
-            _zombieUnitStateMachine = new ZombieUnitStateMachine(CoroutineRunner, UnitMovement, UnitAnimator);
+            _zombieUnitStateMachine = new ZombieUnitStateMachine(CoroutineRunner, this, UnitMovement, UnitAnimator);
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Idle);
         }
 
@@ -25,7 +42,7 @@ namespace Units.Zombies
         protected override void OnCollisionEnter(Collision collision)
         {
             base.OnCollisionEnter(collision);
-            
+
             if (collision.transform.TryGetComponent(out Unit unit))
             {
                 if (!unit.CanBeAttackedBy(this))
@@ -47,7 +64,9 @@ namespace Units.Zombies
         public void OnSelected() => selectedMark.SetActive(true);
 
         public void OnDeselected() => selectedMark.SetActive(false);
-        
+
+        public void TakeDamage(int amount) => _zombieHealth.TakeDamage(amount);
+
         public void MoveTo(Vector3 position)
         {
             UnitMovement.SetDestination(position);
@@ -80,15 +99,15 @@ namespace Units.Zombies
         public void Attack() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Infecting);
 
         public override void Die() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Dead);
-
+        
         public override bool CanBeAttackedBy(Unit unit)
         {
             if (unit is ZombieUnit)
             {
                 return false;
             }
-            
-            return _zombieUnitStateMachine.CurrentStateType is not (ZombieUnitStateMachine.ZombieUnitStates.Dead
+
+            return _zombieUnitStateMachine.CurrentStateType is not (ZombieUnitStateMachine.ZombieUnitStates.Dead 
                 or ZombieUnitStateMachine.ZombieUnitStates.Infecting);
         }
 

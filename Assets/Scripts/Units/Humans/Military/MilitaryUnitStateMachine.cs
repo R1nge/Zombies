@@ -13,11 +13,11 @@ namespace Units.Humans.Military
         {
             _unitStates = new Dictionary<MilitaryUnitStates, IUnitState>
             {
-                { MilitaryUnitStates.Idle, new MilitaryUnitIdleState() },
+                { MilitaryUnitStates.Idle, new MilitaryUnitIdleState(unitMovement) },
                 { MilitaryUnitStates.Patrol, new MilitaryUnitPatrolState() },
                 { MilitaryUnitStates.Chase, new MilitaryUnitChaseState(unitMovement, this) },
                 { MilitaryUnitStates.Attack, new MilitaryUnitAttackState(transform, unitMovement, this) },
-                { MilitaryUnitStates.Dead, new MilitaryUnitDeadState(coroutineRunner, unitAnimator, this) },
+                { MilitaryUnitStates.Dead, new MilitaryUnitDeadState(coroutineRunner, unitMovement, unitAnimator, this) },
                 { MilitaryUnitStates.TurningIntoZombie, new UnitTurningIntoZombieState(transform, unitConfig, unitFactory) }
             };
         }

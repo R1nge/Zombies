@@ -24,6 +24,7 @@ namespace Units.Humans.Human.States
 
         private IEnumerator Wait()
         {
+            _unitAnimator.ApplyRootMotion(true);
             yield return new WaitForSeconds(1f);
             _unitAnimator.PlayDeathAnimation();
             yield return new WaitForSeconds(4f);

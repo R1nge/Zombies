@@ -7,12 +7,14 @@ namespace Units.Zombies.States
     public class ZombieUnitInfectState : IUnitState
     {
         private readonly CoroutineRunner _coroutineRunner;
+        private readonly UnitMovement _unitMovement;
         private readonly UnitAnimator _unitAnimator;
         private readonly ZombieUnitStateMachine _zombieUnitStateMachine;
 
-        public ZombieUnitInfectState(CoroutineRunner coroutineRunner, UnitAnimator unitAnimator, ZombieUnitStateMachine zombieUnitStateMachine)
+        public ZombieUnitInfectState(CoroutineRunner coroutineRunner, UnitMovement unitMovement, UnitAnimator unitAnimator, ZombieUnitStateMachine zombieUnitStateMachine)
         {
             _coroutineRunner = coroutineRunner;
+            _unitMovement = unitMovement;
             _unitAnimator = unitAnimator;
             _zombieUnitStateMachine = zombieUnitStateMachine;
         }
@@ -20,6 +22,7 @@ namespace Units.Zombies.States
         public void Enter()
         {
             _unitAnimator.PlayAttackAnimation();
+            _unitMovement.Stop();
             _coroutineRunner.StartCoroutine(Wait());
         }
 

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: ZombieUnitConfig
   m_EditorClassIdentifier: 
   zombie: {fileID: 0}
+  maxHealth: 10
   speed: 5

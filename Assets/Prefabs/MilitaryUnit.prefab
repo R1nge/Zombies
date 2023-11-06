@@ -2220,8 +2220,7 @@ GameObject:
   - component: {fileID: 4332835075636459783}
   - component: {fileID: 256590754259726358}
   - component: {fileID: 6989846795431766800}
-  - component: {fileID: 8972146527415447379}
-  - component: {fileID: 6474361215668074180}
+  - component: {fileID: 5549984361540268970}
   - component: {fileID: 8083870309199983830}
   - component: {fileID: 6552432063609647652}
   - component: {fileID: 3473586314790667065}
@@ -2299,47 +2298,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8972146527415447379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4024320041811000676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84445bc6a41d8bd43a4f3e5b7bc8cfdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
-  m_Radius: 0.75
-  m_Height: 2
-  m_WalkableMask: -1
-  m_Speed: 3.5
-  m_Acceleration: 8
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_BaseOffset: 1
-  m_ObstacleAvoidanceType: 4
-  m_AvoidancePriority: 50
-  m_UpdateRotation: 1
-  m_DuplicateAgent: 1
-  m_BlockAfterDuration: 1
-  m_TimeToBlock: 1
-  m_BlockSpeedThreshold: 1
-  m_UnblockAfterDuration: 1
-  m_TimeToUnblock: 1
-  m_DistanceReductionThreshold: 0.5
-  m_UnblockAtSpeed: 1
-  m_UnblockSpeedThreshold: 1
-  m_CarvingMoveThreshold: 0.1
-  m_TimeToStationary: 0.5
-  m_CarveOnlyStationary: 0
-  hiddenAgentGameObject: {fileID: 0}
---- !u!195 &6474361215668074180
+--- !u!195 &5549984361540268970
 NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2348,7 +2307,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4024320041811000676}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.75
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50

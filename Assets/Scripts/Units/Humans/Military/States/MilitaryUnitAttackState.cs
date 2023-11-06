@@ -29,13 +29,20 @@ namespace Units.Humans.Military.States
             }
             else
             {
-                var directionToTheTarget = _unitMovement.CurrentDestination - _transform.position;
+                Vector3 directionToTheTarget = _unitMovement.CurrentDestination - _transform.position;
                 
                 var ray = new Ray(_transform.position + new Vector3(0,.5f, 0), directionToTheTarget);
 
                 if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask: ~LayerMask.NameToLayer("ZombieUnit")))
                 {
-                    Object.Destroy(hit.transform.gameObject);
+                    if (hit.transform.TryGetComponent(out IDamageable damageable))
+                    {
+                        damageable.TakeDamage(1);    
+                    }
+                }
+                else
+                {
+                    _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Idle);
                 }
             }
         }

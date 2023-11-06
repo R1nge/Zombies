@@ -4,19 +4,24 @@ namespace Units.Humans.Military.States
 {
     public class MilitaryUnitIdleState : IUnitState
     {
+        private readonly UnitMovement _unitMovement;
+        
+        public MilitaryUnitIdleState(UnitMovement unitMovement)
+        {
+            _unitMovement = unitMovement;
+        }
+        
         public void Enter()
         {
-            throw new System.NotImplementedException();
+            _unitMovement.Stop();
         }
 
         public void Update()
         {
-            throw new System.NotImplementedException();
         }
 
         public void Exit()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

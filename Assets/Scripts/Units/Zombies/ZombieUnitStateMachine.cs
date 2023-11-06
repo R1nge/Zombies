@@ -13,15 +13,15 @@ namespace Units.Zombies
 
         public ZombieUnitStates CurrentStateType => _currentStateType;
 
-        public ZombieUnitStateMachine(CoroutineRunner coroutineRunner, UnitMovement unitMovement, UnitAnimator unitAnimator)
+        public ZombieUnitStateMachine(CoroutineRunner coroutineRunner, ZombieUnit zombieUnit, UnitMovement unitMovement, UnitAnimator unitAnimator)
         {
             _unitStates = new Dictionary<ZombieUnitStates, IUnitState>
             {
                 { ZombieUnitStates.Idle, new ZombieUnitIdleState() },
                 { ZombieUnitStates.StandUp, new ZombieUnitStandUpState(coroutineRunner, unitAnimator, this) }, 
                 { ZombieUnitStates.Walking, new ZombieUnitMoveState(unitMovement, unitAnimator) },
-                { ZombieUnitStates.Infecting, new ZombieUnitInfectState(coroutineRunner, unitAnimator, this) },
-                { ZombieUnitStates.Dead, new ZombieUnitDeadState() }
+                { ZombieUnitStates.Infecting, new ZombieUnitInfectState(coroutineRunner, unitMovement, unitAnimator, this) },
+                { ZombieUnitStates.Dead, new ZombieUnitDeadState(unitAnimator, zombieUnit) }
             };
         }
 
