@@ -23,15 +23,22 @@ namespace Units.Humans.Military.States
 
         public void Update()
         {
+            //TODO: make it differently
+            if (!_unitMovement.Target.TryGetComponent(out ZombieUnit zombieUnit) )
+            {
+                _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Idle);
+                return;
+            }
+            
             if (_unitMovement.DistanceToDestination() > 3f)
             {
                 _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Chase);
             }
             else
             {
-                Vector3 directionToTheTarget = _unitMovement.CurrentDestination - _transform.position;
+                Vector3 directionToTheTarget = _unitMovement.Target.position - _transform.position;
                 
-                var ray = new Ray(_transform.position + new Vector3(0,.5f, 0), directionToTheTarget);
+                var ray = new Ray(_transform.position, directionToTheTarget);
 
                 if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask: ~LayerMask.NameToLayer("ZombieUnit")))
                 {

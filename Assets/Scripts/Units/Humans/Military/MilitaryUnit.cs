@@ -1,4 +1,5 @@
-﻿using Units.Zombies;
+﻿using Game.Services;
+using Units.Zombies;
 using Zenject;
 
 namespace Units.Humans.Military
@@ -29,20 +30,14 @@ namespace Units.Humans.Military
 
         public override void Idle()
         {
+            _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Idle);
         }
 
         public void Chase(ZombieUnit zombieUnit)
         {
             UnitMovement.SetDestination(zombieUnit.transform.position);
+            UnitMovement.SetTarget(zombieUnit.transform);
             _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Chase);
-        }
-
-        public void StandUp()
-        {
-        }
-
-        public void Attack()
-        {
         }
 
         public override void Die()

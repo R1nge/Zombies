@@ -6,9 +6,12 @@ namespace Units
     public class UnitMovement
     {
         private readonly NavMeshAgent _navMeshAgent;
+        private Transform _target;
         
         public UnitMovement(NavMeshAgent navMeshAgent) => _navMeshAgent = navMeshAgent;
 
+        public Transform Target => _target;
+        
         public float CurrentSpeed => _navMeshAgent.velocity.magnitude;
 
         public Vector3 CurrentDestination => _navMeshAgent.destination;
@@ -19,6 +22,16 @@ namespace Units
 
         public void Stop() => _navMeshAgent.isStopped = true;
 
-        public float DistanceToDestination() => Vector3.Distance(_navMeshAgent.transform.position, _navMeshAgent.destination);
+        public float DistanceToDestination()
+        {
+            if (_target != null)
+            {
+                return Vector3.Distance(_navMeshAgent.transform.position, _target.position);
+            }
+
+            return Vector3.Distance(_navMeshAgent.transform.position, _navMeshAgent.destination);
+        }
+
+        public void SetTarget(Transform target) => _target = target;
     }
 }

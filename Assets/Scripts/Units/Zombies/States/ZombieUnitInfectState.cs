@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Game.Services;
 using Units.States;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ namespace Units.Zombies.States
 
         private IEnumerator Wait()
         {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(5f);
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Walking);
         }
 
