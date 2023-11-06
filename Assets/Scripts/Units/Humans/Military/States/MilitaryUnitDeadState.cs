@@ -19,12 +19,14 @@ namespace Units.Humans.Military.States
 
         public void Enter()
         {
-            _unitAnimator.PlayDeathAnimation();
+            
             _coroutineRunner.StartCoroutine(Wait());
         }
 
         private IEnumerator Wait()
         {
+            yield return new WaitForSeconds(1f);
+            _unitAnimator.PlayDeathAnimation();
             yield return new WaitForSeconds(5f);
             _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.TurningIntoZombie);
         }
