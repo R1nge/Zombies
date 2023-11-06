@@ -46,7 +46,7 @@ namespace Units
 
         public abstract void Die();
 
-        public abstract bool CanBeAttacked();
+        public abstract bool CanBeAttackedBy(Unit unit);
 
         public void SetTargetForward(Vector3 targetForward) => _targetForward = targetForward;
         

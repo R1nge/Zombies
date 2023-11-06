@@ -29,17 +29,12 @@ namespace Units.Zombies
         protected override void OnCollisionEnter(Collision collision)
         {
             base.OnCollisionEnter(collision);
-
-            if (collision.transform.TryGetComponent(out ZombieUnit zombieUnit))
-            {
-                return;
-            }
-
+            
             if (collision.transform.TryGetComponent(out Unit unit))
             {
-                if (!unit.CanBeAttacked())
+                if (!unit.CanBeAttackedBy(this))
                 {
-                    Debug.LogWarning($"{unit.gameObject.name} can't be attacked");
+                    Debug.LogWarning($"{unit.gameObject.name} can't be attacked by {gameObject.name}");
                     return;
                 }
 
@@ -56,8 +51,7 @@ namespace Units.Zombies
         public void OnSelected() => selectedMark.SetActive(true);
 
         public void OnDeselected() => selectedMark.SetActive(false);
-
-        //TODO: zombie can't move when spawned for some reason
+        
         public void MoveTo(Vector3 position)
         {
             UnitMovement.SetDestination(position);
@@ -91,8 +85,13 @@ namespace Units.Zombies
 
         public override void Die() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Dead);
 
-        public override bool CanBeAttacked()
+        public override bool CanBeAttackedBy(Unit unit)
         {
+            if (unit is ZombieUnit)
+            {
+                return false;
+            }
+            
             return _zombieUnitStateMachine.CurrentStateType is not (ZombieUnitStateMachine.ZombieUnitStates.Dead
                 or ZombieUnitStateMachine.ZombieUnitStates.Infecting);
         }

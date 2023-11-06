@@ -20,7 +20,7 @@
             _humanUnitStateMachine.SetState(HumanUnitStateMachine.HumanUnitStates.Dead);
         }
 
-        public override bool CanBeAttacked()
+        public override bool CanBeAttackedBy(Unit unit)
         {
             return _humanUnitStateMachine.CurrentStateType is not (HumanUnitStateMachine.HumanUnitStates.Dead
                 or HumanUnitStateMachine.HumanUnitStates.TurningIntoZombie);

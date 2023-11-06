@@ -62,7 +62,7 @@ namespace Units.Humans.Military
             _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Dead);
         }
 
-        public override bool CanBeAttacked()
+        public override bool CanBeAttackedBy(Unit unit)
         {
             return CurrentState is not (MilitaryUnitStateMachine.MilitaryUnitStates.Dead or MilitaryUnitStateMachine.MilitaryUnitStates.TurningIntoZombie);
         }
