@@ -9,6 +9,7 @@ namespace Units.Humans.Military
     {
         [SerializeField] private Transform[] patrolPoints;
         [SerializeField] private float nextPatrolPointInterval;
+        private UnitSoundsController _unitSoundsController;
         private MilitaryUnitStateMachine _militaryUnitStateMachine;
         private HumanCounter _humanCounter;
 
@@ -20,8 +21,9 @@ namespace Units.Humans.Military
         protected override void Awake()
         {
             base.Awake();
+            _unitSoundsController = GetComponent<UnitSoundsController>();
             UnitPatrolling unitPatrolling = new UnitPatrolling(UnitMovement, patrolPoints, nextPatrolPointInterval);
-            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, this, transform, UnitMovement, unitPatrolling, UnitAnimator, unitConfig, UnitFactory);
+            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, this, transform, UnitMovement, unitPatrolling, UnitAnimator, unitConfig, UnitFactory, _unitSoundsController);
             _humanCounter.Add();
 
             Patrol();

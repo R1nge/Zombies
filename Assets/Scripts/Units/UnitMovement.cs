@@ -18,7 +18,11 @@ namespace Units
 
         public void MoveToDestination() => _navMeshAgent.isStopped = false;
 
-        public void Stop() => _navMeshAgent.isStopped = true;
+        public void Stop()
+        {
+            _navMeshAgent.isStopped = true;
+            SetDestination(_navMeshAgent.transform.position);
+        }
 
         //TODO: Create a separate method for the distance to the target?
         public float DistanceToDestination()

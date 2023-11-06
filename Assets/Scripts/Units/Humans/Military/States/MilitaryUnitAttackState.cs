@@ -9,11 +9,13 @@ namespace Units.Humans.Military.States
         private readonly Transform _transform;
         private readonly UnitMovement _unitMovement;
         private readonly MilitaryUnitStateMachine _militaryUnitStateMachine;
+        private readonly UnitSoundsController _unitSoundsController;
 
-        public MilitaryUnitAttackState(Transform transform, UnitMovement unitMovement, MilitaryUnitStateMachine militaryUnitStateMachine)
+        public MilitaryUnitAttackState(Transform transform, UnitMovement unitMovement, UnitSoundsController unitSoundsController, MilitaryUnitStateMachine militaryUnitStateMachine)
         {
             _transform = transform;
             _unitMovement = unitMovement;
+            _unitSoundsController = unitSoundsController;
             _militaryUnitStateMachine = militaryUnitStateMachine;
         }
         
@@ -30,7 +32,7 @@ namespace Units.Humans.Military.States
                 return;
             }
             
-            if (_unitMovement.DistanceToDestination() > 3f)
+            if (_unitMovement.DistanceToDestination() > 5f)
             {
                 _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Chase);
             }
@@ -41,6 +43,8 @@ namespace Units.Humans.Military.States
                 var ray = new Ray(_transform.position, directionToTheTarget);
                 
                 //TODO: add a delay between shots, spawn bullets (Attack controller)
+                _unitSoundsController.PlayFireSound();
+                
                 if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask: ~LayerMask.NameToLayer("ZombieUnit")))
                 {
                     if (hit.transform.TryGetComponent(out IDamageable damageable))

@@ -17,9 +17,10 @@ namespace Units.Humans.Military.States
 
         public void Update()
         {
-            if (_unitMovement.DistanceToDestination() < 3f)
+            if (_unitMovement.DistanceToDestination() < 5f)
             {
                 _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Attack);
+                _unitMovement.Stop();
             }
             else
             {

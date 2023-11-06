@@ -10,14 +10,14 @@ namespace Units.Humans.Military
 {
     public class MilitaryUnitStateMachine : UnitStateMachine<MilitaryUnitStateMachine.MilitaryUnitStates>
     {
-        public MilitaryUnitStateMachine(CoroutineRunner coroutineRunner, MilitaryUnit militaryUnit, Transform transform, UnitMovement unitMovement, UnitPatrolling unitPatrolling, UnitAnimator unitAnimator, UnitConfig unitConfig, UnitFactory unitFactory)
+        public MilitaryUnitStateMachine(CoroutineRunner coroutineRunner, MilitaryUnit militaryUnit, Transform transform, UnitMovement unitMovement, UnitPatrolling unitPatrolling, UnitAnimator unitAnimator, UnitConfig unitConfig, UnitFactory unitFactory, UnitSoundsController unitSoundsController)
         {
             _unitStates = new Dictionary<MilitaryUnitStates, IUnitState>
             {
                 { MilitaryUnitStates.Idle, new MilitaryUnitIdleState(militaryUnit, unitMovement) },
                 { MilitaryUnitStates.Patrol, new MilitaryUnitPatrolState(unitMovement, unitPatrolling) },
                 { MilitaryUnitStates.Chase, new MilitaryUnitChaseState(unitMovement, this) },
-                { MilitaryUnitStates.Attack, new MilitaryUnitAttackState(transform, unitMovement, this) },
+                { MilitaryUnitStates.Attack, new MilitaryUnitAttackState(transform, unitMovement, unitSoundsController, this) },
                 { MilitaryUnitStates.Dead, new MilitaryUnitDeadState(coroutineRunner, unitMovement, unitAnimator, this) },
                 { MilitaryUnitStates.TurningIntoZombie, new UnitTurningIntoZombieState(transform, unitConfig, unitFactory) }
             };
