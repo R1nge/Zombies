@@ -1,8 +1,8 @@
 ﻿using Units.States;
 
-namespace Units.Humans.States
+namespace Units.Humans.Human.States
 {
-    public class HumanUnitIdle : IUnitState
+    public class HumanUnitIdleState : IUnitState
     {
         public void Enter() { throw new System.NotImplementedException(); }
         public void Update() { throw new System.NotImplementedException(); }

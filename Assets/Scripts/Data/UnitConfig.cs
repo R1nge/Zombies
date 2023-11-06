@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using Units.Zombies;
+using UnityEngine;
 
 namespace Data
 {
-    public abstract class UnitConfig : ScriptableObject
+    [CreateAssetMenu(fileName = "UnitConfig", menuName = "Configs/Unit Config")]
+    public class UnitConfig : ScriptableObject
     {
+        [SerializeField] private ZombieUnit zombie;
         [SerializeField] private float speed;
+        public ZombieUnit Zombie => zombie;
         public float Speed => speed;
     }
 }

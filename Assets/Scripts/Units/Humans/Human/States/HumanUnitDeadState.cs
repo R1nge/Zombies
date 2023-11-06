@@ -2,15 +2,15 @@
 using Units.States;
 using UnityEngine;
 
-namespace Units.Humans.States
+namespace Units.Humans.Human.States
 {
-    public class HumanUnitDead : IUnitState
+    public class HumanUnitDeadState : IUnitState
     {
         private readonly CoroutineRunner _coroutineRunner;
         private readonly UnitAnimator _unitAnimator;
         private readonly HumanUnitStateMachine _humanUnitStateMachine;
 
-        public HumanUnitDead(CoroutineRunner coroutineRunner, UnitAnimator unitAnimator, HumanUnitStateMachine humanUnitStateMachine)
+        public HumanUnitDeadState(CoroutineRunner coroutineRunner, UnitAnimator unitAnimator, HumanUnitStateMachine humanUnitStateMachine)
         {
             _coroutineRunner = coroutineRunner;
             _unitAnimator = unitAnimator;
@@ -19,12 +19,13 @@ namespace Units.Humans.States
 
         public void Enter()
         {
-            _unitAnimator.PlayDeathAnimation();
             _coroutineRunner.StartCoroutine(Wait());
         }
 
         private IEnumerator Wait()
         {
+            yield return new WaitForSeconds(1f);
+            _unitAnimator.PlayDeathAnimation();
             yield return new WaitForSeconds(4f);
             _humanUnitStateMachine.SetState(HumanUnitStateMachine.HumanUnitStates.TurningIntoZombie);
         }

@@ -1,15 +1,17 @@
-﻿using Units.Humans;
+﻿using Units;
+using Units.Humans;
+using Units.Humans.Human;
 using UnityEditor;
 using UnityEngine;
 
 namespace Editors
 {
-    [CustomEditor(typeof(HumanSensor))]
+    [CustomEditor(typeof(Sensor), true)]
     public class HumanSensorEditor : Editor
     {
         private void OnSceneGUI()
         {
-            HumanSensor fov = (HumanSensor)target;
+            Sensor fov = (Sensor)target;
             Handles.color = Color.white;
             Handles.DrawWireArc(fov.transform.position, Vector3.up, Vector3.forward, 360, fov.Radius);
 

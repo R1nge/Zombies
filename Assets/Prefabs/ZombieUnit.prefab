@@ -138,11 +138,11 @@ NavMeshAgent:
   m_GameObject: {fileID: 5341306715711212497}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.75
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -166,7 +166,7 @@ MonoBehaviour:
   skinnedMeshRenderer: {fileID: 6443957567768498381}
   animator: {fileID: 6715395203457768536}
   selectedMark: {fileID: 2779032806528981464}
-  zombieConfig: {fileID: 11400000, guid: 6876de46fd14c88498964a2a79f79607, type: 2}
+  unitConfig: {fileID: 11400000, guid: 54e0f15146935ef4083b5ac34718281e, type: 2}
 --- !u!114 &1443579930690007487
 MonoBehaviour:
   m_ObjectHideFlags: 0

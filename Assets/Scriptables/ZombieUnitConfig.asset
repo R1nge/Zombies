@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14f7c006a97e4835bebca961d0d7d29d, type: 3}
-  m_Name: HumanConfig
+  m_Script: {fileID: 11500000, guid: 822f29fd818544bf9090ced2e77bb9d8, type: 3}
+  m_Name: ZombieUnitConfig
   m_EditorClassIdentifier: 
-  speed: 3
-  zombie: {fileID: 8576723530243778545, guid: b72b85fd4e22c3c499dc3f67f52cb993, type: 3}
+  zombie: {fileID: 0}
+  speed: 0

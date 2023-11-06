@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Data;
 using Factories;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,7 +8,7 @@ namespace Units
 {
     public abstract class Unit : MonoBehaviour
     {
-        [SerializeField] protected SkinnedMeshRenderer skinnedMeshRenderer;
+        [SerializeField] protected UnitConfig unitConfig;
         [SerializeField] protected Animator animator;
         protected NavMeshAgent NavMeshAgent;
         protected UnitMovement UnitMovement;
@@ -32,7 +32,10 @@ namespace Units
             UnitAnimator = new UnitAnimator(animator);
         }
 
-        protected virtual void Update() { HandleSmoothForwardRotation(); }
+        protected virtual void Update()
+        {
+            HandleSmoothForwardRotation();
+        }
 
         protected virtual void OnCollisionEnter(Collision collision)
         {
@@ -41,19 +44,19 @@ namespace Units
 
         public abstract void Idle();
 
-        public abstract void StandUp();
-
-        public abstract void Attack();
-
         public abstract void Die();
 
+        public abstract bool CanBeAttacked();
+
+        public void SetTargetForward(Vector3 targetForward) => _targetForward = targetForward;
+        
         protected Vector3 DirectionFromPlayerTo(Transform target) => (transform.position - target.position).normalized;
 
         protected float Dot(Transform target) => Vector3.Dot(target.forward, DirectionFromPlayerTo(target));
-
+        
         protected bool IsBehind(Transform target)
         {
-            float dotOffset = .1f;
+            float dotOffset = .25f;
             return Dot(target) < -1 + dotOffset;
         }
 
@@ -61,16 +64,14 @@ namespace Units
         {
             if (_targetForward != Vector3.zero)
             {
-                float rotationSpeed = 10f;
+                const float rotationSpeed = 10f;
                 transform.forward = Vector3.Lerp(transform.forward, _targetForward, Time.deltaTime * rotationSpeed);
-                
+
                 if (transform.forward == _targetForward)
                 {
                     _targetForward = Vector3.zero;
                 }
             }
         }
-
-        protected void SetTargetForward(Vector3 targetForward) => _targetForward = targetForward;
     }
 }

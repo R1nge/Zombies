@@ -5,18 +5,15 @@ using UnityEngine;
 namespace Units.Humans
 {
     [ExecuteAlways]
-    public class HumanSensor : MonoBehaviour
+    public abstract class Sensor : MonoBehaviour
     {
         [SerializeField] private float radius;
         [SerializeField, Range(0, 360)] public float angle;
         [SerializeField] private LayerMask targetMask;
         [SerializeField] private LayerMask obstructionMask;
         private readonly Collider[] _colliders = new Collider[1];
-        private HumanUnit _humanUnit;
 
         public float Radius => radius;
-
-        private void Awake() => _humanUnit = GetComponent<HumanUnit>();
 
         private void Start() => StartCoroutine(Sense_C());
 
@@ -41,7 +38,6 @@ namespace Units.Humans
                 {
                     if (!zombieUnit.enabled) return;
 
-
                     Transform target = _colliders[0].transform;
                     Vector3 directionToTarget = (target.position - transform.position).normalized;
 
@@ -50,10 +46,12 @@ namespace Units.Humans
                         float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
                         if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
-                            _humanUnit.Chase(zombieUnit);
+                            OnZombieSeen(zombieUnit);
                     }
                 }
             }
         }
+
+        protected abstract void OnZombieSeen(ZombieUnit zombieUnit);
     }
 }

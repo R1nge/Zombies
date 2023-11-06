@@ -1,27 +1,25 @@
 ﻿using Data;
 using Factories;
-using Units.States;
-using Units.Zombies;
 using UnityEngine;
 
-namespace Units.Humans.States
+namespace Units.States
 {
-    public class HumanUnitTurningIntoZombie : IUnitState
+    public class UnitTurningIntoZombieState : IUnitState
     {
         private readonly Transform _transform;
-        private readonly HumanConfig _humanConfig;
+        private readonly UnitConfig _unitConfig;
         private readonly UnitFactory _unitFactory;
 
-        public HumanUnitTurningIntoZombie(Transform transform, HumanConfig humanConfig, UnitFactory unitFactory)
+        public UnitTurningIntoZombieState(Transform transform, UnitConfig unitConfig, UnitFactory unitFactory)
         {
             _transform = transform;
-            _humanConfig = humanConfig;
+            _unitConfig = unitConfig;
             _unitFactory = unitFactory;
         }
 
         public void Enter()
         {
-            ZombieUnit zombie = _unitFactory.CreateUnit(_humanConfig.Zombie, _transform.position, _transform.rotation, null);
+            var zombie = _unitFactory.CreateUnit(_unitConfig.Zombie, _transform.position, _transform.rotation, null);
             zombie.StandUp();
             Object.Destroy(_transform.gameObject);
         }
