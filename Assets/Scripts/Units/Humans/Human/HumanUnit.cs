@@ -1,4 +1,5 @@
 ﻿using Game.Services;
+using UnityEngine;
 using Zenject;
 
 namespace Units.Humans.Human
@@ -11,11 +12,10 @@ namespace Units.Humans.Human
         [Inject]
         private void Inject(HumanCounter humanCounter) => _humanCounter = humanCounter;
 
-
         protected override void Awake()
         {
             base.Awake();
-            _humanUnitStateMachine = new HumanUnitStateMachine(CoroutineRunner, UnitAnimator, transform, unitConfig, UnitFactory);
+            _humanUnitStateMachine = new HumanUnitStateMachine(CoroutineRunner, transform, UnitMovement, UnitAnimator,  unitConfig, UnitFactory);
             _humanCounter.Add();
         }
 
@@ -36,8 +36,11 @@ namespace Units.Humans.Human
                 or HumanUnitStateMachine.HumanUnitStates.TurningIntoZombie);
         }
 
-        public void Flee()
+        public void FleeFrom(Unit unit)
         {
+            Vector3 direction = unit.transform.position - transform.position;
+            UnitMovement.SetDestination(transform.position - direction.normalized);
+            _humanUnitStateMachine.SetState(HumanUnitStateMachine.HumanUnitStates.Flee);
         }
     }
 }

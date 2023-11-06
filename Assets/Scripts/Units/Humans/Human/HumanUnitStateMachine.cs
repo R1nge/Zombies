@@ -10,14 +10,14 @@ namespace Units.Humans.Human
 {
     public class HumanUnitStateMachine : UnitStateMachine<HumanUnitStateMachine.HumanUnitStates>
     {
-        public HumanUnitStateMachine(CoroutineRunner coroutineRunner, UnitAnimator unitAnimator, Transform transform, UnitConfig unitConfig, UnitFactory unitFactory)
+        public HumanUnitStateMachine(CoroutineRunner coroutineRunner, Transform transform, UnitMovement unitMovement, UnitAnimator unitAnimator,  UnitConfig unitConfig, UnitFactory unitFactory)
         {
             _unitStates = new Dictionary<HumanUnitStates, IUnitState>
             {
                 { HumanUnitStates.Idle, new HumanUnitIdleState() },
                 { HumanUnitStates.Patrol, new HumanUnitPatrolState() },
                 { HumanUnitStates.Flee, new HumanUnitFleeState() },
-                { HumanUnitStates.Dead, new HumanUnitDeadState(coroutineRunner, unitAnimator, this) },
+                { HumanUnitStates.Dead, new HumanUnitDeadState(coroutineRunner, unitMovement, unitAnimator, this) },
                 { HumanUnitStates.TurningIntoZombie, new UnitTurningIntoZombieState(transform, unitConfig, unitFactory) }
             };
         }

@@ -39,7 +39,8 @@ namespace Units.Humans.Military.States
                 Vector3 directionToTheTarget = _unitMovement.Target.position - _transform.position;
                 
                 var ray = new Ray(_transform.position, directionToTheTarget);
-
+                
+                //TODO: add a delay between shots, spawn bullets (Attack controller)
                 if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask: ~LayerMask.NameToLayer("ZombieUnit")))
                 {
                     if (hit.transform.TryGetComponent(out IDamageable damageable))

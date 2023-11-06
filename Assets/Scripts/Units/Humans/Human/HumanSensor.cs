@@ -6,6 +6,6 @@ namespace Units.Humans.Human
     {
         private HumanUnit _humanUnit;
         private void Awake() => _humanUnit = GetComponent<HumanUnit>();
-        protected override void OnZombieSeen(ZombieUnit zombieUnit) => _humanUnit.Flee();
+        protected override void OnZombieSeen(ZombieUnit zombieUnit) => _humanUnit.FleeFrom(zombieUnit);
     }
 }

@@ -20,6 +20,7 @@ namespace Units
 
         public void Stop() => _navMeshAgent.isStopped = true;
 
+        //TODO: Create a separate method for the distance to the target?
         public float DistanceToDestination()
         {
             if (_target != null)

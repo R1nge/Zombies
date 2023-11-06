@@ -8,12 +8,14 @@ namespace Units.Humans.Human.States
     public class HumanUnitDeadState : IUnitState
     {
         private readonly CoroutineRunner _coroutineRunner;
+        private readonly UnitMovement _unitMovement;
         private readonly UnitAnimator _unitAnimator;
         private readonly HumanUnitStateMachine _humanUnitStateMachine;
 
-        public HumanUnitDeadState(CoroutineRunner coroutineRunner, UnitAnimator unitAnimator, HumanUnitStateMachine humanUnitStateMachine)
+        public HumanUnitDeadState(CoroutineRunner coroutineRunner, UnitMovement unitMovement, UnitAnimator unitAnimator, HumanUnitStateMachine humanUnitStateMachine)
         {
             _coroutineRunner = coroutineRunner;
+            _unitMovement = unitMovement;
             _unitAnimator = unitAnimator;
             _humanUnitStateMachine = humanUnitStateMachine;
         }
@@ -25,6 +27,7 @@ namespace Units.Humans.Human.States
 
         private IEnumerator Wait()
         {
+            _unitMovement.Stop();
             _unitAnimator.ApplyRootMotion(true);
             yield return new WaitForSeconds(1f);
             _unitAnimator.PlayDeathAnimation();

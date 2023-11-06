@@ -1,5 +1,4 @@
 ﻿using Units.States;
-using UnityEngine;
 
 namespace Units.Humans.Military.States
 {
@@ -18,7 +17,6 @@ namespace Units.Humans.Military.States
 
         public void Update()
         {
-            Debug.Log($"Distance to destination: {_unitMovement.DistanceToDestination()}");
             if (_unitMovement.DistanceToDestination() < 3f)
             {
                 _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Attack);
