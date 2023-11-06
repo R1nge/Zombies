@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using System;
+using Data;
 using Factories;
 using Game.Services;
 using UnityEngine;
@@ -39,6 +40,11 @@ namespace Units
         }
 
         protected virtual void OnCollisionEnter(Collision collision)
+        {
+            print($"{gameObject.name} has collided with {collision.gameObject.name}");
+        }
+
+        protected virtual void OnCollisionStay(Collision collision)
         {
             print($"{gameObject.name} has collided with {collision.gameObject.name}");
         }

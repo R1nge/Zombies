@@ -39,10 +39,9 @@ namespace Units.Zombies
 
         private void Start() => _unitRtsController.Add(this);
 
-        protected override void OnCollisionEnter(Collision collision)
+        protected override void OnCollisionStay(Collision collision)
         {
-            base.OnCollisionEnter(collision);
-
+            base.OnCollisionStay(collision);
             if (collision.transform.TryGetComponent(out Unit unit))
             {
                 if (!unit.CanBeAttackedBy(this))
