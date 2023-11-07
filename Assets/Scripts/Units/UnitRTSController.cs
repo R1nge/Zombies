@@ -7,12 +7,11 @@ namespace Units
     public class UnitRTSController
     {
         public event Action<int> OnZombiesAmountChanged;
-        
-        private readonly HashSet<ZombieUnit> _selectedUnits = new();
         private readonly List<ZombieUnit> _availableUnits = new();
+        private ZombieUnit _selectedUnit;
+        private int _selectedUnitIndex;
 
-        public IReadOnlyCollection<ZombieUnit> SelectedUnits => _selectedUnits;
-        public IReadOnlyList<ZombieUnit> AvailableUnits => _availableUnits;
+        public ZombieUnit SelectedUnit => _selectedUnit;
 
         public void Add(ZombieUnit zombieUnit)
         {
@@ -22,36 +21,51 @@ namespace Units
 
         public void Remove(ZombieUnit zombieUnit)
         {
-            DeSelect(zombieUnit);
+            DeSelect();
             _availableUnits.Remove(zombieUnit); 
             OnZombiesAmountChanged?.Invoke(_availableUnits.Count);
         }
 
-        public void Select(ZombieUnit zombieUnit)
+        public void SelectNext()
         {
+            _selectedUnitIndex = (_selectedUnitIndex + 1) % _availableUnits.Count;
+            ZombieUnit zombieUnit = _availableUnits[_selectedUnitIndex];
             if (!IsSelected(zombieUnit))
             {
-                _selectedUnits.Add(zombieUnit);
+                DeSelect();
+                _selectedUnit = zombieUnit;
                 zombieUnit.OnSelected();
             }
         }
 
-        public void DeSelect(ZombieUnit zombieUnit)
+        public void SelectPrevious()
         {
-            _selectedUnits.Remove(zombieUnit);
-            zombieUnit.OnDeselected();
-        }
-
-        public void DeSelectAll()
-        {
-            foreach (ZombieUnit zombie in _selectedUnits)
+            if (_selectedUnitIndex - 1 < 0)
             {
-                zombie.OnDeselected();
+                _selectedUnitIndex = _availableUnits.Count - 1;
             }
-
-            _selectedUnits.Clear();
+            else
+            {
+                _selectedUnitIndex = (_selectedUnitIndex - 1) % _availableUnits.Count;
+            }
+            
+            ZombieUnit zombieUnit = _availableUnits[_selectedUnitIndex];
+            if (!IsSelected(zombieUnit))
+            {
+                DeSelect();
+                _selectedUnit = zombieUnit;
+                zombieUnit.OnSelected();
+            }
         }
 
-        public bool IsSelected(ZombieUnit zombieUnit) => _selectedUnits.Contains(zombieUnit);
+        public void DeSelect()
+        {
+            if (_selectedUnit != null)
+            {
+                _selectedUnit.OnDeselected();
+            }
+        }
+
+        public bool IsSelected(ZombieUnit zombieUnit) => _selectedUnit == zombieUnit;
     }
 }

@@ -18,7 +18,7 @@ namespace Units.Zombies
         {
             _unitStates = new Dictionary<ZombieUnitStates, IUnitState>
             {
-                { ZombieUnitStates.Idle, new ZombieUnitIdleState(coroutineRunner, unitMovement, zombieUnit.ZombieHealth) },
+                { ZombieUnitStates.Idle, new ZombieUnitIdleState(unitMovement) },
                 { ZombieUnitStates.StandUp, new ZombieUnitStandUpState(coroutineRunner, unitMovement, unitAnimator, this) }, 
                 { ZombieUnitStates.Walking, new ZombieUnitMoveState(unitMovement, unitAnimator) },
                 { ZombieUnitStates.Infecting, new ZombieUnitInfectState(coroutineRunner, unitMovement, unitAnimator, this) },
