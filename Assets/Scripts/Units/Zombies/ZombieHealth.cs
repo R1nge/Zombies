@@ -5,10 +5,12 @@ namespace Units.Zombies
 {
     public class ZombieHealth
     {
-        public event Action<int> OnHealthChanged, OnMaxHealthChanged;
+        public event Action<int, int> OnHealthChanged;
         private int _currentHealth;
         private readonly int _maxHealth;
         private readonly ZombieUnit _zombieUnit;
+
+        public int MaxHealth => _maxHealth;
 
         public ZombieHealth(ZombieUnit zombieUnit, int maxHealth)
         {
@@ -17,17 +19,11 @@ namespace Units.Zombies
             _currentHealth = maxHealth;
         }
 
-        public void Init()
-        {
-            OnMaxHealthChanged?.Invoke(_maxHealth);
-            OnHealthChanged?.Invoke(_maxHealth);
-        }
-
         public void TakeDamage(int amount)
         {
             _currentHealth = Mathf.Clamp(_currentHealth - amount, 0, _maxHealth);
 
-            OnHealthChanged?.Invoke(_currentHealth);
+            OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
 
             if (_currentHealth == 0)
             {

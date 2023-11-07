@@ -13,13 +13,13 @@ namespace UIs
         {
             _zombieUnit = GetComponent<ZombieUnit>();
             _zombieUnit.ZombieHealth.OnHealthChanged += UpdateUI;
-            _zombieUnit.ZombieHealth.OnMaxHealthChanged += UpdateMaxHealth;
+            healthBar.maxValue = _zombieUnit.ZombieHealth.MaxHealth;
+            healthBar.value = _zombieUnit.ZombieHealth.MaxHealth;
         }
 
-        private void UpdateMaxHealth(int maxHealth) => healthBar.maxValue = maxHealth;
-
-        private void UpdateUI(int health)
+        private void UpdateUI(int health, int maxHealth)
         {
+            healthBar.maxValue = maxHealth;
             healthBar.value = health;
 
             if (health == 0)
@@ -28,10 +28,6 @@ namespace UIs
             }
         }
 
-        private void OnDestroy()
-        {
-            _zombieUnit.ZombieHealth.OnHealthChanged -= UpdateUI;
-            _zombieUnit.ZombieHealth.OnMaxHealthChanged -= UpdateMaxHealth;
-        }
+        private void OnDestroy() => _zombieUnit.ZombieHealth.OnHealthChanged -= UpdateUI;
     }
 }

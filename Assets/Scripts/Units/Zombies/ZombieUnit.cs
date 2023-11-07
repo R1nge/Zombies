@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace Units.Zombies
@@ -15,14 +14,7 @@ namespace Units.Zombies
         {
             get
             {
-                if (_zombieHealth == null)
-                {
-                    _zombieHealth = new ZombieHealth(this, unitConfig.MaxHealth);
-                    _zombieHealth.Init();
-                    return _zombieHealth;
-                }
-
-                _zombieHealth.Init();
+                _zombieHealth ??= new ZombieHealth(this, unitConfig.MaxHealth);
                 return _zombieHealth;
             }
         }
@@ -90,7 +82,7 @@ namespace Units.Zombies
 
         public override void Idle()
         {
-            throw new NotImplementedException();
+           
         }
 
         public void StandUp() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.StandUp);
@@ -98,7 +90,7 @@ namespace Units.Zombies
         public void Attack() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Infecting);
 
         public override void Die() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Dead);
-        
+
         public override bool CanBeAttackedBy(Unit unit)
         {
             if (unit is ZombieUnit)
@@ -106,7 +98,7 @@ namespace Units.Zombies
                 return false;
             }
 
-            return _zombieUnitStateMachine.CurrentStateType is not (ZombieUnitStateMachine.ZombieUnitStates.Dead 
+            return _zombieUnitStateMachine.CurrentStateType is not (ZombieUnitStateMachine.ZombieUnitStates.Dead
                 or ZombieUnitStateMachine.ZombieUnitStates.Infecting);
         }
 
