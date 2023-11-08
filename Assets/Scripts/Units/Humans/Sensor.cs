@@ -51,6 +51,8 @@ namespace Units.Humans
         {
             int size = Physics.OverlapSphereNonAlloc(transform.position, viewRadius, _colliders, targetMask);
 
+            viewMeshRenderer.material = stock;
+            
             if (size != 0)
             {
                 if (_colliders[0].TryGetComponent(out ZombieUnit zombieUnit))
@@ -68,24 +70,8 @@ namespace Units.Humans
                             OnZombieSeen(zombieUnit);
                             viewMeshRenderer.material = detected;
                         }
-                        else
-                        {
-                            viewMeshRenderer.material = stock;
-                        }
-                    }
-                    else
-                    {
-                        viewMeshRenderer.material = stock;
                     }
                 }
-                else
-                {
-                    viewMeshRenderer.material = stock;
-                }
-            }
-            else
-            {
-                viewMeshRenderer.material = stock;
             }
         }
 
