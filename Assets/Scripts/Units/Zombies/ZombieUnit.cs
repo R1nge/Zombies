@@ -73,7 +73,7 @@ namespace Units.Zombies
         {
             UnitMovement.SetDestination(position);
 
-            SetPositionMarker(position + new Vector3(0,.1f, 0));
+            SetPositionMarker(position);
 
             if (_zombieUnitStateMachine.CurrentStateType == ZombieUnitStateMachine.ZombieUnitStates.Infecting)
             {
