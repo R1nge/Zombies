@@ -63,7 +63,7 @@ namespace Units.Zombies
             _markerPositionService.SetPosition(position);
         }
 
-        public void OnSelected() => _markerPositionService.SetPosition(UnitMovement.TargetPosition);
+        public void OnSelected() => SetPositionMarker(UnitMovement.TargetPosition);
 
         public void OnDeselected() => _markerPositionService.Hide();
 
