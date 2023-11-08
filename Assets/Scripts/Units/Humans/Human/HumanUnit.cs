@@ -1,4 +1,5 @@
-﻿using Game.Services;
+﻿using System;
+using Game.Services;
 using Zenject;
 
 namespace Units.Humans.Human
@@ -17,8 +18,10 @@ namespace Units.Humans.Human
             base.Awake();
             _unitFlee = new UnitFlee(this, UnitMovement, transform);
             _humanUnitStateMachine = new HumanUnitStateMachine(CoroutineRunner, transform, UnitMovement, UnitAnimator, _unitFlee, unitConfig, UnitFactory);
-            _humanCounter.Add();
         }
+
+        //TODO: fix execution order using state machine
+        private void Start() => _humanCounter.Add();
 
         protected override void Update()
         {

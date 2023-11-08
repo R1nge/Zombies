@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using System.Collections;
+using Cinemachine;
 using Units;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,9 +25,29 @@ namespace Game.Services
         {
             selectNext.onClick.AddListener(SelectNextUnit);
             selectPrevious.onClick.AddListener(SelectPreviousUnit);
+            _unitRtsController.OnZombiesAmountChanged += ZombiesAmountChanged;
         }
 
-        private void Start() => _unitRtsController.SelectFirst();
+        private void ZombiesAmountChanged(int amount)
+        {
+            if (amount <= 1)
+            {
+                selectNext.gameObject.SetActive(false);
+                selectPrevious.gameObject.SetActive(false);
+            }
+            else
+            {
+                selectNext.gameObject.SetActive(true);
+                selectPrevious.gameObject.SetActive(true);
+            }
+        }
+
+        //TODO: fix execution order using state machine
+        private IEnumerator Start()
+        {
+            yield return null;
+            _unitRtsController.SelectFirst();
+        }
 
         private void Update() => MoveUnits();
 
