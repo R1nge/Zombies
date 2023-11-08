@@ -6,7 +6,8 @@ namespace Units
 {
     public class UnitRTSController
     {
-        public event Action<int> OnZombiesAmountChanged;
+        //OnZombiesAmountChanged - old zombie amount, new zombieAmount
+        public event Action<int, int> OnZombiesAmountChanged;
         private readonly List<ZombieUnit> _availableUnits = new();
         private ZombieUnit _selectedUnit;
         private int _selectedUnitIndex;
@@ -15,15 +16,17 @@ namespace Units
 
         public void Add(ZombieUnit zombieUnit)
         {
+            int previous = _availableUnits.Count;
             _availableUnits.Add(zombieUnit); 
-            OnZombiesAmountChanged?.Invoke(_availableUnits.Count);
+            OnZombiesAmountChanged?.Invoke(previous, _availableUnits.Count);
         }
 
         public void Remove(ZombieUnit zombieUnit)
         {
             DeSelect();
+            int previous = _availableUnits.Count;
             _availableUnits.Remove(zombieUnit); 
-            OnZombiesAmountChanged?.Invoke(_availableUnits.Count);
+            OnZombiesAmountChanged?.Invoke(previous, _availableUnits.Count);
         }
 
         public void SelectFirst()

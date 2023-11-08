@@ -13,7 +13,7 @@ namespace UIs
         [Inject]
         private void Inject(UnitRTSController unitRtsController) => _unitRtsController = unitRtsController;
         private void Awake() => _unitRtsController.OnZombiesAmountChanged += UpdateUI;
-        private void UpdateUI(int amount) => zombiesAmount.text = $"Zombies Alive: {amount}";
+        private void UpdateUI(int previous, int amount) => zombiesAmount.text = $"Zombies Alive: {amount}";
         private void OnDestroy() => _unitRtsController.OnZombiesAmountChanged -= UpdateUI;
     }
 }
