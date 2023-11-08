@@ -46,7 +46,7 @@ namespace Game.Services
 
         private void MoveUnits()
         {
-            if (Input.GetMouseButtonUp(1))
+            if (Input.GetMouseButtonUp(0))
             {
                 Ray ray = camera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask: ground))
