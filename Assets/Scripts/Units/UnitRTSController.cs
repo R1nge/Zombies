@@ -26,6 +26,12 @@ namespace Units
             OnZombiesAmountChanged?.Invoke(_availableUnits.Count);
         }
 
+        public void SelectFirst()
+        {
+            _selectedUnit = _availableUnits[0];
+            _selectedUnit.OnSelected();
+        }
+
         public void SelectNext()
         {
             _selectedUnitIndex = (_selectedUnitIndex + 1) % _availableUnits.Count;

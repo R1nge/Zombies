@@ -26,10 +26,9 @@ namespace Game.Services
             selectPrevious.onClick.AddListener(SelectPreviousUnit);
         }
 
-        private void Update()
-        {
-            MoveUnits();
-        }
+        private void Start() => _unitRtsController.SelectFirst();
+
+        private void Update() => MoveUnits();
 
         private void SelectNextUnit()
         {
