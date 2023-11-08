@@ -17,9 +17,8 @@ namespace Units.Humans
         [SerializeField] private float edgeDstThreshold;
         [SerializeField] private MeshFilter viewMeshFilter;
         private Mesh viewMesh;
-
+        private Transform _target;
         private readonly Collider[] _colliders = new Collider[2];
-        private List<Transform> _visibleTargets = new();
 
 
         public float Radius => viewRadius;
@@ -66,7 +65,7 @@ namespace Units.Humans
                         {
                             print("Saw a zombie");
                             OnZombieSeen(zombieUnit);
-                            _visibleTargets.Add(target);
+                            _target = zombieUnit.transform;
                         }
                     }
                 }
