@@ -7,21 +7,29 @@ namespace Units
     {
         private readonly NavMeshAgent _navMeshAgent;
         private Transform _target;
+        private Vector3 _targetPosition;
         
         public UnitMovement(NavMeshAgent navMeshAgent) => _navMeshAgent = navMeshAgent;
 
         public Transform Target => _target;
+
+        public Vector3 TargetPosition => _targetPosition;
         
         public float CurrentSpeed => _navMeshAgent.velocity.magnitude;
 
-        public void SetDestination(Vector3 position) => _navMeshAgent.SetDestination(position);
+        public void SetDestination(Vector3 position)
+        {
+            _targetPosition = position;
+            _navMeshAgent.SetDestination(position);
+        }
 
         public void MoveToDestination() => _navMeshAgent.isStopped = false;
 
         public void Stop()
         {
             _navMeshAgent.isStopped = true;
-            SetDestination(_navMeshAgent.transform.position);
+            _targetPosition = _navMeshAgent.transform.position;
+            SetDestination(_targetPosition);
         }
 
         //TODO: Create a separate method for the distance to the target?

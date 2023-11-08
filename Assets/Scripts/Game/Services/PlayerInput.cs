@@ -49,9 +49,12 @@ namespace Game.Services
             if (Input.GetMouseButtonUp(0))
             {
                 Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask: ground))
+                if (!EventSystem.current.IsPointerOverGameObject())
                 {
-                    _unitRtsController.SelectedUnit.MoveTo(hit.point);
+                    if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask: ground))
+                    {
+                        _unitRtsController.SelectedUnit.MoveTo(hit.point);
+                    }
                 }
             }
 

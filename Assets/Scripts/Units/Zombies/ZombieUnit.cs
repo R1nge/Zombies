@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+﻿using Game.Services;
+using UnityEngine;
 using Zenject;
 
 namespace Units.Zombies
 {
     public class ZombieUnit : Unit, IDamageable
     {
-        [SerializeField] private GameObject selectedMark;
         private ZombieUnitStateMachine _zombieUnitStateMachine;
         private UnitRTSController _unitRtsController;
         private ZombieHealth _zombieHealth;
+        private MarkerPositionService _markerPositionService;
 
         public ZombieHealth ZombieHealth
         {
@@ -20,7 +21,11 @@ namespace Units.Zombies
         }
 
         [Inject]
-        private void Inject(UnitRTSController unitRtsController) => _unitRtsController = unitRtsController;
+        private void Inject(UnitRTSController unitRtsController, MarkerPositionService markerPositionService)
+        {
+            _unitRtsController = unitRtsController;
+            _markerPositionService = markerPositionService;
+        }
 
         protected override void Awake()
         {
@@ -51,15 +56,24 @@ namespace Units.Zombies
             }
         }
 
-        public void OnSelected() => selectedMark.SetActive(true);
 
-        public void OnDeselected() => selectedMark.SetActive(false);
+        private void SetPositionMarker(Vector3 position)
+        {
+            position += new Vector3(0, .1f, 0);
+            _markerPositionService.SetPosition(position);
+        }
+
+        public void OnSelected() => _markerPositionService.SetPosition(UnitMovement.TargetPosition);
+
+        public void OnDeselected() => _markerPositionService.Hide();
 
         public void TakeDamage(int amount) => _zombieHealth.TakeDamage(amount);
 
         public void MoveTo(Vector3 position)
         {
             UnitMovement.SetDestination(position);
+
+            SetPositionMarker(position + new Vector3(0,.1f, 0));
 
             if (_zombieUnitStateMachine.CurrentStateType == ZombieUnitStateMachine.ZombieUnitStates.Infecting)
             {

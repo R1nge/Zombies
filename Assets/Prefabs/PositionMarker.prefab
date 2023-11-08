@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7970036714168198226}
   - component: {fileID: 5353878856092258582}
   m_Layer: 6
-  m_Name: SelectedMark
+  m_Name: PositionMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d59b48776621f1042accd900f8b05b0e, type: 2}
+  - {fileID: 2100000, guid: 8f485dfebe2b8b542a9a3467216c7b2d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
