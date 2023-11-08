@@ -99,6 +99,7 @@ namespace Game.Services
 
         private void OnDestroy()
         {
+            _unitRtsController.OnZombiesAmountChanged -= ZombiesAmountChanged;
             selectNext.onClick.RemoveAllListeners();
             selectPrevious.onClick.RemoveAllListeners();
         }
