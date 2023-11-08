@@ -2359,9 +2359,12 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 1
+  stock: {fileID: 2100000, guid: 8f485dfebe2b8b542a9a3467216c7b2d, type: 2}
+  detected: {fileID: 2100000, guid: d59b48776621f1042accd900f8b05b0e, type: 2}
   meshResolution: 1
   edgeResolveIterations: 1
   edgeDstThreshold: 0.5
+  viewMeshRenderer: {fileID: 5709594144410509648}
   viewMeshFilter: {fileID: 3207105756740804509}
 --- !u!114 &3473586314790667065
 MonoBehaviour:
@@ -2563,7 +2566,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d59b48776621f1042accd900f8b05b0e, type: 2}
+  - {fileID: 2100000, guid: 8f485dfebe2b8b542a9a3467216c7b2d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

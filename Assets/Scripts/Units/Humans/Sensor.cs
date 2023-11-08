@@ -12,12 +12,13 @@ namespace Units.Humans
         [SerializeField] private LayerMask targetMask;
         [SerializeField] private LayerMask obstacleMask;
 
+        [SerializeField] private Material stock, detected;
         [SerializeField] private float meshResolution;
         [SerializeField] private int edgeResolveIterations;
         [SerializeField] private float edgeDstThreshold;
+        [SerializeField] private MeshRenderer viewMeshRenderer;
         [SerializeField] private MeshFilter viewMeshFilter;
         private Mesh viewMesh;
-        private Transform _target;
         private readonly Collider[] _colliders = new Collider[2];
 
 
@@ -65,10 +66,26 @@ namespace Units.Humans
                         {
                             print("Saw a zombie");
                             OnZombieSeen(zombieUnit);
-                            _target = zombieUnit.transform;
+                            viewMeshRenderer.material = detected;
+                        }
+                        else
+                        {
+                            viewMeshRenderer.material = stock;
                         }
                     }
+                    else
+                    {
+                        viewMeshRenderer.material = stock;
+                    }
                 }
+                else
+                {
+                    viewMeshRenderer.material = stock;
+                }
+            }
+            else
+            {
+                viewMeshRenderer.material = stock;
             }
         }
 
