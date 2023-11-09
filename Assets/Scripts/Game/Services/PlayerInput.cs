@@ -51,11 +51,13 @@ namespace Game.Services
         private void SelectNextUnit()
         {
             _unitRtsController.SelectNext();
+            _cameraService.LookAtSelectedUnit();
         }
 
         private void SelectPreviousUnit()
         {
             _unitRtsController.SelectPrevious();
+            _cameraService.LookAtSelectedUnit();
         }
 
         private void MoveUnits()

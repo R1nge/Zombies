@@ -19,7 +19,7 @@ namespace Game.States
 
         private IEnumerator Wait_C()
         {
-            yield return new WaitForSeconds(1f);
+            yield return null;
             _gameStateMachine.SwitchState(GameStateMachine.GameStates.Start);
         }
 
