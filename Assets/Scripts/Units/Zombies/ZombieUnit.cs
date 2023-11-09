@@ -33,10 +33,8 @@ namespace Units.Zombies
             base.Awake();
             _zombieUnitStateMachine = new ZombieUnitStateMachine(CoroutineRunner, this, UnitMovement, UnitAnimator);
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Idle);
+            _unitRtsController.Add(this);
         }
-
-        //TODO: fix execution order using state machine
-        private void Start() => _unitRtsController.Add(this);
 
         protected override void OnCollisionStay(Collision collision)
         {

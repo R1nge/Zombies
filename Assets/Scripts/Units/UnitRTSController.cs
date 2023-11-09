@@ -64,7 +64,7 @@ namespace Units
             }
         }
 
-        public void DeSelect()
+        private void DeSelect()
         {
             if (_selectedUnit != null)
             {
@@ -72,6 +72,6 @@ namespace Units
             }
         }
 
-        public bool IsSelected(ZombieUnit zombieUnit) => _selectedUnit == zombieUnit;
+        private bool IsSelected(ZombieUnit zombieUnit) => _selectedUnit == zombieUnit;
     }
 }
