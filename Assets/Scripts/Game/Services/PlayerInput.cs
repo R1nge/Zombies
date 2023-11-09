@@ -28,12 +28,13 @@ namespace Game.Services
             _unitRtsController.OnZombiesAmountChanged += ZombiesAmountChanged;
         }
 
-        private void ZombiesAmountChanged(int previous, int amount)
+        private void ZombiesAmountChanged(int amount)
         {
-            if (amount <= 1 && previous <= 1)
+            if (amount == 1)
             {
                 selectNext.gameObject.SetActive(false);
                 selectPrevious.gameObject.SetActive(false);
+                SelectPreviousUnit();
             }
             else
             {
