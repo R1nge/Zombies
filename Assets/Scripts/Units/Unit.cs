@@ -1,7 +1,7 @@
 ﻿using System;
 using Data;
-using Factories;
 using Game.Services;
+using Game.Services.Factories;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
@@ -59,11 +59,11 @@ namespace Units
         
         protected Vector3 DirectionFromPlayerTo(Transform target) => (transform.position - target.position).normalized;
 
-        protected float Dot(Transform target) => Vector3.Dot(target.forward, DirectionFromPlayerTo(target));
+        private float Dot(Transform target) => Vector3.Dot(target.forward, DirectionFromPlayerTo(target));
         
         protected bool IsBehind(Transform target)
         {
-            float dotOffset = .25f;
+            const float dotOffset = .25f;
             return Dot(target) < -1 + dotOffset;
         }
 

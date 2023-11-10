@@ -36,5 +36,10 @@ namespace Game.Services
             
             return Vector3.zero;
         }
+
+        public void FlyThrough()
+        {
+            
+        }
     }
 }

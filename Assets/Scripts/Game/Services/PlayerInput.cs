@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using Cinemachine;
-using Units;
+﻿using Units;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -85,7 +83,6 @@ namespace Game.Services
                 }
             }
         }
-
 
         private void OnDestroy()
         {

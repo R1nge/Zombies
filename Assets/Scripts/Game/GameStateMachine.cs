@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.Services;
+using Game.Services.Factories;
 using Game.States;
 
 namespace Game

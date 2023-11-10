@@ -23,7 +23,7 @@ namespace Units.Humans.Military
             base.Awake();
             _unitSoundsController = GetComponent<UnitSoundsController>();
             UnitPatrolling unitPatrolling = new UnitPatrolling(UnitMovement, patrolPoints, nextPatrolPointInterval);
-            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, this, transform, UnitMovement, unitPatrolling, UnitAnimator, unitConfig, UnitFactory, _unitSoundsController);
+            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, this, transform, UnitMovement, unitPatrolling, UnitAnimator, UnitFactory, _unitSoundsController);
             _humanCounter.Add();
 
             Patrol();

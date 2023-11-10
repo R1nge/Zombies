@@ -17,10 +17,9 @@ namespace Units.Humans.Human
         {
             base.Awake();
             _unitFlee = new UnitFlee(this, UnitMovement, transform);
-            _humanUnitStateMachine = new HumanUnitStateMachine(CoroutineRunner, transform, UnitMovement, UnitAnimator, _unitFlee, unitConfig, UnitFactory);
+            _humanUnitStateMachine = new HumanUnitStateMachine(CoroutineRunner, transform, UnitMovement, UnitAnimator, _unitFlee, UnitFactory);
         }
 
-        //TODO: fix execution order using state machine
         private void Start() => _humanCounter.Add();
 
         protected override void Update()
@@ -49,8 +48,8 @@ namespace Units.Humans.Human
         public void FleeFrom(Unit unit)
         {
             //TODO: create a separate method???
-            if(!CanBeAttackedBy(unit)) return;
-            
+            if (!CanBeAttackedBy(unit)) return;
+
             _unitFlee.SetTarget(unit.transform);
             _humanUnitStateMachine.SetState(HumanUnitStateMachine.HumanUnitStates.Flee);
         }

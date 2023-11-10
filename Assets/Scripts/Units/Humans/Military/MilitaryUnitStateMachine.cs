@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Data;
-using Factories;
 using Game.Services;
+using Game.Services.Factories;
 using Units.Humans.Military.States;
 using Units.States;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace Units.Humans.Military
 {
     public class MilitaryUnitStateMachine : UnitStateMachine<MilitaryUnitStateMachine.MilitaryUnitStates>
     {
-        public MilitaryUnitStateMachine(CoroutineRunner coroutineRunner, MilitaryUnit militaryUnit, Transform transform, UnitMovement unitMovement, UnitPatrolling unitPatrolling, UnitAnimator unitAnimator, UnitConfig unitConfig, UnitFactory unitFactory, UnitSoundsController unitSoundsController)
+        public MilitaryUnitStateMachine(CoroutineRunner coroutineRunner, MilitaryUnit militaryUnit, Transform transform, UnitMovement unitMovement, UnitPatrolling unitPatrolling, UnitAnimator unitAnimator, UnitFactory unitFactory, UnitSoundsController unitSoundsController)
         {
             _unitStates = new Dictionary<MilitaryUnitStates, IUnitState>
             {
@@ -19,7 +18,7 @@ namespace Units.Humans.Military
                 { MilitaryUnitStates.Chase, new MilitaryUnitChaseState(unitMovement, this) },
                 { MilitaryUnitStates.Attack, new MilitaryUnitAttackState(transform, unitMovement, unitSoundsController, this) },
                 { MilitaryUnitStates.Dead, new MilitaryUnitDeadState(coroutineRunner, unitMovement, unitAnimator, this) },
-                { MilitaryUnitStates.TurningIntoZombie, new UnitTurningIntoZombieState(transform, unitConfig, unitFactory) }
+                { MilitaryUnitStates.TurningIntoZombie, new UnitTurningIntoZombieState(transform, unitFactory) }
             };
         }
 
