@@ -1,4 +1,5 @@
 ﻿using Game.Services.Factories;
+using Units.Humans.Military;
 using UnityEngine;
 using Zenject;
 
@@ -19,7 +20,9 @@ namespace Game.Services
         {
             for (int i = 0; i < positions.Length; i++)
             {
-                _unitFactory.CreateMilitaryUnit(positions[i].position, positions[i].rotation, null);
+                MilitaryUnit military = _unitFactory.CreateMilitaryUnit(positions[i].position, positions[i].rotation, positions[i]);
+                military.SetPatrolPath();
+                military.Patrol();
             }
         }
     }

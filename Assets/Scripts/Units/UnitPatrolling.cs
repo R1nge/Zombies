@@ -1,16 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Units
 {
     public class UnitPatrolling
     {
         private readonly UnitMovement _unitMovement;
-        private readonly Transform[] _points;
+        private readonly List<Transform> _points;
         private readonly float _delay;
         private float _currentDelay;
         private int _currentPoint;
         
-        public UnitPatrolling(UnitMovement unitMovement, Transform[] points, float delay)
+        public UnitPatrolling(UnitMovement unitMovement, List<Transform> points, float delay)
         {
             _unitMovement = unitMovement;
             _points = points;
@@ -40,7 +41,7 @@ namespace Units
         
         private void SelectNextPatrolPosition()
         {
-            if (_currentPoint == _points.Length - 1)
+            if (_currentPoint == _points.Count - 1)
             {
                 _currentPoint = 0;
             }

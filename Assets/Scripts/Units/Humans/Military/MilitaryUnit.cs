@@ -1,4 +1,5 @@
-﻿using Game.Services;
+﻿using System.Collections.Generic;
+using Game.Services;
 using Units.Zombies;
 using UnityEngine;
 using Zenject;
@@ -7,8 +8,8 @@ namespace Units.Humans.Military
 {
     public class MilitaryUnit : Unit
     {
-        [SerializeField] private Transform[] patrolPoints;
         [SerializeField] private float nextPatrolPointInterval;
+        private readonly List<Transform> _patrolPoints = new();
         private UnitSoundsController _unitSoundsController;
         private MilitaryUnitStateMachine _militaryUnitStateMachine;
         private HumanCounter _humanCounter;
@@ -22,11 +23,9 @@ namespace Units.Humans.Military
         {
             base.Awake();
             _unitSoundsController = GetComponent<UnitSoundsController>();
-            UnitPatrolling unitPatrolling = new UnitPatrolling(UnitMovement, patrolPoints, nextPatrolPointInterval);
+            UnitPatrolling unitPatrolling = new UnitPatrolling(UnitMovement, _patrolPoints, nextPatrolPointInterval);
             _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, this, transform, UnitMovement, unitPatrolling, UnitAnimator, UnitFactory, _unitSoundsController);
             _humanCounter.Add();
-
-            Patrol();
         }
 
         protected override void Update()
@@ -43,7 +42,7 @@ namespace Units.Humans.Military
 
         public void Patrol()
         {
-            if (patrolPoints.Length != 0)
+            if (_patrolPoints.Count != 0)
             {
                 _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Patrol);
             }
@@ -65,6 +64,16 @@ namespace Units.Humans.Military
         public override bool CanBeAttackedBy(Unit unit)
         {
             return CurrentState is not (MilitaryUnitStateMachine.MilitaryUnitStates.Dead or MilitaryUnitStateMachine.MilitaryUnitStates.TurningIntoZombie);
+        }
+
+        public void SetPatrolPath()
+        {
+            Transform patrol = transform.parent.Find("PatrolPath");
+
+            for (int i = 0; i < patrol.childCount; i++)
+            {
+                _patrolPoints.Add(patrol.GetChild(i));
+            }
         }
     }
 }
