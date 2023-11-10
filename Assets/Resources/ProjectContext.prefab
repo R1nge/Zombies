@@ -47,6 +47,7 @@ MonoBehaviour:
   positionMarkerConfig: {fileID: 11400000, guid: d14a983d3b85d8c478a2c3ddccd4174a, type: 2}
   uiConfig: {fileID: 11400000, guid: f4d91c5977963ce43ab82c2c8831095f, type: 2}
   zombiesUnitsConfig: {fileID: 11400000, guid: 0f1df7bec337c3b46b7a1a77380d6fb7, type: 2}
+  militaryUnitsConfig: {fileID: 11400000, guid: 0ae2bb277ac141f4fa8404fa5b09df59, type: 2}
 --- !u!1 &5266674189961884516
 GameObject:
   m_ObjectHideFlags: 0

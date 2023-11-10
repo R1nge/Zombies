@@ -9,7 +9,7 @@ namespace Installers
 {
     public class GameInstaller : MonoInstaller
     {
-        [SerializeField] private HumanSpawner humanSpawner;
+        [SerializeField] private MilitarySpawner militarySpawner;
         [SerializeField] private ZombieSpawner zombieSpawner;
         [SerializeField] private CameraService cameraService;
         
@@ -24,13 +24,15 @@ namespace Installers
 
             Container.Bind<UIFactory>().AsSingle();
             
-            Container.Bind<GameStateFactory>().AsSingle();
-            Container.Bind<GameStateMachine>().AsSingle();
             
             Container.Bind<UnitFactory>().AsSingle();
             
-            Container.BindInstance(humanSpawner);
+            Container.BindInstance(militarySpawner);
             Container.BindInstance(zombieSpawner);
+            
+            
+            Container.Bind<GameStateFactory>().AsSingle();
+            Container.Bind<GameStateMachine>().AsSingle();
         }
     }
 }

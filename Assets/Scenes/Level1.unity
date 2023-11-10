@@ -1505,7 +1505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0be53d9175e4f69a14d305c553898cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  humanSpawner: {fileID: 1148150367}
+  militarySpawner: {fileID: 1148150367}
   zombieSpawner: {fileID: 1469027244}
   cameraService: {fileID: 1410205726}
 --- !u!4 &1110707405
@@ -1534,7 +1534,7 @@ GameObject:
   - component: {fileID: 1148150368}
   - component: {fileID: 1148150367}
   m_Layer: 0
-  m_Name: HumanSpawner
+  m_Name: MilitarySpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

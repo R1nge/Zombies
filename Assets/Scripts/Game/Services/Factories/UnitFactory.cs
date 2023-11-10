@@ -23,7 +23,7 @@ namespace Game.Services.Factories
         
         public MilitaryUnit CreateMilitaryUnit(Vector3 position, Quaternion rotation, Transform parent)
         {
-            return _diContainer.InstantiatePrefabForComponent<MilitaryUnit>(_configProvider, position, rotation, parent);
+            return _diContainer.InstantiatePrefabForComponent<MilitaryUnit>(_configProvider.MilitaryUnitsConfig.MilitaryUnit, position, rotation, parent);
         }
     }
 }
