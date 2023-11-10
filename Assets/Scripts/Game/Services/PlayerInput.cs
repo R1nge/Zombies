@@ -35,7 +35,7 @@ namespace Game.Services
             {
                 selectNext.gameObject.SetActive(false);
                 selectPrevious.gameObject.SetActive(false);
-                SelectPreviousUnit();
+                //SelectPreviousUnit();
             }
             else
             {

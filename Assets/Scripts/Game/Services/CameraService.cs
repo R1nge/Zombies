@@ -1,4 +1,6 @@
-﻿using Cinemachine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Cinemachine;
 using Units;
 using UnityEngine;
 using Zenject;
@@ -8,7 +10,9 @@ namespace Game.Services
     public class CameraService : MonoBehaviour
     {
         [SerializeField] private new Camera camera;
-        [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
+        [SerializeField] private CinemachineVirtualCamera mapCamera, unitCamera;
+        [SerializeField] private float flyThroughDuration;
+        [SerializeField] private Transform flyThroughStart, flyThroughEnd; 
         private UnitRTSController _unitRtsController;
 
         [Inject]
@@ -19,8 +23,10 @@ namespace Game.Services
 
         public void LookAtSelectedUnit()
         {
-            cinemachineVirtualCamera.Follow = _unitRtsController.SelectedUnit.transform;
-            cinemachineVirtualCamera.LookAt = _unitRtsController.SelectedUnit.transform;
+            mapCamera.Priority = 0;
+            unitCamera.Priority = 1;
+            unitCamera.Follow = _unitRtsController.SelectedUnit.transform;
+            unitCamera.LookAt = _unitRtsController.SelectedUnit.transform;
         }
 
         public Vector3 Raycast(Vector3 position, out RaycastHit hit, float distance, LayerMask layerMask)
@@ -37,9 +43,25 @@ namespace Game.Services
             return Vector3.zero;
         }
 
-        public void FlyThrough()
+        public IEnumerator FlyThrough()
         {
-            
+            mapCamera.Priority = 1;
+            unitCamera.Priority = 0;
+            yield return StartCoroutine(Lerp(flyThroughDuration));
+        }
+        
+        private IEnumerator Lerp(float duration)
+        {
+            float time = 0;
+            while (time < 1)
+            {
+                mapCamera.transform.position = Vector3.Lerp(flyThroughStart.position, flyThroughEnd.position, time);
+                
+                time += Time.deltaTime / duration;
+                yield return null;
+            }
+
+            mapCamera.transform.position = flyThroughEnd.position;
         }
     }
 }
