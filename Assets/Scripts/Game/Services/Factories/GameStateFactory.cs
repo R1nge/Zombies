@@ -24,12 +24,12 @@ namespace Game.Services.Factories
 
         public IGameState CreateGameInitState(GameStateMachine gameStateMachine)
         {
-            return new GameInitState(gameStateMachine, _coroutineRunner, _uiFactory, _zombieSpawner, _militarySpawner, _cameraService);
+            return new GameInitState(gameStateMachine, _coroutineRunner, _zombieSpawner, _militarySpawner, _cameraService);
         }
 
         public IGameState CreateGameStartedState(GameStateMachine gameStateMachine)
         {
-            return new GameStartedState(_unitRtsController, _cameraService);
+            return new GameStartedState( _uiFactory, _unitRtsController, _cameraService);
         }
     }
 }

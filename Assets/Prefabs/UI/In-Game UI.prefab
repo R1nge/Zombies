@@ -458,7 +458,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7755082522973636238
 RectTransform:
   m_ObjectHideFlags: 0
@@ -574,6 +574,8 @@ GameObject:
   - component: {fileID: 940742798598070148}
   - component: {fileID: 5087962677395709420}
   - component: {fileID: 1379625055818290634}
+  - component: {fileID: 6382768825017105047}
+  - component: {fileID: 6452012952365815177}
   m_Layer: 0
   m_Name: In-Game UI
   m_TagString: Untagged
@@ -684,6 +686,32 @@ MonoBehaviour:
     m_Bits: 1
   selectNext: {fileID: 7386361247290708285}
   selectPrevious: {fileID: 1098037643261813241}
+--- !u!114 &6382768825017105047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4460318845110622448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a99c6f8b734a9084f0212d5aa1fa68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombiesAmount: {fileID: 8610593134780212037}
+--- !u!114 &6452012952365815177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4460318845110622448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94f9e5c351f149b484b275759c3e0c9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  humansAmount: {fileID: 8370162363837137520}
 --- !u!1 &6581824772516666481
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,7 +998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6784038479977279491
 RectTransform:
   m_ObjectHideFlags: 0

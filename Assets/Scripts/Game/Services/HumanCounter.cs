@@ -4,7 +4,8 @@ namespace Game.Services
 {
     public class HumanCounter
     {
-        public event Action<int> OnHumanCountChanged; 
+        public event Action<int> OnHumanCountChanged;
+        public int HumanCount => _humanCount;
         private int _humanCount;
 
         public void Add()

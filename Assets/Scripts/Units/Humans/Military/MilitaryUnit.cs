@@ -70,9 +70,12 @@ namespace Units.Humans.Military
         {
             Transform patrol = transform.parent.Find("PatrolPath");
 
-            for (int i = 0; i < patrol.childCount; i++)
+            if (patrol != null)
             {
-                _patrolPoints.Add(patrol.GetChild(i));
+                for (int i = 0; i < patrol.childCount; i++)
+                {
+                    _patrolPoints.Add(patrol.GetChild(i));
+                }
             }
         }
     }
