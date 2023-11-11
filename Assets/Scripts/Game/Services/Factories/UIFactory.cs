@@ -7,7 +7,7 @@ namespace Game.Services.Factories
     {
         private readonly DiContainer _diContainer;
         private readonly ConfigProvider _configProvider;
-        private GameObject _inGameUI;
+        private GameObject _previousScreen;
 
         private UIFactory(DiContainer diContainer, ConfigProvider configProvider)
         {
@@ -17,7 +17,19 @@ namespace Game.Services.Factories
         
         public void CreateInGameUI()
         {
-            _inGameUI = _diContainer.InstantiatePrefab(_configProvider.UIConfig.InGameUI);
-        }   
+            _previousScreen = _diContainer.InstantiatePrefab(_configProvider.UIConfig.InGameUI);
+        }
+
+        public void CreateWonUI()
+        {
+            Object.Destroy(_previousScreen);
+            _previousScreen = _diContainer.InstantiatePrefab(_configProvider.UIConfig.WonGameUI);
+        }
+
+        public void CreateLostUI()
+        {
+            Object.Destroy(_previousScreen);
+            _previousScreen = _diContainer.InstantiatePrefab(_configProvider.UIConfig.LostGameUI);
+        }
     }
 }

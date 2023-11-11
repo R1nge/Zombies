@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: UI Config
   m_EditorClassIdentifier: 
   inGameUI: {fileID: 4460318845110622448, guid: b271c3dc80613d641a0e2435789aa793, type: 3}
+  lostGameUI: {fileID: 8720316567752073453, guid: 2b5f156982d7dcb4d9b996c9ece624c1, type: 3}
+  wonGameUI: {fileID: 1341143968983889380, guid: 1e04595e07d85054e8b5eafe56defeed, type: 3}

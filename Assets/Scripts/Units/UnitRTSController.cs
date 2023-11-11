@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game;
 using Units.Zombies;
 
 namespace Units
@@ -12,7 +13,6 @@ namespace Units
         private readonly List<ZombieUnit> _availableUnits = new();
         private ZombieUnit _selectedUnit;
         private int _selectedUnitIndex;
-
         public ZombieUnit SelectedUnit => _selectedUnit;
 
         public void Add(ZombieUnit zombieUnit)

@@ -18,7 +18,7 @@ namespace Installers
             Container.BindInstance(cameraService);
             
             Container.Bind<MarkerPositionService>().AsSingle();
-            Container.Bind<HumanCounter>().AsSingle();
+           
 
             Container.Bind<UnitRTSController>().AsSingle();
 
@@ -30,9 +30,13 @@ namespace Installers
             Container.BindInstance(militarySpawner);
             Container.BindInstance(zombieSpawner);
             
-            
+            //WIN (humanCounter), LOST (UnitRtsController)
             Container.Bind<GameStateFactory>().AsSingle();
             Container.Bind<GameStateMachine>().AsSingle();
+            
+            Container.Bind<HumanCounter>().AsSingle();
+
+            Container.BindInterfacesTo<LostService>().AsSingle();
         }
     }
 }

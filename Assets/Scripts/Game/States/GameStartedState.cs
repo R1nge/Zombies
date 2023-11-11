@@ -26,9 +26,6 @@ namespace Game.States
             _cameraService.LookAtSelectedUnit();
         }
 
-        public void Exit()
-        {
-            throw new System.NotImplementedException();
-        }
+        public void Exit() { }
     }
 }

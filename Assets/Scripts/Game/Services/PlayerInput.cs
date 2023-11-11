@@ -31,11 +31,11 @@ namespace Game.Services
 
         private void ZombiesAmountChanged(int previousAmount, int amount)
         {
-            if (previousAmount > 1 && amount == 1)
+            if (previousAmount > 1 && amount <= 1)
             {
                 selectNext.gameObject.SetActive(false);
                 selectPrevious.gameObject.SetActive(false);
-                SelectPreviousUnit();
+                //SelectPreviousUnit();
             }
             else
             {

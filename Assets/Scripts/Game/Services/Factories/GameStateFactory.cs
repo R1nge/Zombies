@@ -31,5 +31,15 @@ namespace Game.Services.Factories
         {
             return new GameStartedState( _uiFactory, _unitRtsController, _cameraService);
         }
+
+        public IGameState CreateGameWonState(GameStateMachine gameStateMachine)
+        {
+            return new GameWonState(_uiFactory);
+        }
+
+        public IGameState CreateGameLostState(GameStateMachine gameStateMachine)
+        {
+            return new GameLostState(_uiFactory);
+        }
     }
 }

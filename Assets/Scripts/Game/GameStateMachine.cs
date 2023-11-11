@@ -16,7 +16,9 @@ namespace Game
             _states = new Dictionary<GameStates, IGameState>
             {
                 { GameStates.Init, gameStateFactory.CreateGameInitState(this) },
-                { GameStates.Start, gameStateFactory.CreateGameStartedState(this) }
+                { GameStates.Start, gameStateFactory.CreateGameStartedState(this) },
+                { GameStates.Lose, gameStateFactory.CreateGameLostState(this) },
+                { GameStates.Win, gameStateFactory.CreateGameWonState(this) }
             };
         }
 
