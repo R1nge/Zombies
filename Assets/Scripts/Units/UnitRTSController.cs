@@ -9,6 +9,7 @@ namespace Units
     {
         //previous, value
         public event Action<int, int> OnZombiesAmountChanged;
+        //TODO: 
         public int AvailableUnitsCount => _availableUnits.Count; 
         private readonly List<ZombieUnit> _availableUnits = new();
         private ZombieUnit _selectedUnit;

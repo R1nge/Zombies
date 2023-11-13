@@ -8,8 +8,9 @@ namespace Units.Zombies
     public class ZombieUnit : Unit, IDamageable
     {
         private ZombieUnitStateMachine _zombieUnitStateMachine;
-        private UnitRTSController _unitRtsController;
         private ZombieHealth _zombieHealth;
+        private UnitRTSController _unitRtsController;
+        private ZombieCounter _zombieCounter;
         private MarkerPositionService _markerPositionService;
 
         public ZombieHealth ZombieHealth
@@ -22,9 +23,10 @@ namespace Units.Zombies
         }
 
         [Inject]
-        private void Inject(UnitRTSController unitRtsController, MarkerPositionService markerPositionService)
+        private void Inject(UnitRTSController unitRtsController, ZombieCounter zombieCounter, MarkerPositionService markerPositionService)
         {
             _unitRtsController = unitRtsController;
+            _zombieCounter = zombieCounter;
             _markerPositionService = markerPositionService;
         }
 
@@ -35,7 +37,11 @@ namespace Units.Zombies
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Idle);
         }
 
-        private void Start() => _unitRtsController.Add(this);
+        private void Start()
+        {
+            _zombieCounter.Add();
+            _unitRtsController.Add(this);
+        }
 
         protected override void OnCollisionStay(Collision collision)
         {
@@ -124,6 +130,10 @@ namespace Units.Zombies
             Debug.Log($"Current state: {_zombieUnitStateMachine.CurrentStateType}");
         }
 
-        private void OnDestroy() => _unitRtsController.Remove(this);
+        private void OnDestroy()
+        {
+            _zombieCounter.Remove();
+            _unitRtsController.Remove(this);
+        }
     }
 }
