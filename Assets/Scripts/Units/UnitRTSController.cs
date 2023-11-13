@@ -36,29 +36,33 @@ namespace Units
             _selectedUnit.OnSelected();
         }
 
-        public void SelectNext()
+        public bool SelectNext()
         {
             if (_availableUnits.Count == 0)
             {
-                return;
+                return false;
             }
             
             _selectedUnitIndex = (_selectedUnitIndex + 1) % _availableUnits.Count;
             ZombieUnit zombieUnit = _availableUnits[_selectedUnitIndex];
+            
             if (!IsSelected(zombieUnit))
             {
                 DeSelect();
                 _selectedUnit = zombieUnit;
                 zombieUnit.OnSelected();
+
+                return true;
             }
+
+            return false;
         }
 
-        public void SelectPrevious()
+        public bool SelectPrevious()
         {
-            
             if (_availableUnits.Count == 0)
             {
-                return;
+                return false;
             }
             
             if (_selectedUnitIndex - 1 < 0)
@@ -76,7 +80,10 @@ namespace Units
                 DeSelect();
                 _selectedUnit = zombieUnit;
                 zombieUnit.OnSelected();
+                return true;
             }
+
+            return false;
         }
 
         private void DeSelect()

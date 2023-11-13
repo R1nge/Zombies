@@ -683,7 +683,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ground:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 256
+  ignore:
+    serializedVersion: 2
+    m_Bits: 246
   selectNext: {fileID: 7386361247290708285}
   selectPrevious: {fileID: 1098037643261813241}
 --- !u!114 &6382768825017105047

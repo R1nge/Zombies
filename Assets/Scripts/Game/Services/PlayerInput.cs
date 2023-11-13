@@ -8,8 +8,9 @@ namespace Game.Services
 {
     public class PlayerInput : MonoBehaviour
     {
-        [SerializeField] private LayerMask ground;
+        [SerializeField] private LayerMask ground, ignore;
         [SerializeField] private Button selectNext, selectPrevious;
+        private int _groundLayerConverted;
         private float _mousePressedTime;
         private Vector2 _startMousePosition;
         private UnitRTSController _unitRtsController;
@@ -24,6 +25,7 @@ namespace Game.Services
 
         private void Awake()
         {
+            _groundLayerConverted = (int)Mathf.Log(ground.value, 2);
             selectNext.onClick.AddListener(SelectNextUnit);
             selectPrevious.onClick.AddListener(SelectPreviousUnit);
             _unitRtsController.OnZombiesAmountChanged += ZombiesAmountChanged;
@@ -48,14 +50,18 @@ namespace Game.Services
 
         private void SelectNextUnit()
         {
-            _unitRtsController.SelectNext();
-            _cameraService.LookAtSelectedUnit();
+            if (_unitRtsController.SelectNext())
+            {
+                _cameraService.LookAtSelectedUnit();
+            }
         }
 
         private void SelectPreviousUnit()
         {
-            _unitRtsController.SelectPrevious();
-            _cameraService.LookAtSelectedUnit();
+            if (_unitRtsController.SelectPrevious())
+            {
+                _cameraService.LookAtSelectedUnit();
+            }
         }
 
         private void MoveUnits()
@@ -64,12 +70,19 @@ namespace Game.Services
             {
                 return;
             }
-            
+
             if (Input.GetMouseButtonUp(0))
             {
                 if (!EventSystem.current.IsPointerOverGameObject())
                 {
-                    _cameraService.Raycast(Input.mousePosition, out RaycastHit hit, 100, layerMask: ground);
+                    _cameraService.Raycast(Input.mousePosition, out RaycastHit hit, 100, ~ignore);
+
+                    if (hit.transform.gameObject.layer != _groundLayerConverted)
+                    {
+                        Debug.LogError($"Hit is not ground. {hit.transform.gameObject.layer}");
+                        return;
+                    }
+
                     _unitRtsController.SelectedUnit.MoveTo(hit.point);
                 }
             }
@@ -82,7 +95,14 @@ namespace Game.Services
                 {
                     if (touch.phase == TouchPhase.Began)
                     {
-                        _cameraService.Raycast(Input.GetTouch(0).position, out RaycastHit hit, 100, layerMask: ground);
+                        _cameraService.Raycast(Input.GetTouch(0).position, out RaycastHit hit, 100, ~ignore);
+
+                        if (hit.transform.gameObject.layer != _groundLayerConverted)
+                        {
+                            Debug.LogError($"Hit is not ground. {hit.transform.gameObject.layer}");
+                            return;
+                        }
+
                         _unitRtsController.SelectedUnit.MoveTo(hit.point);
                     }
                 }

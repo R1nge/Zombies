@@ -1270,7 +1270,7 @@ GameObject:
   - component: {fileID: 923197534}
   - component: {fileID: 923197537}
   - component: {fileID: 923197538}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2196,7 +2196,7 @@ MonoBehaviour:
   camera: {fileID: 963194227}
   mapCamera: {fileID: 827231567}
   unitCamera: {fileID: 1099039109}
-  flyThroughDuration: 5
+  flyThroughDuration: 2.5
   flyThroughStart: {fileID: 260296353}
   flyThroughEnd: {fileID: 851926031}
 --- !u!4 &1410205727

@@ -62,6 +62,7 @@ namespace Units
         
         protected bool IsBehind(Transform target)
         {
+            //TODO: render a mesh which indicate a behind area
             const float dotOffset = .5f;
             return Dot(target) < -1 + dotOffset;
         }

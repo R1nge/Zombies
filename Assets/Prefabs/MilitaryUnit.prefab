@@ -2363,7 +2363,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 1
-  stock: {fileID: 2100000, guid: 8f485dfebe2b8b542a9a3467216c7b2d, type: 2}
+  stock: {fileID: 2100000, guid: d59b48776621f1042accd900f8b05b0e, type: 2}
   detected: {fileID: 2100000, guid: d59b48776621f1042accd900f8b05b0e, type: 2}
   meshResolution: 1
   edgeResolveIterations: 1
@@ -2390,7 +2390,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 1
-  stock: {fileID: 2100000, guid: 8f485dfebe2b8b542a9a3467216c7b2d, type: 2}
+  stock: {fileID: 2100000, guid: d59b48776621f1042accd900f8b05b0e, type: 2}
   detected: {fileID: 2100000, guid: d59b48776621f1042accd900f8b05b0e, type: 2}
   meshResolution: 1
   edgeResolveIterations: 1
@@ -2548,7 +2548,7 @@ GameObject:
   - component: {fileID: 5320653517363468800}
   - component: {fileID: 2703508194017246354}
   m_Layer: 6
-  m_Name: DetectViewArea (1)
+  m_Name: Close
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2597,7 +2597,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8f485dfebe2b8b542a9a3467216c7b2d, type: 2}
+  - {fileID: 2100000, guid: d59b48776621f1042accd900f8b05b0e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2631,7 +2631,7 @@ GameObject:
   - component: {fileID: 3207105756740804509}
   - component: {fileID: 5709594144410509648}
   m_Layer: 6
-  m_Name: DetectViewArea
+  m_Name: Range
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2680,7 +2680,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8f485dfebe2b8b542a9a3467216c7b2d, type: 2}
+  - {fileID: 2100000, guid: d59b48776621f1042accd900f8b05b0e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
