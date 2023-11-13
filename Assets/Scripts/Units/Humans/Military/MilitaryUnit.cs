@@ -14,6 +14,7 @@ namespace Units.Humans.Military
         private MilitaryUnitStateMachine _militaryUnitStateMachine;
         private HumanCounter _humanCounter;
         private ZombieCounter _zombieCounter;
+        private Sensor _sensor;
 
         private MilitaryUnitStateMachine.MilitaryUnitStates CurrentState => _militaryUnitStateMachine.CurrentStateType;
 
@@ -28,8 +29,9 @@ namespace Units.Humans.Military
         {
             base.Awake();
             _unitSoundsController = GetComponent<UnitSoundsController>();
+            _sensor = GetComponent<Sensor>();
             UnitPatrolling unitPatrolling = new UnitPatrolling(UnitMovement, _patrolPoints, nextPatrolPointInterval);
-            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, this, transform, UnitMovement, unitPatrolling, UnitAnimator, UnitFactory, _unitSoundsController, _zombieCounter);
+            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, this, transform, UnitMovement, unitPatrolling, UnitAnimator, UnitFactory, _unitSoundsController, _zombieCounter, _sensor);
             _humanCounter.Add();
         }
 

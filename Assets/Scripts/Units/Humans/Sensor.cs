@@ -23,6 +23,12 @@ namespace Units.Humans
 
         public float Radius => viewRadius;
 
+        public void Disable()
+        {
+            StopAllCoroutines();
+            viewMeshRenderer.enabled = false;
+        }
+
         private void Start()
         {
             viewMesh = new Mesh
@@ -135,8 +141,7 @@ namespace Units.Humans
             viewMesh.triangles = triangles;
             viewMesh.RecalculateNormals();
         }
-
-
+        
         private EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
         {
             float minAngle = minViewCast.Angle;
