@@ -13,18 +13,23 @@ namespace Units.Humans.Military
         private UnitSoundsController _unitSoundsController;
         private MilitaryUnitStateMachine _militaryUnitStateMachine;
         private HumanCounter _humanCounter;
+        private ZombieCounter _zombieCounter;
 
         private MilitaryUnitStateMachine.MilitaryUnitStates CurrentState => _militaryUnitStateMachine.CurrentStateType;
 
         [Inject]
-        private void Inject(HumanCounter humanCounter) => _humanCounter = humanCounter;
+        private void Inject(HumanCounter humanCounter, ZombieCounter zombieCounter)
+        {
+            _humanCounter = humanCounter;
+            _zombieCounter = zombieCounter;
+        }
 
         protected override void Awake()
         {
             base.Awake();
             _unitSoundsController = GetComponent<UnitSoundsController>();
             UnitPatrolling unitPatrolling = new UnitPatrolling(UnitMovement, _patrolPoints, nextPatrolPointInterval);
-            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, this, transform, UnitMovement, unitPatrolling, UnitAnimator, UnitFactory, _unitSoundsController);
+            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, this, transform, UnitMovement, unitPatrolling, UnitAnimator, UnitFactory, _unitSoundsController, _zombieCounter);
             _humanCounter.Add();
         }
 

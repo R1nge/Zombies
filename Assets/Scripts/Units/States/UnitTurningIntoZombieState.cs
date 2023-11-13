@@ -1,4 +1,6 @@
-﻿using Game.Services.Factories;
+﻿using Game.Services;
+using Game.Services.Factories;
+using Units.Zombies;
 using UnityEngine;
 
 namespace Units.States
@@ -7,17 +9,20 @@ namespace Units.States
     {
         private readonly Transform _transform;
         private readonly UnitFactory _unitFactory;
+        private readonly ZombieCounter _zombieCounter;
 
-        public UnitTurningIntoZombieState(Transform transform, UnitFactory unitFactory)
+        public UnitTurningIntoZombieState(Transform transform, UnitFactory unitFactory, ZombieCounter zombieCounter)
         {
             _transform = transform;
             _unitFactory = unitFactory;
+            _zombieCounter = zombieCounter;
         }
 
         public void Enter()
         {
-            var zombie = _unitFactory.CreateZombieUnit(_transform.position, _transform.rotation, null);
+            ZombieUnit zombie = _unitFactory.CreateZombieUnit(_transform.position, _transform.rotation, null);
             zombie.StandUp();
+            _zombieCounter.RemovePending();
             Object.Destroy(_transform.gameObject);
         }
 

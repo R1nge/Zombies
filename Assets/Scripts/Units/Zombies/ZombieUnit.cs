@@ -38,7 +38,7 @@ namespace Units.Zombies
 
         private void Start()
         {
-            _zombieCounter.Add();
+            _zombieCounter.AddZombie();
             _unitRtsController.Add(this);
         }
 
@@ -111,7 +111,7 @@ namespace Units.Zombies
 
         public override void Die()
         {
-            _zombieCounter.Remove();
+            _zombieCounter.RemoveZombie();
             _unitRtsController.Remove(this);
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Dead);
         }

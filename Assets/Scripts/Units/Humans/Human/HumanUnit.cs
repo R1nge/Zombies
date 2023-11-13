@@ -7,16 +7,21 @@ namespace Units.Humans.Human
     {
         private HumanUnitStateMachine _humanUnitStateMachine;
         private HumanCounter _humanCounter;
+        private ZombieCounter _zombieCounter;
         private UnitFlee _unitFlee;
 
         [Inject]
-        private void Inject(HumanCounter humanCounter) => _humanCounter = humanCounter;
+        private void Inject(HumanCounter humanCounter, ZombieCounter zombieCounter)
+        {
+            _humanCounter = humanCounter;
+            _zombieCounter = zombieCounter;
+        }
 
         protected override void Awake()
         {
             base.Awake();
             _unitFlee = new UnitFlee(this, UnitMovement, transform);
-            _humanUnitStateMachine = new HumanUnitStateMachine(CoroutineRunner, transform, UnitMovement, UnitAnimator, _unitFlee, UnitFactory);
+            _humanUnitStateMachine = new HumanUnitStateMachine(CoroutineRunner, transform, UnitMovement, UnitAnimator, _unitFlee, UnitFactory, _zombieCounter);
         }
 
         private void Start() => _humanCounter.Add();
