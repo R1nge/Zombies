@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Units.Zombies;
 using UnityEngine;
@@ -20,7 +21,6 @@ namespace Units.Humans
         [SerializeField] private MeshFilter viewMeshFilter;
         private Mesh viewMesh;
         private readonly Collider[] _colliders = new Collider[2];
-
 
         public float Radius => viewRadius;
 
@@ -52,7 +52,7 @@ namespace Units.Humans
             int size = Physics.OverlapSphereNonAlloc(transform.position, viewRadius, _colliders, targetMask);
 
             viewMeshRenderer.material = stock;
-            
+
             if (size != 0)
             {
                 if (_colliders[0].TryGetComponent(out ZombieUnit zombieUnit))
@@ -76,7 +76,7 @@ namespace Units.Humans
         }
 
         protected abstract void OnZombieSeen(ZombieUnit zombieUnit);
-
+        
         private void LateUpdate() => DrawFieldOfView();
 
         private void DrawFieldOfView()
@@ -92,10 +92,8 @@ namespace Units.Humans
 
                 if (i > 0)
                 {
-                    bool edgeDstThresholdExceeded =
-                        Mathf.Abs(oldViewCast.Distance - newViewCast.Distance) > edgeDstThreshold;
-                    if (oldViewCast.Hit != newViewCast.Hit ||
-                        (oldViewCast.Hit && edgeDstThresholdExceeded))
+                    bool edgeDstThresholdExceeded = Mathf.Abs(oldViewCast.Distance - newViewCast.Distance) > edgeDstThreshold;
+                    if (oldViewCast.Hit != newViewCast.Hit || (oldViewCast.Hit && newViewCast.Hit && edgeDstThresholdExceeded))
                     {
                         EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
                         if (edge.PointA != Vector3.zero)
@@ -117,12 +115,12 @@ namespace Units.Humans
 
             int vertexCount = viewPoints.Count + 1;
             Vector3[] vertices = new Vector3[vertexCount];
-            int[] triangles = new int[(vertexCount - 1) * 3];
+            int[] triangles = new int[(vertexCount - 2) * 3];
 
             vertices[0] = Vector3.zero;
             for (int i = 0; i < vertexCount - 1; i++)
             {
-                vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
+                vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]) + Vector3.forward;
 
                 if (i < vertexCount - 2)
                 {
@@ -139,6 +137,7 @@ namespace Units.Humans
             viewMesh.RecalculateNormals();
         }
 
+
         private EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
         {
             float minAngle = minViewCast.Angle;
@@ -151,10 +150,8 @@ namespace Units.Humans
                 float angle = (minAngle + maxAngle) / 2;
                 ViewCastInfo newViewCast = ViewCast(angle);
 
-                bool edgeDstThresholdExceeded =
-                    Mathf.Abs(minViewCast.Distance - newViewCast.Distance) > edgeDstThreshold;
-                if (newViewCast.Hit == minViewCast.Hit && !edgeDstThresholdExceeded ||
-                    newViewCast.Hit != minViewCast.Hit && edgeDstThresholdExceeded)
+                bool edgeDstThresholdExceeded = Mathf.Abs(minViewCast.Distance - newViewCast.Distance) > edgeDstThreshold;
+                if (newViewCast.Hit == minViewCast.Hit && !edgeDstThresholdExceeded)
                 {
                     minAngle = angle;
                     minPoint = newViewCast.Point;
@@ -168,7 +165,7 @@ namespace Units.Humans
 
             return new EdgeInfo(minPoint, maxPoint);
         }
-
+        
         private ViewCastInfo ViewCast(float globalAngle)
         {
             Vector3 dir = DirFromAngle(globalAngle, true);
@@ -177,8 +174,10 @@ namespace Units.Humans
             {
                 return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
             }
-
-            return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
+            else
+            {
+                return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
+            }
         }
 
         private Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)

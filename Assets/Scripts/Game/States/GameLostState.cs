@@ -10,14 +10,12 @@ namespace Game.States
         {
             _uiFactory = uiFactory;
         }
-        
+
         public void Enter()
         {
             _uiFactory.CreateLostUI();
         }
 
-        public void Exit()
-        {
-        }
+        public void Exit() { }
     }
 }
