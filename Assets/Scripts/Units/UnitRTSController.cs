@@ -38,6 +38,11 @@ namespace Units
 
         public void SelectNext()
         {
+            if (_availableUnits.Count == 0)
+            {
+                return;
+            }
+            
             _selectedUnitIndex = (_selectedUnitIndex + 1) % _availableUnits.Count;
             ZombieUnit zombieUnit = _availableUnits[_selectedUnitIndex];
             if (!IsSelected(zombieUnit))
@@ -50,6 +55,12 @@ namespace Units
 
         public void SelectPrevious()
         {
+            
+            if (_availableUnits.Count == 0)
+            {
+                return;
+            }
+            
             if (_selectedUnitIndex - 1 < 0)
             {
                 _selectedUnitIndex = _availableUnits.Count - 1;

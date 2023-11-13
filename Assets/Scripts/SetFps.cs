@@ -13,9 +13,9 @@ public class SetFps : MonoBehaviour
         #endif
         
 #if DEVELOPMENT_BUILD
-Debug.logger.logEnabled=false;
+Debug.logger.logEnabled=true;
 #else
-        Debug.unityLogger.logEnabled=false;
+        Debug.unityLogger.logEnabled=true;
 #endif
 
     }
