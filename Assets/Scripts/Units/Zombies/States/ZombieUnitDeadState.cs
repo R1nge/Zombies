@@ -1,28 +1,14 @@
 ﻿using Units.States;
-using UnityEngine;
 
 namespace Units.Zombies.States
 {
     public class ZombieUnitDeadState : IUnitState
     {
-        private readonly UnitAnimator _unitAnimator;
-        private readonly ZombieUnit _zombieUnit;
-        private readonly UnitMovement _unitMovement;
+        private readonly ZombieDeathController _zombieDeathController;
 
-        public ZombieUnitDeadState(UnitMovement unitMovement, UnitAnimator unitAnimator, ZombieUnit zombieUnit)
-        {
-            _unitMovement = unitMovement;
-            _unitAnimator = unitAnimator;
-            _zombieUnit = zombieUnit;
-        }
+        public ZombieUnitDeadState(ZombieDeathController zombieDeathController) => _zombieDeathController = zombieDeathController;
 
-        public void Enter()
-        {
-            _unitMovement.Stop();
-            _unitAnimator.ApplyRootMotion(true);
-            _unitAnimator.PlayDeathAnimation();
-            Object.Destroy(_zombieUnit);
-        }
+        public void Enter() => _zombieDeathController.Die();
 
         public void Update() { }
 

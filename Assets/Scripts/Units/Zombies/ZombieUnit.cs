@@ -32,7 +32,8 @@ namespace Units.Zombies
         protected override void Awake()
         {
             base.Awake();
-            _zombieUnitStateMachine = new ZombieUnitStateMachine(CoroutineRunner, this, UnitMovement, UnitAnimator);
+            var zombieDeath = new ZombieDeathController(UnitAnimator, this, UnitMovement);
+            _zombieUnitStateMachine = new ZombieUnitStateMachine(CoroutineRunner, UnitMovement, UnitAnimator, zombieDeath);
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Idle);
         }
 
