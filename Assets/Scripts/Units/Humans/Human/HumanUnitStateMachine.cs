@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Data;
 using Game.Services;
 using Game.Services.Factories;
 using Units.Humans.Human.States;

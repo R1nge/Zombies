@@ -1,5 +1,4 @@
-﻿using Data;
-using Game.Services.Factories;
+﻿using Game.Services.Factories;
 using UnityEngine;
 
 namespace Units.States

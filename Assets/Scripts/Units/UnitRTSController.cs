@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game;
 using Units.Zombies;
 
 namespace Units

@@ -1,7 +1,6 @@
 ﻿using Game.Services;
 using Game.Services.Factories;
 using Units;
-using UnityEngine;
 
 namespace Game.States
 {
@@ -20,7 +19,6 @@ namespace Game.States
 
         public void Enter()
         {
-            Debug.LogError("ENTERED GAME STARTED STATE");
             _uiFactory.CreateInGameUI();
             _unitRtsController.SelectFirst();
             _cameraService.LookAtSelectedUnit();

@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Services;
+﻿using Game.Services;
 using UnityEngine;
 using Zenject;
 
@@ -110,7 +109,12 @@ namespace Units.Zombies
 
         public void Attack() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Infecting);
 
-        public override void Die() => _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Dead);
+        public override void Die()
+        {
+            _zombieCounter.Remove();
+            _unitRtsController.Remove(this);
+            _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Dead);
+        }
 
         public override bool CanBeAttackedBy(Unit unit)
         {
@@ -128,12 +132,6 @@ namespace Units.Zombies
             base.Update();
             _zombieUnitStateMachine.Update();
             Debug.Log($"Current state: {_zombieUnitStateMachine.CurrentStateType}");
-        }
-
-        private void OnDestroy()
-        {
-            _zombieCounter.Remove();
-            _unitRtsController.Remove(this);
         }
     }
 }

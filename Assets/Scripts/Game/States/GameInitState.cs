@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Game.Services;
-using Game.Services.Factories;
 
 namespace Game.States
 {
@@ -22,10 +21,7 @@ namespace Game.States
             _cameraService = cameraService;
         }
 
-        public void Enter()
-        {
-            _coroutineRunner.StartCoroutine(SwitchToInGameState());
-        }
+        public void Enter() => _coroutineRunner.StartCoroutine(SwitchToInGameState());
 
         private IEnumerator SwitchToInGameState()
         {
@@ -34,7 +30,10 @@ namespace Game.States
             yield return _cameraService.FlyThrough();
             _gameStateMachine.SwitchState(GameStateMachine.GameStates.Start);
         }
-        
-        public void Exit() { }
+
+        public void Exit()
+        {
+            _coroutineRunner.StopAllCoroutines();
+        }
     }
 }

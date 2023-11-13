@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Services;
+﻿using Game.Services;
 using Zenject;
 
 namespace Units.Humans.Human

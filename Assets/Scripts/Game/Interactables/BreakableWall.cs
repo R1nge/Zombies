@@ -1,5 +1,4 @@
-﻿using System;
-using Units.Zombies;
+﻿using Units.Zombies;
 using Unity.AI.Navigation;
 using UnityEngine;
 

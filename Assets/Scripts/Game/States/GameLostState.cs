@@ -6,15 +6,9 @@ namespace Game.States
     {
         private readonly UIFactory _uiFactory;
 
-        public GameLostState(UIFactory uiFactory)
-        {
-            _uiFactory = uiFactory;
-        }
+        public GameLostState(UIFactory uiFactory) => _uiFactory = uiFactory;
 
-        public void Enter()
-        {
-            _uiFactory.CreateLostUI();
-        }
+        public void Enter() => _uiFactory.CreateLostUI();
 
         public void Exit() { }
     }

@@ -1,6 +1,4 @@
-﻿using Units;
-using Units.Humans;
-using Units.Humans.Human;
+﻿using Units.Humans;
 using UnityEditor;
 using UnityEngine;
 
