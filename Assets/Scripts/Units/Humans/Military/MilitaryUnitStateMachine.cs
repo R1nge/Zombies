@@ -9,7 +9,7 @@ namespace Units.Humans.Military
 {
     public class MilitaryUnitStateMachine : UnitStateMachine<MilitaryUnitStateMachine.MilitaryUnitStates>
     {
-        public MilitaryUnitStateMachine(CoroutineRunner coroutineRunner, MilitaryUnit militaryUnit, Transform transform, UnitMovement unitMovement, UnitPatrolling unitPatrolling, UnitAnimator unitAnimator, UnitFactory unitFactory, UnitSoundsController unitSoundsController, ZombieCounter zombieCounter, Sensor sensor)
+        public MilitaryUnitStateMachine(CoroutineRunner coroutineRunner, MilitaryUnit militaryUnit, Transform transform, UnitMovement unitMovement, UnitPatrolling unitPatrolling, UnitAnimator unitAnimator, UnitFactory unitFactory, UnitSoundsController unitSoundsController, ZombieCounter zombieCounter, Sensor[] sensors)
         {
             _unitStates = new Dictionary<MilitaryUnitStates, IUnitState>
             {
@@ -17,7 +17,7 @@ namespace Units.Humans.Military
                 { MilitaryUnitStates.Patrol, new MilitaryUnitPatrolState(unitMovement, unitPatrolling) },
                 { MilitaryUnitStates.Chase, new MilitaryUnitChaseState(unitMovement, this) },
                 { MilitaryUnitStates.Attack, new MilitaryUnitAttackState(transform, unitMovement, unitSoundsController, this) },
-                { MilitaryUnitStates.Dead, new MilitaryUnitDeadState(coroutineRunner, unitMovement, unitAnimator, this, zombieCounter, sensor) },
+                { MilitaryUnitStates.Dead, new MilitaryUnitDeadState(coroutineRunner, unitMovement, unitAnimator, this, zombieCounter, sensors) },
                 { MilitaryUnitStates.TurningIntoZombie, new UnitTurningIntoZombieState(transform, unitFactory, zombieCounter) }
             };
         }

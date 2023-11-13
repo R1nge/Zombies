@@ -8,7 +8,6 @@ namespace Units
     {
         //previous, value
         public event Action<int, int> OnZombiesAmountChanged;
-        //TODO: 
         public int AvailableUnitsCount => _availableUnits.Count; 
         private readonly List<ZombieUnit> _availableUnits = new();
         private ZombieUnit _selectedUnit;
@@ -26,7 +25,8 @@ namespace Units
         {
             DeSelect();
             int previous = _availableUnits.Count;
-            _availableUnits.Remove(zombieUnit); 
+            _availableUnits.Remove(zombieUnit);
+            _selectedUnit = null;
             OnZombiesAmountChanged?.Invoke(previous, _availableUnits.Count);
         }
 

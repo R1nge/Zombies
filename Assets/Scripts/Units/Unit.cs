@@ -62,7 +62,7 @@ namespace Units
         
         protected bool IsBehind(Transform target)
         {
-            const float dotOffset = .25f;
+            const float dotOffset = .5f;
             return Dot(target) < -1 + dotOffset;
         }
 

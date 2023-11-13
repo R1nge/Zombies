@@ -9,12 +9,12 @@ namespace Units.Humans.Military
     public class MilitaryUnit : Unit
     {
         [SerializeField] private float nextPatrolPointInterval;
+        [SerializeField] private Sensor[] sensors;
         private readonly List<Transform> _patrolPoints = new();
         private UnitSoundsController _unitSoundsController;
         private MilitaryUnitStateMachine _militaryUnitStateMachine;
         private HumanCounter _humanCounter;
         private ZombieCounter _zombieCounter;
-        private Sensor _sensor;
 
         private MilitaryUnitStateMachine.MilitaryUnitStates CurrentState => _militaryUnitStateMachine.CurrentStateType;
 
@@ -29,9 +29,8 @@ namespace Units.Humans.Military
         {
             base.Awake();
             _unitSoundsController = GetComponent<UnitSoundsController>();
-            _sensor = GetComponent<Sensor>();
             UnitPatrolling unitPatrolling = new UnitPatrolling(UnitMovement, _patrolPoints, nextPatrolPointInterval);
-            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, this, transform, UnitMovement, unitPatrolling, UnitAnimator, UnitFactory, _unitSoundsController, _zombieCounter, _sensor);
+            _militaryUnitStateMachine = new MilitaryUnitStateMachine(CoroutineRunner, this, transform, UnitMovement, unitPatrolling, UnitAnimator, UnitFactory, _unitSoundsController, _zombieCounter, sensors);
             _humanCounter.Add();
         }
 

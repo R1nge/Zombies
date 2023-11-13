@@ -12,24 +12,27 @@ namespace Units.Humans.Military.States
         private readonly UnitAnimator _unitAnimator;
         private readonly CoroutineRunner _coroutineRunner;
         private readonly ZombieCounter _zombieCounter;
-        private readonly Sensor _sensor;
+        private readonly Sensor[] _sensors;
 
-        public MilitaryUnitDeadState(CoroutineRunner coroutineRunner, UnitMovement unitMovement, UnitAnimator unitAnimator, MilitaryUnitStateMachine militaryUnitStateMachine, ZombieCounter zombieCounter, Sensor sensor)
+        public MilitaryUnitDeadState(CoroutineRunner coroutineRunner, UnitMovement unitMovement, UnitAnimator unitAnimator, MilitaryUnitStateMachine militaryUnitStateMachine, ZombieCounter zombieCounter, Sensor[] sensors)
         {
             _coroutineRunner = coroutineRunner;
             _unitMovement = unitMovement;
             _unitAnimator = unitAnimator;
             _militaryUnitStateMachine = militaryUnitStateMachine;
             _zombieCounter = zombieCounter;
-            _sensor = sensor;
+            _sensors = sensors;
         }
 
         public void Enter() => _coroutineRunner.StartCoroutine(Wait());
 
         private IEnumerator Wait()
         {
-            //TODO: disable sensor
-            _sensor.Disable();
+            for (int i = 0; i < _sensors.Length; i++)
+            {
+                _sensors[i].Disable();
+            }
+            
             _zombieCounter.AddPending();
             _unitMovement.Stop();
             yield return new WaitForSeconds(1f);

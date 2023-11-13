@@ -125,7 +125,7 @@ namespace Units.Humans
             vertices[0] = Vector3.zero;
             for (int i = 0; i < vertexCount - 1; i++)
             {
-                vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]) + Vector3.forward;
+                vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]); //+ Vector3.forward;
 
                 if (i < vertexCount - 2)
                 {

@@ -35,7 +35,7 @@ namespace Game.Services
             {
                 selectNext.gameObject.SetActive(false);
                 selectPrevious.gameObject.SetActive(false);
-                //SelectPreviousUnit();
+                SelectPreviousUnit();
             }
             else
             {
@@ -60,6 +60,11 @@ namespace Game.Services
 
         private void MoveUnits()
         {
+            if (_unitRtsController.SelectedUnit == null)
+            {
+                return;
+            }
+            
             if (Input.GetMouseButtonUp(0))
             {
                 if (!EventSystem.current.IsPointerOverGameObject())
