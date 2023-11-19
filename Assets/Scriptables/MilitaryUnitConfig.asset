@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: MilitaryUnitConfig
   m_EditorClassIdentifier: 
   zombie: {fileID: 8576723530243778545, guid: b72b85fd4e22c3c499dc3f67f52cb993, type: 3}
-  speed: 5
+  maxHealth: 0
+  speed: 6

@@ -22,7 +22,7 @@ namespace Units.Humans.Military.States
             if (_unitMovement.DistanceToDestination() < _militaryUnit.AttackDistance)
             {
                 _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Attack);
-                _unitMovement.Stop();
+                //_unitMovement.Stop();
             }
             else
             {

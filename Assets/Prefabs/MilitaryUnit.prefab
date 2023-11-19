@@ -2343,7 +2343,7 @@ MonoBehaviour:
   sensors:
   - {fileID: 6552432063609647652}
   - {fileID: 7146155303500666527}
-  attackDistance: 1.5
+  attackDistance: 2
 --- !u!114 &6552432063609647652
 MonoBehaviour:
   m_ObjectHideFlags: 0
