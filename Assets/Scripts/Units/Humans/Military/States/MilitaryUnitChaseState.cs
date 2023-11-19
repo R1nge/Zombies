@@ -4,11 +4,13 @@ namespace Units.Humans.Military.States
 {
     public class MilitaryUnitChaseState : IUnitState
     {
+        private readonly MilitaryUnit _militaryUnit;
         private readonly UnitMovement _unitMovement;
         private readonly MilitaryUnitStateMachine _militaryUnitStateMachine;
 
-        public MilitaryUnitChaseState(UnitMovement unitMovement, MilitaryUnitStateMachine militaryUnitStateMachine)
+        public MilitaryUnitChaseState(MilitaryUnit militaryUnit, UnitMovement unitMovement, MilitaryUnitStateMachine militaryUnitStateMachine)
         {
+            _militaryUnit = militaryUnit;
             _unitMovement = unitMovement;
             _militaryUnitStateMachine = militaryUnitStateMachine;
         }
@@ -17,7 +19,7 @@ namespace Units.Humans.Military.States
 
         public void Update()
         {
-            if (_unitMovement.DistanceToDestination() < 5f)
+            if (_unitMovement.DistanceToDestination() < _militaryUnit.AttackDistance)
             {
                 _militaryUnitStateMachine.SetState(MilitaryUnitStateMachine.MilitaryUnitStates.Attack);
                 _unitMovement.Stop();

@@ -10,6 +10,8 @@ namespace Units.Humans.Military
     {
         [SerializeField] private float nextPatrolPointInterval;
         [SerializeField] private Sensor[] sensors;
+        [SerializeField] private float attackDistance;
+        public float AttackDistance => attackDistance;
         private readonly List<Transform> _patrolPoints = new();
         private UnitSoundsController _unitSoundsController;
         private MilitaryUnitStateMachine _militaryUnitStateMachine;
