@@ -2549,7 +2549,7 @@ GameObject:
   - component: {fileID: 8437890019408008687}
   - component: {fileID: 5320653517363468800}
   - component: {fileID: 2703508194017246354}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Close
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2632,7 +2632,7 @@ GameObject:
   - component: {fileID: 480298539769429606}
   - component: {fileID: 3207105756740804509}
   - component: {fileID: 5709594144410509648}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Range
   m_TagString: Untagged
   m_Icon: {fileID: 0}
