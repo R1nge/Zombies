@@ -16,7 +16,7 @@ namespace Units.Humans.Military
                 { MilitaryUnitStates.Idle, new MilitaryUnitIdleState(militaryUnit, unitMovement) },
                 { MilitaryUnitStates.Patrol, new MilitaryUnitPatrolState(unitMovement, unitPatrolling) },
                 { MilitaryUnitStates.Chase, new MilitaryUnitChaseState(militaryUnit,unitMovement, this) },
-                { MilitaryUnitStates.Attack, new MilitaryUnitAttackState(militaryUnit, transform, unitMovement, unitSoundsController, this) },
+                { MilitaryUnitStates.Attack, new MilitaryUnitAttackState(militaryUnit, transform, unitMovement, unitSoundsController, this, unitAnimator) },
                 { MilitaryUnitStates.Dead, new MilitaryUnitDeadState(coroutineRunner, unitMovement, unitAnimator, this, zombieCounter, sensors) },
                 { MilitaryUnitStates.TurningIntoZombie, new UnitTurningIntoZombieState(transform, unitFactory, zombieCounter) }
             };

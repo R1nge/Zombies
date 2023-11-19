@@ -11,14 +11,16 @@ namespace Units.Humans.Military.States
         private readonly MilitaryUnit _militaryUnit;
         private readonly MilitaryUnitStateMachine _militaryUnitStateMachine;
         private readonly UnitSoundsController _unitSoundsController;
+        private readonly UnitAnimator _unitAnimator;
 
-        public MilitaryUnitAttackState(MilitaryUnit militaryUnit, Transform transform, UnitMovement unitMovement, UnitSoundsController unitSoundsController, MilitaryUnitStateMachine militaryUnitStateMachine)
+        public MilitaryUnitAttackState(MilitaryUnit militaryUnit, Transform transform, UnitMovement unitMovement, UnitSoundsController unitSoundsController, MilitaryUnitStateMachine militaryUnitStateMachine, UnitAnimator unitAnimator)
         {
             _militaryUnit = militaryUnit;
             _transform = transform;
             _unitMovement = unitMovement;
             _unitSoundsController = unitSoundsController;
             _militaryUnitStateMachine = militaryUnitStateMachine;
+            _unitAnimator = unitAnimator;
         }
 
         public void Enter() { }
@@ -43,12 +45,14 @@ namespace Units.Humans.Military.States
                 var ray = new Ray(_transform.position, directionToTheTarget);
 
                 //TODO: add a delay between shots, spawn bullets (Attack controller)
-                _unitSoundsController.PlayFireSound();
 
                 if (Physics.Raycast(ray, out RaycastHit hit, 100, layerMask: ~LayerMask.NameToLayer("ZombieUnit")))
                 {
                     _transform.LookAt(hit.transform);
-
+                    _unitSoundsController.PlayFireSound();
+                    _unitAnimator.ApplyRootMotion(false);
+                    _unitAnimator.PlayAttackAnimation();
+                    
                     if (hit.transform.TryGetComponent(out IDamageable damageable))
                     {
                         damageable.TakeDamage(1);
