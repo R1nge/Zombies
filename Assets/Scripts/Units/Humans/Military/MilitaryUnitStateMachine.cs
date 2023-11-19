@@ -11,7 +11,7 @@ namespace Units.Humans.Military
     {
         public MilitaryUnitStateMachine(CoroutineRunner coroutineRunner, MilitaryUnit militaryUnit, Transform transform, UnitMovement unitMovement, UnitPatrolling unitPatrolling, UnitAnimator unitAnimator, UnitFactory unitFactory, UnitSoundsController unitSoundsController, ZombieCounter zombieCounter, Sensor[] sensors)
         {
-            _unitStates = new Dictionary<MilitaryUnitStates, IUnitState>
+            UnitStates = new Dictionary<MilitaryUnitStates, IUnitState>
             {
                 { MilitaryUnitStates.Idle, new MilitaryUnitIdleState(militaryUnit, unitMovement) },
                 { MilitaryUnitStates.Patrol, new MilitaryUnitPatrolState(unitMovement, unitPatrolling) },

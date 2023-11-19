@@ -11,7 +11,7 @@ namespace Units.Humans.Human
     {
         public HumanUnitStateMachine(CoroutineRunner coroutineRunner, Transform transform, UnitMovement unitMovement, UnitAnimator unitAnimator, UnitFlee unitFlee, UnitFactory unitFactory, ZombieCounter zombieCounter)
         {
-            _unitStates = new Dictionary<HumanUnitStates, IUnitState>
+            UnitStates = new Dictionary<HumanUnitStates, IUnitState>
             {
                 { HumanUnitStates.Idle, new HumanUnitIdleState() },
                 { HumanUnitStates.Patrol, new HumanUnitPatrolState() },

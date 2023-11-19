@@ -7,7 +7,7 @@ namespace Units
 {
     public abstract class UnitStateMachine<T> where T : Enum
     {
-        protected Dictionary<T, IUnitState> _unitStates;
+        protected Dictionary<T, IUnitState> UnitStates;
         private IUnitState _currentState;
         private T _currentStateType;
 
@@ -15,7 +15,7 @@ namespace Units
 
         public void SetState(T newState)
         {
-            if (_unitStates[newState] == _currentState)
+            if (UnitStates[newState] == _currentState)
             {
                 Debug.LogWarning($"Already in {_currentState}");
                 return;
@@ -24,7 +24,7 @@ namespace Units
             _currentStateType = newState;
 
             _currentState?.Exit();
-            _currentState = _unitStates[newState];
+            _currentState = UnitStates[newState];
             _currentState.Enter();
         }
 
