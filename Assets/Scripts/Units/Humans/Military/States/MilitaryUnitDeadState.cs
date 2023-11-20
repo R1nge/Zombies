@@ -11,17 +11,19 @@ namespace Units.Humans.Military.States
         private readonly UnitMovement _unitMovement;
         private readonly UnitAnimator _unitAnimator;
         private readonly CoroutineRunner _coroutineRunner;
-        private readonly ZombieCounter _zombieCounter;
         private readonly Sensor[] _sensors;
+        private readonly UnitRTSController _unitRtsController;
+        private readonly MilitaryUnit _unit;
 
-        public MilitaryUnitDeadState(CoroutineRunner coroutineRunner, UnitMovement unitMovement, UnitAnimator unitAnimator, MilitaryUnitStateMachine militaryUnitStateMachine, ZombieCounter zombieCounter, Sensor[] sensors)
+        public MilitaryUnitDeadState(CoroutineRunner coroutineRunner, UnitMovement unitMovement, UnitAnimator unitAnimator, MilitaryUnitStateMachine militaryUnitStateMachine, Sensor[] sensors, UnitRTSController unitRtsController, MilitaryUnit militaryUnit)
         {
             _coroutineRunner = coroutineRunner;
             _unitMovement = unitMovement;
             _unitAnimator = unitAnimator;
             _militaryUnitStateMachine = militaryUnitStateMachine;
-            _zombieCounter = zombieCounter;
             _sensors = sensors;
+            _unitRtsController = unitRtsController;
+            _unit = militaryUnit;
         }
 
         public void Enter() => _coroutineRunner.StartCoroutine(Wait());
@@ -32,8 +34,8 @@ namespace Units.Humans.Military.States
             {
                 _sensors[i].Disable();
             }
-            
-            _zombieCounter.AddPending();
+
+            _unitRtsController.AddPending(_unit.gameObject);
             _unitMovement.Stop();
             yield return new WaitForSeconds(1f);
             _unitAnimator.PlayDeathAnimation();

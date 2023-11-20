@@ -11,15 +11,17 @@ namespace Units.Humans.Human.States
         private readonly UnitMovement _unitMovement;
         private readonly UnitAnimator _unitAnimator;
         private readonly HumanUnitStateMachine _humanUnitStateMachine;
-        private readonly ZombieCounter _zombieCounter;
+        private readonly UnitRTSController _unitRtsController;
+        private readonly HumanUnit _humanUnit;
 
-        public HumanUnitDeadState(CoroutineRunner coroutineRunner, UnitMovement unitMovement, UnitAnimator unitAnimator, HumanUnitStateMachine humanUnitStateMachine, ZombieCounter zombieCounter)
+        public HumanUnitDeadState(CoroutineRunner coroutineRunner, UnitMovement unitMovement, UnitAnimator unitAnimator, HumanUnitStateMachine humanUnitStateMachine, UnitRTSController unitRtsController, HumanUnit humanUnit)
         {
             _coroutineRunner = coroutineRunner;
             _unitMovement = unitMovement;
             _unitAnimator = unitAnimator;
             _humanUnitStateMachine = humanUnitStateMachine;
-            _zombieCounter = zombieCounter;
+            _unitRtsController = unitRtsController;
+            _humanUnit = humanUnit;
         }
 
         public void Enter()
@@ -29,7 +31,7 @@ namespace Units.Humans.Human.States
 
         private IEnumerator Wait()
         {
-            _zombieCounter.AddPending();
+            _unitRtsController.AddPending(_humanUnit.gameObject);
             _unitMovement.Stop();
             _unitAnimator.ApplyRootMotion(true);
             yield return new WaitForSeconds(1f);

@@ -35,7 +35,8 @@ namespace Installers
             Container.Bind<GameStateMachine>().AsSingle();
             
             Container.Bind<HumanCounter>().AsSingle();
-            Container.Bind<ZombieCounter>().AsSingle();
+            
+            Container.Bind<WinService>().AsSingle();
         }
     }
 }

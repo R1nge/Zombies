@@ -9,7 +9,6 @@ namespace Units.Zombies
         private ZombieUnitStateMachine _zombieUnitStateMachine;
         private ZombieHealth _zombieHealth;
         private UnitRTSController _unitRtsController;
-        private ZombieCounter _zombieCounter;
         private MarkerPositionService _markerPositionService;
 
         public ZombieHealth ZombieHealth
@@ -22,10 +21,9 @@ namespace Units.Zombies
         }
 
         [Inject]
-        private void Inject(UnitRTSController unitRtsController, ZombieCounter zombieCounter, MarkerPositionService markerPositionService)
+        private void Inject(UnitRTSController unitRtsController, MarkerPositionService markerPositionService)
         {
             _unitRtsController = unitRtsController;
-            _zombieCounter = zombieCounter;
             _markerPositionService = markerPositionService;
         }
 
@@ -39,7 +37,6 @@ namespace Units.Zombies
 
         private void Start()
         {
-            _zombieCounter.AddZombie();
             _unitRtsController.Add(this);
         }
 
@@ -112,7 +109,6 @@ namespace Units.Zombies
 
         public override void Die()
         {
-            _zombieCounter.RemoveZombie();
             _unitRtsController.Remove(this);
             _zombieUnitStateMachine.SetState(ZombieUnitStateMachine.ZombieUnitStates.Dead);
         }

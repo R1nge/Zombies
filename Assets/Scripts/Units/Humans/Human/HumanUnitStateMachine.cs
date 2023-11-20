@@ -9,19 +9,19 @@ namespace Units.Humans.Human
 {
     public class HumanUnitStateMachine : UnitStateMachine<HumanUnitStateMachine.HumanUnitStates>
     {
-        public HumanUnitStateMachine(CoroutineRunner coroutineRunner, Transform transform, UnitMovement unitMovement, UnitAnimator unitAnimator, UnitFlee unitFlee, UnitFactory unitFactory, ZombieCounter zombieCounter)
+        public HumanUnitStateMachine(CoroutineRunner coroutineRunner, HumanUnit humanUnit, UnitMovement unitMovement, UnitAnimator unitAnimator, UnitFlee unitFlee, UnitFactory unitFactory, UnitRTSController unitRtsController)
         {
             UnitStates = new Dictionary<HumanUnitStates, IUnitState>
             {
                 { HumanUnitStates.Idle, new HumanUnitIdleState() },
                 { HumanUnitStates.Patrol, new HumanUnitPatrolState() },
                 { HumanUnitStates.Flee, new HumanUnitFleeState(unitMovement, unitFlee) },
-                { HumanUnitStates.Dead, new HumanUnitDeadState(coroutineRunner, unitMovement, unitAnimator, this, zombieCounter) },
-                { HumanUnitStates.TurningIntoZombie, new UnitTurningIntoZombieState(transform, unitFactory, zombieCounter) }
+                { HumanUnitStates.Dead, new HumanUnitDeadState(coroutineRunner, unitMovement, unitAnimator, this, unitRtsController, humanUnit) },
+                { HumanUnitStates.TurningIntoZombie, new UnitTurningIntoZombieState(humanUnit.transform, unitFactory, unitRtsController) }
             };
         }
-        
-        
+
+
         public enum HumanUnitStates
         {
             Idle,
