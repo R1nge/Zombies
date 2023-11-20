@@ -36,7 +36,7 @@ namespace Installers
             
             Container.Bind<HumanCounter>().AsSingle();
             
-            Container.Bind<WinService>().AsSingle();
+            Container.BindInterfacesTo<LoseService>().AsSingle();
         }
     }
 }

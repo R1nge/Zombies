@@ -29,6 +29,7 @@ namespace Game.Services
             selectNext.onClick.AddListener(SelectNextUnit);
             selectPrevious.onClick.AddListener(SelectPreviousUnit);
             _unitRtsController.OnZombiesAmountChanged += ZombiesAmountChanged;
+            _unitRtsController.OnPendingUnitsAmountChanged += PendingAmountChanged;
         }
 
         private void ZombiesAmountChanged(int previousAmount, int amount)
@@ -43,6 +44,21 @@ namespace Game.Services
             {
                 selectNext.gameObject.SetActive(true);
                 selectPrevious.gameObject.SetActive(true);
+            }
+        }
+
+        private void PendingAmountChanged(int previousAmount, int amount)
+        {
+            if (previousAmount == 1 && _unitRtsController.AvailableUnitsCount == 0)
+            {
+                selectNext.gameObject.SetActive(true);
+                selectPrevious.gameObject.SetActive(true);
+            }
+            else
+            {
+                selectNext.gameObject.SetActive(false);
+                selectPrevious.gameObject.SetActive(false);
+                SelectPreviousUnit();
             }
         }
 
@@ -112,6 +128,7 @@ namespace Game.Services
         private void OnDestroy()
         {
             _unitRtsController.OnZombiesAmountChanged -= ZombiesAmountChanged;
+            _unitRtsController.OnPendingUnitsAmountChanged -= PendingAmountChanged;
             selectNext.onClick.RemoveAllListeners();
             selectPrevious.onClick.RemoveAllListeners();
         }
